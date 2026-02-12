@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discovery | COOKHUB</title>
+    <meta
+      name="description"
+      content="Discover delicious recipes from around the world on COOKHUB"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-soft-cream min-h-screen">
+    <!-- Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 text-primary cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <a
+            href="library.html"
+            class="text-gray-400 hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined">bookmark</span>
+          </a>
+          <a
+            href="index.html"
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-[1440px] mx-auto px-6 py-12">
+      <!-- Hero Search -->
+      <div class="text-center mb-16">
+        <h1 class="text-5xl font-extrabold mb-6 tracking-tight">
+          Discover <span class="text-primary">Amazing</span> Recipes
+        </h1>
+        <p class="text-gray-500 text-lg mb-8 max-w-2xl mx-auto">
+          Explore thousands of recipes from around the world, curated by
+          passionate home cooks and professional chefs
+        </p>
+        <div class="max-w-2xl mx-auto relative">
+          <span
+            class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"
+            >search</span
+          >
+          <input
+            id="search-input"
+            class="w-full pl-14 pr-32 py-5 bg-white rounded-2xl border-2 border-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/10 text-lg shadow-xl"
+            placeholder="Search by recipe, ingredient, or cuisine..."
+            type="text"
+            onkeypress="if (event.key === 'Enter') searchRecipes();"
+          />
+          <button
+            class="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-accent transition-all"
+            onclick="searchRecipes()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="mb-12">
+        <h2 class="text-xl font-bold mb-6">Browse by Category</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <button
+            onclick="filterByCategory('breakfast')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">🍳</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Breakfast</span
+            >
+          </button>
+          <button
+            onclick="filterByCategory('lunch')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">🥗</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Lunch</span
+            >
+          </button>
+          <button
+            onclick="filterByCategory('dinner')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">🍝</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Dinner</span
+            >
+          </button>
+          <button
+            onclick="filterByCategory('dessert')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">🍰</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Desserts</span
+            >
+          </button>
+          <button
+            onclick="filterByCategory('quick')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">⚡</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Quick</span
+            >
+          </button>
+          <button
+            onclick="filterByCategory('healthy')"
+            class="category-btn bg-white p-6 rounded-2xl border border-gray-100 hover:border-primary hover:shadow-lg transition-all text-center group"
+          >
+            <span class="text-4xl mb-2 block">💚</span>
+            <span
+              class="font-bold text-sm text-gray-700 group-hover:text-primary"
+              >Healthy</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <!-- Cuisine Filter -->
+      <div class="mb-12">
+        <h2 class="text-xl font-bold mb-6">Explore Cuisines</h2>
+        <div class="flex flex-wrap gap-3">
+          <button
+            onclick="filterByCuisine('all')"
+            class="cuisine-btn active px-6 py-3 rounded-full font-bold text-sm bg-primary text-white"
+          >
+            All
+          </button>
+          <button
+            onclick="filterByCuisine('italian')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇮🇹 Italian
+          </button>
+          <button
+            onclick="filterByCuisine('japanese')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇯🇵 Japanese
+          </button>
+          <button
+            onclick="filterByCuisine('mexican')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇲🇽 Mexican
+          </button>
+          <button
+            onclick="filterByCuisine('indian')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇮🇳 Indian
+          </button>
+          <button
+            onclick="filterByCuisine('thai')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇹🇭 Thai
+          </button>
+          <button
+            onclick="filterByCuisine('mediterranean')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🌊 Mediterranean
+          </button>
+          <button
+            onclick="filterByCuisine('chinese')"
+            class="cuisine-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-gray-200 hover:border-primary hover:text-primary transition-all"
+          >
+            🇨🇳 Chinese
+          </button>
+        </div>
+      </div>
+
+      <!-- Recipe Grid -->
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold">
+          <span id="results-title">All Recipes</span>
+          <span
+            id="results-count"
+            class="text-gray-400 font-normal text-lg ml-2"
+          ></span>
+        </h2>
+        <select
+          id="sort-select"
+          class="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-primary/20"
+          onchange="sortRecipes()"
+        >
+          <option value="popular">Most Popular</option>
+          <option value="rating">Highest Rated</option>
+          <option value="newest">Newest First</option>
+          <option value="quick">Quickest</option>
+        </select>
+      </div>
+
+      <div
+        id="recipe-grid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <!-- Recipes loaded dynamically -->
+      </div>
+
+      <div class="mt-12 text-center">
+        <button
+          onclick="loadMore()"
+          class="px-10 py-4 bg-white border-2 border-primary rounded-2xl text-sm font-black text-primary hover:bg-primary hover:text-white transition-all uppercase tracking-widest shadow-lg"
+        >
+          Load More Recipes
+        </button>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-12 bg-gray-900 text-white/50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <a
+          href="index.html"
+          class="flex items-center justify-center gap-2 text-primary mb-6"
+        >
+          <span class="material-symbols-outlined text-2xl">restaurant</span>
+          <span class="text-xl font-bold text-white logo-font italic"
+            >COOKHUB</span
+          >
+        </a>
+        <p class="text-sm">© 2024 COOKHUB. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+      // Discovery page specific functions
+      const allRecipes = CookHubData.recipes;
+      let displayedRecipes = [...allRecipes];
+      let currentPage = 0;
+      const recipesPerPage = 8;
+
+      function renderRecipes(recipes) {
+        const grid = document.getElementById("recipe-grid");
+        if (!grid) return;
+
+        if (recipes.length === 0) {
+          grid.innerHTML =
+            '<div class="col-span-full text-center py-16"><span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span><p class="text-gray-500 text-lg">No recipes found</p></div>';
+          return;
+        }
+
+        grid.innerHTML = recipes
+          .map(
+            (recipe) => `
+          <a href="recipe-detail.html?id=${recipe.id}" class="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all">
+            <div class="relative h-48 overflow-hidden">
+              <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <button class="absolute top-3 right-3 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center ${recipe.isFavorite ? "text-primary" : "text-gray-400"} hover:text-primary transition-colors" onclick="event.preventDefault(); toggleFavorite(${recipe.id})">
+                <span class="material-symbols-outlined text-xl ${recipe.isFavorite ? "fill-1" : ""}">favorite</span>
+              </button>
+              <div class="absolute bottom-3 left-3 flex gap-2">
+                ${recipe.tags
+                  .slice(0, 1)
+                  .map(
+                    (tag) =>
+                      `<span class="bg-accent text-white px-2 py-1 rounded text-[10px] font-bold uppercase">${tag}</span>`,
+                  )
+                  .join("")}
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center gap-3 text-xs text-gray-400 mb-2">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span>${recipe.time}</span>
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-amber-500 fill-1">star</span>${recipe.rating}</span>
+              </div>
+              <h3 class="font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">${recipe.title}</h3>
+              <p class="text-sm text-gray-500 mt-1 line-clamp-1">${recipe.description}</p>
+            </div>
+          </a>
+        `,
+          )
+          .join("");
+
+        document.getElementById("results-count").textContent =
+          `(${recipes.length} recipes)`;
+      }
+
+      function searchRecipes() {
+        const query = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        displayedRecipes = allRecipes.filter(
+          (r) =>
+            r.title.toLowerCase().includes(query) ||
+            r.description.toLowerCase().includes(query) ||
+            r.tags.some((t) => t.toLowerCase().includes(query)) ||
+            r.cuisine.toLowerCase().includes(query),
+        );
+        document.getElementById("results-title").textContent = query
+          ? `Results for "${query}"`
+          : "All Recipes";
+        renderRecipes(displayedRecipes);
+      }
+
+      function filterByCategory(category) {
+        const categoryMap = {
+          breakfast: ["Breakfast"],
+          lunch: ["Salad", "Quick"],
+          dinner: ["Main Course"],
+          dessert: ["Dessert"],
+          quick: (r) => parseInt(r.time) <= 25,
+          healthy: ["Healthy", "Vegan", "Gluten-Free"],
+        };
+
+        if (typeof categoryMap[category] === "function") {
+          displayedRecipes = allRecipes.filter(categoryMap[category]);
+        } else {
+          displayedRecipes = allRecipes.filter((r) =>
+            categoryMap[category].some(
+              (cat) => r.category === cat || r.tags.includes(cat),
+            ),
+          );
+        }
+
+        document.getElementById("results-title").textContent =
+          category.charAt(0).toUpperCase() + category.slice(1) + " Recipes";
+        renderRecipes(displayedRecipes);
+      }
+
+      function filterByCuisine(cuisine) {
+        document.querySelectorAll(".cuisine-btn").forEach((btn) => {
+          btn.classList.remove("active", "bg-primary", "text-white");
+          btn.classList.add("bg-white");
+        });
+        event.target.classList.add("active", "bg-primary", "text-white");
+        event.target.classList.remove("bg-white");
+
+        if (cuisine === "all") {
+          displayedRecipes = [...allRecipes];
+          document.getElementById("results-title").textContent = "All Recipes";
+        } else {
+          displayedRecipes = allRecipes.filter(
+            (r) => r.cuisine.toLowerCase() === cuisine,
+          );
+          document.getElementById("results-title").textContent =
+            cuisine.charAt(0).toUpperCase() + cuisine.slice(1) + " Cuisine";
+        }
+        renderRecipes(displayedRecipes);
+      }
+
+      function sortRecipes() {
+        const sortBy = document.getElementById("sort-select").value;
+        switch (sortBy) {
+          case "rating":
+            displayedRecipes.sort((a, b) => b.rating - a.rating);
+            break;
+          case "quick":
+            displayedRecipes.sort(
+              (a, b) => parseInt(a.time) - parseInt(b.time),
+            );
+            break;
+          case "newest":
+            displayedRecipes.sort((a, b) => b.id - a.id);
+            break;
+          default:
+            displayedRecipes.sort((a, b) => b.reviews - a.reviews);
+        }
+        renderRecipes(displayedRecipes);
+      }
+
+      function loadMore() {
+        app.showNotification("Loading more recipes...", "info");
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        renderRecipes(allRecipes);
+      });
+    </script>
+  </body>
+</html>

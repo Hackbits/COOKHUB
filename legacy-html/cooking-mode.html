@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cooking Mode | COOKHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#EF4444", accent: "#F59E0B" },
+            fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-white min-h-screen flex flex-col">
+    <header class="px-8 py-6 flex items-center justify-between border-b">
+      <div class="flex items-center gap-6">
+        <span class="material-symbols-outlined text-primary text-3xl fill-1"
+          >restaurant_menu</span
+        >
+        <span class="text-xl font-bold">COOKHUB</span>
+        <a
+          href="recipe-detail.html"
+          class="flex items-center gap-2 text-gray-400 hover:text-primary ml-6"
+        >
+          <span class="material-symbols-outlined">close</span>
+          <span class="text-sm font-bold">Exit</span>
+        </a>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-xs font-bold text-primary uppercase tracking-widest"
+          >Step <span id="stepNum">1</span>/4</span
+        >
+        <div class="w-48 h-1 bg-gray-100 rounded mt-1">
+          <div
+            id="progressBar"
+            class="h-full bg-primary rounded transition-all"
+            style="width: 25%"
+          ></div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-gray-400 uppercase">Voice: "Next Step"</span>
+        <button
+          class="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-primary"
+        >
+          <span class="material-symbols-outlined fill-1">mic</span>
+        </button>
+      </div>
+    </header>
+    <main
+      class="flex-1 max-w-5xl mx-auto px-8 py-16 flex flex-col justify-center"
+    >
+      <span
+        id="stepBadge"
+        class="inline-flex w-16 h-16 rounded-2xl bg-primary text-white text-3xl font-bold items-center justify-center mb-8 shadow-lg"
+        >1</span
+      >
+      <h1 id="stepTitle" class="text-5xl font-extrabold mb-6 leading-tight">
+        Prepare the <span class="text-primary">Savory Glaze</span>
+      </h1>
+      <p
+        id="stepDesc"
+        class="text-2xl text-gray-500 mb-10 leading-relaxed max-w-3xl"
+      >
+        Whisk soy sauce, ginger, honey, and rice vinegar in a saucepan. Simmer
+        5-7 minutes until reduced.
+      </p>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3 bg-accent/10 px-6 py-4 rounded-xl">
+          <span class="material-symbols-outlined text-accent fill-1 text-2xl"
+            >timer</span
+          >
+          <span id="timerDisplay" class="text-2xl font-bold">07:00</span>
+        </div>
+        <button
+          id="timerBtn"
+          onclick="toggleTimer()"
+          class="bg-accent text-white px-6 py-4 rounded-xl font-bold flex items-center gap-2 hover:brightness-110"
+        >
+          <span class="material-symbols-outlined" id="timerIcon"
+            >play_arrow</span
+          >
+          <span id="timerText">Start</span>
+        </button>
+      </div>
+    </main>
+    <footer class="p-8 flex gap-4 max-w-5xl mx-auto w-full">
+      <button
+        id="prevBtn"
+        onclick="prevStep()"
+        disabled
+        class="flex-1 py-6 bg-gray-100 text-gray-500 rounded-2xl font-bold text-xl disabled:opacity-50 flex items-center justify-center gap-3"
+      >
+        <span class="material-symbols-outlined">arrow_back</span>Back
+      </button>
+      <button
+        id="nextBtn"
+        onclick="nextStep()"
+        class="flex-[2] py-6 bg-primary text-white rounded-2xl font-bold text-xl flex items-center justify-center gap-3 shadow-lg hover:bg-gray-900"
+      >
+        Next<span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </footer>
+    <script>
+      const steps = [
+        {
+          n: 1,
+          t: 'Prepare the <span class="text-primary">Savory Glaze</span>',
+          d: "Whisk soy sauce, ginger, honey, and rice vinegar in a saucepan. Simmer 5-7 minutes until reduced.",
+          time: 420,
+        },
+        {
+          n: 2,
+          t: 'Season and <span class="text-primary">Sear Salmon</span>',
+          d: "Pat salmon dry, season with salt and pepper. Heat oil in skillet over medium-high heat and sear.",
+          time: 240,
+        },
+        {
+          n: 3,
+          t: 'Apply the <span class="text-primary">Glaze</span>',
+          d: "Flip salmon and brush with glaze. Cook 3-4 minutes until caramelized.",
+          time: 240,
+        },
+        {
+          n: 4,
+          t: 'Assemble the <span class="text-primary">Bowl</span>',
+          d: "Divide rice among bowls. Top with glazed salmon, green onions, sesame seeds, and cucumber.",
+          time: 180,
+        },
+      ];
+      let idx = 0,
+        timerSec = 420,
+        running = false,
+        interval;
+      function updateUI() {
+        const s = steps[idx];
+        document.getElementById("stepNum").textContent = s.n;
+        document.getElementById("progressBar").style.width =
+          (s.n / 4) * 100 + "%";
+        document.getElementById("stepBadge").textContent = s.n;
+        document.getElementById("stepTitle").innerHTML = s.t;
+        document.getElementById("stepDesc").textContent = s.d;
+        timerSec = s.time;
+        updateTimerDisplay();
+        document.getElementById("prevBtn").disabled = idx === 0;
+        document.getElementById("nextBtn").innerHTML =
+          idx === 3
+            ? 'Finish<span class="material-symbols-outlined">check</span>'
+            : 'Next<span class="material-symbols-outlined">arrow_forward</span>';
+      }
+      function nextStep() {
+        if (idx < 3) {
+          idx++;
+          running = false;
+          clearInterval(interval);
+          updateUI();
+        } else {
+          window.location.href = "recipe-detail.html";
+        }
+      }
+      function prevStep() {
+        if (idx > 0) {
+          idx--;
+          running = false;
+          clearInterval(interval);
+          updateUI();
+        }
+      }
+      function updateTimerDisplay() {
+        const m = Math.floor(timerSec / 60),
+          s = timerSec % 60;
+        document.getElementById("timerDisplay").textContent =
+          String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+      }
+      function toggleTimer() {
+        if (running) {
+          clearInterval(interval);
+          document.getElementById("timerIcon").textContent = "play_arrow";
+          document.getElementById("timerText").textContent = "Resume";
+        } else {
+          interval = setInterval(() => {
+            if (timerSec > 0) {
+              timerSec--;
+              updateTimerDisplay();
+            } else {
+              clearInterval(interval);
+              running = false;
+              alert("Timer done!");
+            }
+          }, 1000);
+          document.getElementById("timerIcon").textContent = "pause";
+          document.getElementById("timerText").textContent = "Pause";
+        }
+        running = !running;
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") nextStep();
+        if (e.key === "ArrowLeft") prevStep();
+      });
+      updateUI();
+    </script>
+  </body>
+</html>

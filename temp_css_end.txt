@@ -1,0 +1,100 @@
+﻿
+.animate-modal {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+/* Staggered animations for recipe cards */
+.animate-stagger > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.animate-stagger > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+.animate-stagger > *:nth-child(3) {
+  animation-delay: 160ms;
+}
+.animate-stagger > *:nth-child(4) {
+  animation-delay: 240ms;
+}
+.animate-stagger > *:nth-child(5) {
+  animation-delay: 320ms;
+}
+.animate-stagger > *:nth-child(6) {
+  animation-delay: 400ms;
+}
+.animate-stagger > *:nth-child(7) {
+  animation-delay: 480ms;
+}
+.animate-stagger > *:nth-child(8) {
+  animation-delay: 560ms;
+}
+
+/* ============================================
+   SKELETON LOADING
+   ============================================ */
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* ============================================
+   COOKING MODE
+   ============================================ */
+
+.cooking-mode-step {
+  transition: all 0.3s ease;
+}
+
+.cooking-mode-step.active {
+  opacity: 1;
+}
+
+.cooking-mode-step.inactive {
+  opacity: 0.5;
+  filter: grayscale(50%);
+}
+
+.timer-display {
+  font-size: 2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}

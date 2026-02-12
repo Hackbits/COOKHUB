@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COOKHUB - Collaborative Culinary Knowledge System</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="COOKHUB - A dynamic ecosystem for culinary enthusiasts featuring intelligent recipe discovery, adaptive cooking, and collaborative community features."
+    />
+    <meta
+      name="keywords"
+      content="recipes, cooking, culinary, food, community, meal planning, fridge raid"
+    />
+    <meta name="author" content="COOKHUB" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "warm-cream": "#FFFFFF",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+              serif: ["Playfair Display", "serif"],
+            },
+            borderRadius: {
+              "2xl": "1rem",
+              "3xl": "1.5rem",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply bg-warm-cream text-slate-black font-sans antialiased;
+        }
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .warm-shadow {
+        box-shadow: 0 10px 30px -10px rgba(239, 68, 68, 0.1);
+      }
+
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-soft-cream">
+    <!-- Navigation Header -->
+    <header
+      id="main-header"
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50 transition-all"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            class="flex items-center gap-2 text-primary cursor-pointer"
+            href="index.html"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors cursor-pointer"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors cursor-pointer"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors cursor-pointer"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors cursor-pointer"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <button
+            class="text-gray-400 hover:text-primary transition-colors"
+            onclick="showNotifications()"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+            onclick="openAuthModal()"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section with Search -->
+      <section id="home" class="py-8">
+        <div class="max-w-[1440px] mx-auto px-6">
+          <div
+            class="relative rounded-[2.5rem] overflow-hidden h-[420px] shadow-2xl shadow-orange-100"
+          >
+            <img
+              alt="Culinary Background"
+              class="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1600&h=900&fit=crop"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-slate-black/90 via-slate-black/50 to-transparent flex flex-col justify-center px-16"
+            >
+              <h2
+                class="text-5xl font-bold text-white mb-8 max-w-xl leading-tight serif-font"
+              >
+                Savor every <br /><span class="text-primary italic"
+                  >moment</span
+                >
+                and meal.
+              </h2>
+              <div class="relative max-w-2xl group">
+                <div
+                  class="absolute inset-y-0 left-5 flex items-center pointer-events-none"
+                >
+                  <span
+                    class="material-symbols-outlined text-gray-400 group-focus-within:text-primary transition-colors"
+                    >search</span
+                  >
+                </div>
+                <input
+                  id="main-search"
+                  class="w-full bg-white h-16 pl-14 pr-32 rounded-2xl border-none text-lg focus:ring-4 focus:ring-primary/20 shadow-2xl placeholder:text-gray-400"
+                  placeholder="What are you craving today?"
+                  type="text"
+                  onkeypress="if (event.key === 'Enter') performSearch();"
+                />
+                <button
+                  class="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-accent transition-all"
+                  onclick="performSearch()"
+                >
+                  Find Recipes
+                </button>
+              </div>
+              <p
+                class="mt-4 text-white/80 text-sm font-medium ml-2 flex items-center gap-2"
+              >
+                <span
+                  class="material-symbols-outlined text-accent text-sm fill-1"
+                  >local_fire_department</span
+                >
+                Try "Warm autumn soup with roasted pumpkin"
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommended Dishes Section -->
+      <section id="recommended" class="py-16">
+        <div class="max-w-[1440px] mx-auto px-6">
+          <div class="flex items-center justify-between mb-10">
+            <div>
+              <h2 class="text-3xl font-extrabold tracking-tight mb-2">
+                🍽️ Recommended For You
+              </h2>
+              <p class="text-gray-500">
+                Handpicked recipes based on popular choices
+              </p>
+            </div>
+            <a
+              href="discovery.html"
+              class="flex items-center gap-2 text-primary font-bold hover:underline"
+            >
+              View All
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+          </div>
+
+          <div
+            id="recipe-grid"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            <!-- Recipe cards will be dynamically loaded here -->
+          </div>
+
+          <!-- Load More Button -->
+          <div class="mt-12 text-center">
+            <button
+              id="load-more-btn"
+              class="px-10 py-4 bg-white border-2 border-primary rounded-2xl text-sm font-black text-primary hover:bg-primary hover:text-white transition-all uppercase tracking-widest shadow-xl shadow-primary/5"
+              onclick="loadMoreRecipes()"
+            >
+              <span class="flex items-center gap-2 justify-center">
+                <span class="material-symbols-outlined">add_circle</span>
+                Load More Recipes
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="py-12 bg-gray-900 text-white/50 mt-12">
+      <div class="max-w-[1440px] mx-auto px-6">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <a href="index.html" class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined text-2xl">restaurant</span>
+            <span class="text-xl font-bold text-white logo-font italic"
+              >COOKHUB</span
+            >
+          </a>
+          <nav class="flex gap-8 text-sm font-semibold">
+            <a href="discovery.html" class="hover:text-white transition-colors"
+              >Discovery</a
+            >
+            <a
+              href="fridge-raid.html"
+              class="hover:text-white transition-colors"
+              >Fridge Raid</a
+            >
+            <a href="community.html" class="hover:text-white transition-colors"
+              >Community</a
+            >
+            <a
+              href="creator-studio.html"
+              class="hover:text-white transition-colors"
+              >Creator Studio</a
+            >
+          </nav>
+          <p class="text-xs">© 2024 COOKHUB. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal">
+      <div
+        class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 relative shadow-2xl"
+      >
+        <button
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          onclick="closeAuthModal()"
+        >
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <!-- Sign In Form -->
+        <div id="signin-form">
+          <h2 class="text-2xl font-bold mb-6">Welcome back!</h2>
+          <form onsubmit="handleSignIn(event)">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  id="signin-email"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="signin-password"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="w-full mt-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-slate-black transition-all"
+            >
+              Sign In
+            </button>
+          </form>
+          <p class="mt-6 text-center text-gray-500">
+            Don't have an account?
+            <a
+              class="text-primary font-bold hover:underline cursor-pointer"
+              onclick="showSignUpForm()"
+              >Create an account</a
+            >
+          </p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signup-form" class="hidden">
+          <h2 class="text-2xl font-bold mb-6">Create Account</h2>
+          <form onsubmit="handleSignUp(event)">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="signup-name"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  id="signup-email"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="signup-password"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="••••••••"
+                  minlength="6"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  id="signup-confirm-password"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="••••••••"
+                  minlength="6"
+                  required
+                />
+              </div>
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  class="rounded border-gray-300 text-primary focus:ring-primary"
+                  required
+                />
+                I agree to the Terms of Service
+              </label>
+            </div>
+            <button
+              type="submit"
+              class="w-full mt-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-slate-black transition-all"
+            >
+              Create Account
+            </button>
+          </form>
+          <p class="mt-6 text-center text-gray-500">
+            Already have an account?
+            <a
+              class="text-primary font-bold hover:underline cursor-pointer"
+              onclick="showSignInForm()"
+              >Sign in</a
+            >
+          </p>
+        </div>
+
+        <!-- Success Message -->
+        <div id="signup-success" class="hidden text-center py-8">
+          <span class="material-symbols-outlined text-6xl text-green-500 mb-4"
+            >check_circle</span
+          >
+          <h2 class="text-2xl font-bold mb-2">Welcome to COOKHUB!</h2>
+          <p class="text-gray-500 mb-6">
+            Your account has been created successfully.
+          </p>
+          <button
+            onclick="closeAuthModal()"
+            class="px-8 py-3 bg-primary text-white rounded-xl font-bold hover:bg-slate-black transition-all"
+          >
+            Start Cooking!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator Studio | COOKHUB</title>
+    <meta
+      name="description"
+      content="Create and share your own recipes on COOKHUB Creator Studio"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-soft-cream min-h-screen">
+    <!-- Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 text-primary cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <a
+            href="library.html"
+            class="text-gray-400 hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined">bookmark</span>
+          </a>
+          <a
+            href="index.html"
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+      <!-- Hero -->
+      <div class="text-center mb-16">
+        <span
+          class="bg-purple-100 text-purple-600 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-6 inline-block"
+        >
+          ✨ Create & Share
+        </span>
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+          Creator <span class="text-primary">Studio</span>
+        </h1>
+        <p class="text-gray-500 text-xl max-w-2xl mx-auto">
+          Share your culinary creations with the world. Create beautiful recipes
+          with our easy-to-use editor.
+        </p>
+      </div>
+
+      <!-- Recipe Editor -->
+      <div
+        class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 p-8 md:p-12 mb-16"
+      >
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold flex items-center gap-3">
+            <span
+              class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >edit_note</span
+              >
+            </span>
+            New Recipe
+          </h2>
+          <div class="flex gap-3">
+            <button
+              onclick="saveDraft()"
+              class="px-6 py-2 border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:border-primary hover:text-primary transition-all"
+            >
+              Save Draft
+            </button>
+            <button
+              onclick="previewRecipe()"
+              class="px-6 py-2 border-2 border-primary rounded-xl font-semibold text-primary hover:bg-primary hover:text-white transition-all"
+            >
+              Preview
+            </button>
+          </div>
+        </div>
+
+        <form id="recipe-form" class="space-y-8">
+          <!-- Cover Image -->
+          <div>
+            <label
+              class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-4"
+              >Recipe Cover Image</label
+            >
+            <div
+              id="cover-dropzone"
+              class="border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center hover:border-primary transition-colors cursor-pointer bg-gray-50"
+            >
+              <span
+                class="material-symbols-outlined text-5xl text-gray-300 mb-4"
+                >add_photo_alternate</span
+              >
+              <p class="text-gray-500 font-semibold mb-2">
+                Drag and drop an image, or click to browse
+              </p>
+              <p class="text-sm text-gray-400">
+                Recommended: 1200x800px (3:2 ratio)
+              </p>
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                id="cover-image-input"
+                onchange="handleImageUpload(event)"
+              />
+            </div>
+          </div>
+
+          <!-- Basic Info -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Recipe Title *</label
+              >
+              <input
+                type="text"
+                id="recipe-title"
+                class="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg"
+                placeholder="e.g., Grandma's Apple Pie"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Cuisine Type</label
+              >
+              <select
+                id="recipe-cuisine"
+                class="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg"
+              >
+                <option value="">Select cuisine...</option>
+                <option value="Italian">Italian</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Indian">Indian</option>
+                <option value="Thai">Thai</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Mediterranean">Mediterranean</option>
+                <option value="American">American</option>
+                <option value="French">French</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label
+              class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+              >Description *</label
+            >
+            <textarea
+              id="recipe-description"
+              class="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg h-24 resize-none"
+              placeholder="Describe your recipe in a few sentences..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- Time & Difficulty -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Prep Time *</label
+              >
+              <div class="relative">
+                <input
+                  type="number"
+                  id="prep-time"
+                  class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                  placeholder="15"
+                  min="1"
+                  required
+                />
+                <span
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
+                  >mins</span
+                >
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Cook Time *</label
+              >
+              <div class="relative">
+                <input
+                  type="number"
+                  id="cook-time"
+                  class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                  placeholder="30"
+                  min="1"
+                  required
+                />
+                <span
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
+                  >mins</span
+                >
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Servings *</label
+              >
+              <input
+                type="number"
+                id="servings"
+                class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                placeholder="4"
+                min="1"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-2"
+                >Difficulty *</label
+              >
+              <select
+                id="difficulty"
+                class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                required
+              >
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Ingredients -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider"
+                >Ingredients *</label
+              >
+              <button
+                type="button"
+                onclick="addIngredientRow()"
+                class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline"
+              >
+                <span class="material-symbols-outlined text-base">add</span> Add
+                Ingredient
+              </button>
+            </div>
+            <div id="ingredients-container" class="space-y-3">
+              <div class="flex gap-3 ingredient-row">
+                <input
+                  type="text"
+                  class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                  placeholder="1 cup flour"
+                />
+                <button
+                  type="button"
+                  onclick="removeRow(this)"
+                  class="p-3 text-gray-400 hover:text-red-500 transition-colors"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+              <div class="flex gap-3 ingredient-row">
+                <input
+                  type="text"
+                  class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                  placeholder="2 eggs"
+                />
+                <button
+                  type="button"
+                  onclick="removeRow(this)"
+                  class="p-3 text-gray-400 hover:text-red-500 transition-colors"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <label
+                class="text-sm font-bold text-gray-500 uppercase tracking-wider"
+                >Instructions *</label
+              >
+              <button
+                type="button"
+                onclick="addStepRow()"
+                class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline"
+              >
+                <span class="material-symbols-outlined text-base">add</span> Add
+                Step
+              </button>
+            </div>
+            <div id="steps-container" class="space-y-4">
+              <div class="flex gap-3 step-row">
+                <div
+                  class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold flex-shrink-0 step-number"
+                >
+                  1
+                </div>
+                <textarea
+                  class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary resize-none h-20"
+                  placeholder="Preheat oven to 350°F (175°C)..."
+                ></textarea>
+                <button
+                  type="button"
+                  onclick="removeRow(this)"
+                  class="p-3 text-gray-400 hover:text-red-500 transition-colors self-start"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+              <div class="flex gap-3 step-row">
+                <div
+                  class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold flex-shrink-0 step-number"
+                >
+                  2
+                </div>
+                <textarea
+                  class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary resize-none h-20"
+                  placeholder="Mix the dry ingredients..."
+                ></textarea>
+                <button
+                  type="button"
+                  onclick="removeRow(this)"
+                  class="p-3 text-gray-400 hover:text-red-500 transition-colors self-start"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div>
+            <label
+              class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-4"
+              >Tags</label
+            >
+            <div class="flex flex-wrap gap-2 mb-4" id="tags-container">
+              <!-- Tags will be added here -->
+            </div>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="tag-input"
+                class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                placeholder="Add a tag (e.g., Vegan, Quick, Comfort Food)"
+                onkeypress="
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addTag();
+                  }
+                "
+              />
+              <button
+                type="button"
+                onclick="addTag()"
+                class="px-6 py-3 bg-gray-100 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="pt-6 border-t border-gray-100">
+            <button
+              type="submit"
+              onclick="publishRecipe(event)"
+              class="w-full py-5 bg-primary text-white rounded-2xl font-bold text-lg hover:bg-slate-black transition-all shadow-xl shadow-primary/30 flex items-center justify-center gap-3"
+            >
+              <span class="material-symbols-outlined text-2xl">publish</span>
+              Publish Recipe
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- My Recipes Section -->
+      <section>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold">📖 My Recipes</h2>
+          <span class="text-gray-500">3 published • 2 drafts</span>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="my-recipes-grid"
+        >
+          <!-- User's recipes will be shown here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-12 bg-gray-900 text-white/50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <a
+          href="index.html"
+          class="flex items-center justify-center gap-2 text-primary mb-6"
+        >
+          <span class="material-symbols-outlined text-2xl">restaurant</span>
+          <span class="text-xl font-bold text-white logo-font italic"
+            >COOKHUB</span
+          >
+        </a>
+        <p class="text-sm">© 2024 COOKHUB. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+      let tags = [];
+      let coverImage = null;
+
+      // Dropzone click handler
+      document
+        .getElementById("cover-dropzone")
+        .addEventListener("click", () => {
+          document.getElementById("cover-image-input").click();
+        });
+
+      function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dropzone = document.getElementById("cover-dropzone");
+            dropzone.innerHTML = `
+              <img src="${e.target.result}" alt="Cover preview" class="max-h-48 mx-auto rounded-xl mb-4">
+              <p class="text-sm text-gray-500">Click to change image</p>
+              <input type="file" accept="image/*" class="hidden" id="cover-image-input" onchange="handleImageUpload(event)">
+            `;
+            coverImage = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function addIngredientRow() {
+        const container = document.getElementById("ingredients-container");
+        const row = document.createElement("div");
+        row.className = "flex gap-3 ingredient-row";
+        row.innerHTML = `
+          <input type="text" class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary" placeholder="New ingredient...">
+          <button type="button" onclick="removeRow(this)" class="p-3 text-gray-400 hover:text-red-500 transition-colors">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        `;
+        container.appendChild(row);
+        row.querySelector("input").focus();
+      }
+
+      function addStepRow() {
+        const container = document.getElementById("steps-container");
+        const stepNumber = container.children.length + 1;
+        const row = document.createElement("div");
+        row.className = "flex gap-3 step-row";
+        row.innerHTML = `
+          <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold flex-shrink-0 step-number">${stepNumber}</div>
+          <textarea class="flex-grow px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary resize-none h-20" placeholder="Next step..."></textarea>
+          <button type="button" onclick="removeRow(this)" class="p-3 text-gray-400 hover:text-red-500 transition-colors self-start">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        `;
+        container.appendChild(row);
+        row.querySelector("textarea").focus();
+      }
+
+      function removeRow(btn) {
+        btn.parentElement.remove();
+        updateStepNumbers();
+      }
+
+      function updateStepNumbers() {
+        const steps = document.querySelectorAll(".step-row");
+        steps.forEach((step, idx) => {
+          step.querySelector(".step-number").textContent = idx + 1;
+        });
+      }
+
+      function addTag() {
+        const input = document.getElementById("tag-input");
+        const value = input.value.trim();
+
+        if (value && !tags.includes(value)) {
+          tags.push(value);
+          renderTags();
+          input.value = "";
+        }
+        input.focus();
+      }
+
+      function removeTag(index) {
+        tags.splice(index, 1);
+        renderTags();
+      }
+
+      function renderTags() {
+        const container = document.getElementById("tags-container");
+        container.innerHTML = tags
+          .map(
+            (tag, idx) => `
+          <span class="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-2 rounded-full font-semibold">
+            ${tag}
+            <button type="button" onclick="removeTag(${idx})" class="hover:text-red-500 transition-colors">
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </span>
+        `,
+          )
+          .join("");
+      }
+
+      function saveDraft() {
+        const recipe = collectFormData();
+        const drafts = JSON.parse(
+          localStorage.getItem("cookhub_drafts") || "[]",
+        );
+        drafts.push({ ...recipe, id: Date.now(), isDraft: true });
+        localStorage.setItem("cookhub_drafts", JSON.stringify(drafts));
+        app.showNotification("Draft saved successfully!", "success");
+      }
+
+      function previewRecipe() {
+        const recipe = collectFormData();
+        if (!recipe.title) {
+          app.showNotification("Please add a recipe title first", "warning");
+          return;
+        }
+        app.showNotification("Preview feature coming soon!", "info");
+      }
+
+      function collectFormData() {
+        const ingredients = Array.from(
+          document.querySelectorAll(".ingredient-row input"),
+        )
+          .map((input) => input.value.trim())
+          .filter((val) => val);
+
+        const steps = Array.from(
+          document.querySelectorAll(".step-row textarea"),
+        )
+          .map((textarea) => textarea.value.trim())
+          .filter((val) => val);
+
+        return {
+          title: document.getElementById("recipe-title").value.trim(),
+          description: document
+            .getElementById("recipe-description")
+            .value.trim(),
+          cuisine: document.getElementById("recipe-cuisine").value,
+          prepTime: document.getElementById("prep-time").value,
+          cookTime: document.getElementById("cook-time").value,
+          servings: document.getElementById("servings").value,
+          difficulty: document.getElementById("difficulty").value,
+          ingredients,
+          steps,
+          tags,
+          coverImage,
+        };
+      }
+
+      function publishRecipe(event) {
+        event.preventDefault();
+
+        const recipe = collectFormData();
+
+        // Validation
+        if (!recipe.title || !recipe.description) {
+          app.showNotification("Please fill in all required fields", "error");
+          return;
+        }
+        if (recipe.ingredients.length === 0) {
+          app.showNotification("Please add at least one ingredient", "error");
+          return;
+        }
+        if (recipe.steps.length === 0) {
+          app.showNotification(
+            "Please add at least one instruction step",
+            "error",
+          );
+          return;
+        }
+
+        // Save to localStorage
+        const recipes = JSON.parse(
+          localStorage.getItem("cookhub_user_recipes") || "[]",
+        );
+        recipes.push({
+          ...recipe,
+          id: Date.now(),
+          createdAt: new Date().toISOString(),
+          author: "You",
+          rating: 0,
+          reviews: 0,
+        });
+        localStorage.setItem("cookhub_user_recipes", JSON.stringify(recipes));
+
+        app.showNotification("🎉 Recipe published successfully!", "success");
+
+        // Reset form
+        document.getElementById("recipe-form").reset();
+        tags = [];
+        renderTags();
+
+        // Reload user recipes
+        loadMyRecipes();
+      }
+
+      function loadMyRecipes() {
+        const grid = document.getElementById("my-recipes-grid");
+        const recipes = JSON.parse(
+          localStorage.getItem("cookhub_user_recipes") || "[]",
+        );
+        const drafts = JSON.parse(
+          localStorage.getItem("cookhub_drafts") || "[]",
+        );
+
+        const allItems = [
+          ...recipes.map((r) => ({ ...r, status: "published" })),
+          ...drafts.map((d) => ({ ...d, status: "draft" })),
+        ];
+
+        if (allItems.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-gray-100">
+              <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">restaurant_menu</span>
+              <p class="text-gray-500 font-semibold mb-2">No recipes yet</p>
+              <p class="text-gray-400 text-sm">Start creating your first recipe above!</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = allItems
+          .map(
+            (item) => `
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all">
+            <div class="h-40 bg-gray-100 flex items-center justify-center">
+              ${item.coverImage ? `<img src="${item.coverImage}" alt="${item.title}" class="w-full h-full object-cover">` : '<span class="material-symbols-outlined text-4xl text-gray-300">image</span>'}
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold px-2 py-1 rounded ${item.status === "draft" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}">${item.status === "draft" ? "📝 Draft" : "✓ Published"}</span>
+                <span class="text-xs text-gray-400">${new Date(item.createdAt || item.id).toLocaleDateString()}</span>
+              </div>
+              <h3 class="font-bold text-gray-900">${item.title || "Untitled Recipe"}</h3>
+              <div class="flex gap-2 mt-3">
+                <button onclick="editRecipe(${item.id})" class="flex-1 py-2 text-sm font-semibold text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Edit</button>
+                <button onclick="deleteRecipe(${item.id})" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function editRecipe(id) {
+        app.showNotification("Edit feature coming soon!", "info");
+      }
+
+      function deleteRecipe(id) {
+        if (confirm("Are you sure you want to delete this recipe?")) {
+          let recipes = JSON.parse(
+            localStorage.getItem("cookhub_user_recipes") || "[]",
+          );
+          let drafts = JSON.parse(
+            localStorage.getItem("cookhub_drafts") || "[]",
+          );
+
+          recipes = recipes.filter((r) => r.id !== id);
+          drafts = drafts.filter((d) => d.id !== id);
+
+          localStorage.setItem("cookhub_user_recipes", JSON.stringify(recipes));
+          localStorage.setItem("cookhub_drafts", JSON.stringify(drafts));
+
+          app.showNotification("Recipe deleted", "info");
+          loadMyRecipes();
+        }
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadMyRecipes();
+      });
+    </script>
+  </body>
+</html>

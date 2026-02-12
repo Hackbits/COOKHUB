@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community | COOKHUB</title>
+    <meta
+      name="description"
+      content="Join the COOKHUB community - share your cooking creations and connect with food lovers"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-soft-cream min-h-screen">
+    <!-- Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 text-primary cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <a
+            href="library.html"
+            class="text-gray-400 hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined">bookmark</span>
+          </a>
+          <a
+            href="index.html"
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-[1440px] mx-auto px-6 py-12">
+      <!-- Hero -->
+      <div class="text-center mb-16">
+        <span
+          class="bg-primary/10 text-primary px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-6 inline-block"
+        >
+          👨‍🍳 Food Lovers Unite
+        </span>
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+          COOKHUB <span class="text-primary">Community</span>
+        </h1>
+        <p class="text-gray-500 text-xl max-w-2xl mx-auto">
+          Share your culinary creations, get inspired by others, and connect
+          with passionate home cooks
+        </p>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        <div
+          class="bg-white rounded-2xl p-6 text-center border border-gray-100"
+        >
+          <p class="text-4xl font-bold text-primary mb-1">12.5K</p>
+          <p class="text-sm text-gray-500 font-semibold">Community Members</p>
+        </div>
+        <div
+          class="bg-white rounded-2xl p-6 text-center border border-gray-100"
+        >
+          <p class="text-4xl font-bold text-accent mb-1">8.2K</p>
+          <p class="text-sm text-gray-500 font-semibold">Photos Shared</p>
+        </div>
+        <div
+          class="bg-white rounded-2xl p-6 text-center border border-gray-100"
+        >
+          <p class="text-4xl font-bold text-green-500 mb-1">45K</p>
+          <p class="text-sm text-gray-500 font-semibold">Reviews Written</p>
+        </div>
+        <div
+          class="bg-white rounded-2xl p-6 text-center border border-gray-100"
+        >
+          <p class="text-4xl font-bold text-purple-500 mb-1">2.1K</p>
+          <p class="text-sm text-gray-500 font-semibold">Recipe Creators</p>
+        </div>
+      </div>
+
+      <!-- Photo Gallery Section -->
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold mb-2">📸 Peer Kitchen Gallery</h2>
+            <p class="text-gray-500">Real dishes made by real home cooks</p>
+          </div>
+          <button
+            onclick="uploadPhoto()"
+            class="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-black transition-all"
+          >
+            <span class="material-symbols-outlined">add_photo_alternate</span>
+            Share Your Creation
+          </button>
+        </div>
+
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          id="gallery-grid"
+        >
+          <!-- Gallery items -->
+        </div>
+      </section>
+
+      <!-- Top Creators Section -->
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold mb-2">⭐ Top Recipe Creators</h2>
+            <p class="text-gray-500">Meet our most loved community chefs</p>
+          </div>
+          <a href="#" class="text-primary font-semibold hover:underline"
+            >View All →</a
+          >
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          id="creators-grid"
+        >
+          <!-- Creators loaded dynamically -->
+        </div>
+      </section>
+
+      <!-- Recent Reviews Section -->
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold mb-2">💬 Recent Reviews</h2>
+            <p class="text-gray-500">See what the community is saying</p>
+          </div>
+          <button
+            onclick="writeReview()"
+            class="border-2 border-primary text-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-primary hover:text-white transition-all"
+          >
+            <span class="material-symbols-outlined">rate_review</span>
+            Write a Review
+          </button>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="reviews-grid"
+        >
+          <!-- Reviews loaded dynamically -->
+        </div>
+      </section>
+
+      <!-- Community Challenges -->
+      <section class="mb-16">
+        <div
+          class="bg-gradient-to-r from-primary to-accent rounded-3xl p-8 md:p-12 text-white"
+        >
+          <div
+            class="flex flex-col md:flex-row items-center justify-between gap-8"
+          >
+            <div>
+              <span
+                class="bg-white/20 px-4 py-1 rounded-full text-sm font-bold mb-4 inline-block"
+                >🏆 Weekly Challenge</span
+              >
+              <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                Comfort Food Week
+              </h2>
+              <p class="text-white/80 max-w-lg">
+                Share your best comfort food recipe and win exclusive COOKHUB
+                prizes! Challenge ends in 5 days.
+              </p>
+              <div class="flex items-center gap-4 mt-6">
+                <div class="text-center">
+                  <p class="text-3xl font-bold">127</p>
+                  <p class="text-sm text-white/60">Participants</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-3xl font-bold">$500</p>
+                  <p class="text-sm text-white/60">Prize Pool</p>
+                </div>
+              </div>
+            </div>
+            <button
+              class="bg-white text-primary px-8 py-4 rounded-2xl font-bold hover:bg-gray-100 transition-all whitespace-nowrap"
+            >
+              Join Challenge →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Discussion Topics -->
+      <section>
+        <h2 class="text-2xl font-bold mb-8">💡 Popular Discussions</h2>
+        <div class="space-y-4" id="discussions-list">
+          <!-- Discussions loaded dynamically -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-12 bg-gray-900 text-white/50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <a
+          href="index.html"
+          class="flex items-center justify-center gap-2 text-primary mb-6"
+        >
+          <span class="material-symbols-outlined text-2xl">restaurant</span>
+          <span class="text-xl font-bold text-white logo-font italic"
+            >COOKHUB</span
+          >
+        </a>
+        <p class="text-sm">© 2024 COOKHUB. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+      // Sample data
+      const galleryPhotos = [
+        {
+          image:
+            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop",
+          user: "Sarah M.",
+          likes: 234,
+          recipe: "Mediterranean Bowl",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=400&fit=crop",
+          user: "Mike R.",
+          likes: 189,
+          recipe: "Fluffy Pancakes",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop",
+          user: "Lisa K.",
+          likes: 312,
+          recipe: "Margherita Pizza",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=400&fit=crop",
+          user: "Tom H.",
+          likes: 156,
+          recipe: "Garden Salad",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=400&fit=crop",
+          user: "Emma W.",
+          likes: 278,
+          recipe: "Veggie Stir Fry",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&h=400&fit=crop",
+          user: "John D.",
+          likes: 198,
+          recipe: "French Toast",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400&h=400&fit=crop",
+          user: "Amy L.",
+          likes: 267,
+          recipe: "Pasta Primavera",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop",
+          user: "Chris P.",
+          likes: 345,
+          recipe: "Grilled Steak",
+        },
+      ];
+
+      const topCreators = [
+        {
+          name: "Chef Marcus Chen",
+          avatar:
+            "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=100&h=100&fit=crop",
+          recipes: 48,
+          followers: "12.5K",
+          specialty: "Asian Fusion",
+        },
+        {
+          name: "Elena Costa",
+          avatar:
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+          recipes: 36,
+          followers: "8.2K",
+          specialty: "Mediterranean",
+        },
+        {
+          name: "Marco Bellini",
+          avatar:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+          recipes: 52,
+          followers: "15.1K",
+          specialty: "Italian",
+        },
+        {
+          name: "Suki Patel",
+          avatar:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+          recipes: 41,
+          followers: "9.8K",
+          specialty: "Indian & Thai",
+        },
+      ];
+
+      const discussions = [
+        {
+          title: "Best cast iron skillet brands?",
+          replies: 47,
+          author: "CookingNewbie",
+          time: "2 hours ago",
+          hot: true,
+        },
+        {
+          title: "Tips for perfect risotto every time",
+          replies: 89,
+          author: "ItalianFoodLover",
+          time: "5 hours ago",
+          hot: true,
+        },
+        {
+          title: "Meal prep ideas for busy weekdays",
+          replies: 156,
+          author: "BusyMom2024",
+          time: "1 day ago",
+          hot: false,
+        },
+        {
+          title: "Vegan protein sources discussion",
+          replies: 73,
+          author: "PlantBasedChef",
+          time: "1 day ago",
+          hot: false,
+        },
+        {
+          title: "Your favorite kitchen gadget?",
+          replies: 234,
+          author: "GadgetGuru",
+          time: "2 days ago",
+          hot: true,
+        },
+      ];
+
+      function renderGallery() {
+        const grid = document.getElementById("gallery-grid");
+        grid.innerHTML = galleryPhotos
+          .map(
+            (photo, idx) => `
+          <div class="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer">
+            <img src="${photo.image}" alt="${photo.recipe}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+              <p class="text-white font-bold">${photo.recipe}</p>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-white/80 text-sm">by ${photo.user}</span>
+                <span class="text-white/80 text-sm flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm fill-1 text-red-400">favorite</span>
+                  ${photo.likes}
+                </span>
+              </div>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function renderCreators() {
+        const grid = document.getElementById("creators-grid");
+        grid.innerHTML = topCreators
+          .map(
+            (creator) => `
+          <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all text-center">
+            <img src="${creator.avatar}" alt="${creator.name}" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-accent/20">
+            <h3 class="font-bold text-lg mb-1">${creator.name}</h3>
+            <p class="text-sm text-accent font-semibold mb-3">${creator.specialty}</p>
+            <div class="flex justify-center gap-6 text-sm text-gray-500 mb-4">
+              <div><span class="font-bold text-gray-900">${creator.recipes}</span> recipes</div>
+              <div><span class="font-bold text-gray-900">${creator.followers}</span> followers</div>
+            </div>
+            <button class="w-full py-2 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all">
+              Follow
+            </button>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function renderReviews() {
+        const grid = document.getElementById("reviews-grid");
+        const reviews = CookHubData.reviews;
+
+        grid.innerHTML = reviews
+          .map(
+            (review) => `
+          <div class="bg-white rounded-2xl p-6 border border-gray-100">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg">
+                ${review.avatar}
+              </div>
+              <div class="flex-grow">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-bold">${review.user}</h4>
+                  ${review.verified ? '<span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Verified</span>' : ""}
+                </div>
+                <div class="flex items-center gap-1 text-amber-500">
+                  ${Array(review.rating).fill('<span class="material-symbols-outlined text-sm fill-1">star</span>').join("")}
+                  <span class="text-xs text-gray-400 ml-2">${review.date}</span>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">${review.comment}</p>
+            <div class="flex items-center gap-4 text-sm text-gray-400">
+              <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-base">thumb_up</span>
+                ${review.likes}
+              </button>
+              <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-base">chat_bubble</span>
+                Reply
+              </button>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function renderDiscussions() {
+        const list = document.getElementById("discussions-list");
+        list.innerHTML = discussions
+          .map(
+            (disc) => `
+          <div class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-primary transition-all cursor-pointer flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              ${disc.hot ? '<span class="bg-red-100 text-red-500 px-2 py-1 rounded text-xs font-bold">🔥 HOT</span>' : ""}
+              <div>
+                <h3 class="font-bold text-gray-900 hover:text-primary transition-colors">${disc.title}</h3>
+                <p class="text-sm text-gray-500">Started by ${disc.author} • ${disc.time}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-primary">${disc.replies}</p>
+              <p class="text-xs text-gray-400">replies</p>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function uploadPhoto() {
+        app.showNotification("Photo upload feature coming soon!", "info");
+      }
+
+      function writeReview() {
+        app.showNotification("Review feature coming soon!", "info");
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        renderGallery();
+        renderCreators();
+        renderReviews();
+        renderDiscussions();
+      });
+    </script>
+  </body>
+</html>

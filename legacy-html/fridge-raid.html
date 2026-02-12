@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fridge Raid | COOKHUB</title>
+    <meta
+      name="description"
+      content="Turn your leftover ingredients into delicious meals with COOKHUB Fridge Raid"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-soft-cream min-h-screen">
+    <!-- Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 text-primary cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <a
+            href="library.html"
+            class="text-gray-400 hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined">bookmark</span>
+          </a>
+          <a
+            href="index.html"
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+      <!-- Hero -->
+      <div class="text-center mb-12">
+        <span
+          class="bg-accent/10 text-accent px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-6 inline-block"
+        >
+          🧊 Smart Recipe Finder
+        </span>
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+          COOKHUB <span class="text-primary">Fridge Raid</span>
+        </h1>
+        <p class="text-gray-500 text-xl max-w-2xl mx-auto">
+          Tell us what ingredients you have, and we'll find the perfect recipes
+          for you
+        </p>
+      </div>
+
+      <!-- Ingredient Input Section -->
+      <div
+        class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 p-8 md:p-12 mb-12"
+      >
+        <div class="mb-8">
+          <label
+            class="text-sm font-bold text-gray-500 uppercase tracking-wider block mb-4"
+          >
+            <span
+              class="material-symbols-outlined text-accent align-middle mr-2"
+              >grocery</span
+            >
+            What's in your fridge?
+          </label>
+          <div class="flex gap-3">
+            <div class="relative flex-grow">
+              <span
+                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                >search</span
+              >
+              <input
+                id="ingredient-input"
+                class="w-full pl-12 pr-4 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:ring-4 focus:ring-accent/20 focus:border-accent transition-all text-lg placeholder:text-gray-400"
+                placeholder="Type an ingredient (e.g., chicken, tomato, garlic)..."
+                type="text"
+                onkeypress="
+                  if (event.key === 'Enter') {
+                    addIngredient();
+                  }
+                "
+              />
+            </div>
+            <button
+              class="bg-accent text-white px-8 py-2 rounded-2xl font-bold text-sm hover:bg-orange-600 transition-all shadow-lg shadow-accent/30 flex items-center gap-2"
+              onclick="addIngredient()"
+            >
+              <span class="material-symbols-outlined">add</span>
+              Add
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Add Suggestions -->
+        <div class="mb-8">
+          <p class="text-sm font-bold text-gray-400 mb-3">Quick add:</p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              onclick="quickAdd('Chicken')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🍗 Chicken
+            </button>
+            <button
+              onclick="quickAdd('Rice')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🍚 Rice
+            </button>
+            <button
+              onclick="quickAdd('Eggs')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🥚 Eggs
+            </button>
+            <button
+              onclick="quickAdd('Onion')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🧅 Onion
+            </button>
+            <button
+              onclick="quickAdd('Garlic')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🧄 Garlic
+            </button>
+            <button
+              onclick="quickAdd('Tomato')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🍅 Tomato
+            </button>
+            <button
+              onclick="quickAdd('Pasta')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🍝 Pasta
+            </button>
+            <button
+              onclick="quickAdd('Cheese')"
+              class="px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold hover:bg-accent hover:text-white transition-all"
+            >
+              🧀 Cheese
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected Ingredients -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">
+              Your ingredients
+            </p>
+            <button
+              onclick="clearAllIngredients()"
+              class="text-sm font-semibold text-gray-400 hover:text-primary transition-colors"
+            >
+              Clear all
+            </button>
+          </div>
+          <div
+            id="ingredients-list"
+            class="flex flex-wrap gap-2 min-h-[48px] p-4 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200"
+          >
+            <p
+              class="text-gray-400 text-sm w-full text-center py-2"
+              id="empty-msg"
+            >
+              Add ingredients to get started...
+            </p>
+          </div>
+        </div>
+
+        <!-- Find Recipes Button -->
+        <button
+          onclick="findRecipes()"
+          class="w-full py-5 bg-primary text-white rounded-2xl font-bold text-lg hover:bg-slate-black transition-all shadow-xl shadow-primary/30 flex items-center justify-center gap-3"
+        >
+          <span class="material-symbols-outlined text-2xl">auto_fix_high</span>
+          Find Matching Recipes
+        </button>
+      </div>
+
+      <!-- Results Section -->
+      <div id="results-section" class="hidden">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold">
+            <span
+              class="material-symbols-outlined text-accent align-middle mr-2"
+              >restaurant_menu</span
+            >
+            Recipes You Can Make
+          </h2>
+          <span id="match-count" class="text-gray-500"></span>
+        </div>
+
+        <div
+          id="results-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Results loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Tips Section -->
+      <div class="mt-16 bg-white rounded-3xl p-8 border border-gray-100">
+        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-accent">lightbulb</span>
+          Chef's Tips
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-4 bg-gray-50 rounded-2xl">
+            <p class="font-bold mb-2">🥬 Use what you have</p>
+            <p class="text-sm text-gray-500">
+              Don't worry about exact matches. Similar ingredients often work!
+            </p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded-2xl">
+            <p class="font-bold mb-2">🧂 Pantry staples count</p>
+            <p class="text-sm text-gray-500">
+              Salt, pepper, and oil are assumed. Focus on main ingredients.
+            </p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded-2xl">
+            <p class="font-bold mb-2">🔄 Substitutions welcome</p>
+            <p class="text-sm text-gray-500">
+              Many recipes show substitution options for flexibility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-12 bg-gray-900 text-white/50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <a
+          href="index.html"
+          class="flex items-center justify-center gap-2 text-primary mb-6"
+        >
+          <span class="material-symbols-outlined text-2xl">restaurant</span>
+          <span class="text-xl font-bold text-white logo-font italic"
+            >COOKHUB</span
+          >
+        </a>
+        <p class="text-sm">© 2024 COOKHUB. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+      let ingredients = [];
+      const allRecipes = CookHubData.recipes;
+
+      function addIngredient() {
+        const input = document.getElementById("ingredient-input");
+        const value = input.value.trim();
+
+        if (value && !ingredients.includes(value)) {
+          ingredients.push(value);
+          updateIngredientsList();
+          input.value = "";
+        }
+        input.focus();
+      }
+
+      function quickAdd(ingredient) {
+        if (!ingredients.includes(ingredient)) {
+          ingredients.push(ingredient);
+          updateIngredientsList();
+        }
+      }
+
+      function removeIngredient(index) {
+        ingredients.splice(index, 1);
+        updateIngredientsList();
+      }
+
+      function clearAllIngredients() {
+        ingredients = [];
+        updateIngredientsList();
+        document.getElementById("results-section").classList.add("hidden");
+      }
+
+      function updateIngredientsList() {
+        const list = document.getElementById("ingredients-list");
+        const emptyMsg = document.getElementById("empty-msg");
+
+        if (ingredients.length === 0) {
+          list.innerHTML =
+            '<p class="text-gray-400 text-sm w-full text-center py-2" id="empty-msg">Add ingredients to get started...</p>';
+          return;
+        }
+
+        list.innerHTML = ingredients
+          .map(
+            (ing, idx) => `
+          <div class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:scale-105 transition-transform">
+            <span>${ing}</span>
+            <button onclick="removeIngredient(${idx})" class="hover:text-white/70">
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function findRecipes() {
+        if (ingredients.length === 0) {
+          app.showNotification("Please add at least one ingredient", "warning");
+          return;
+        }
+
+        // Calculate match percentages
+        const results = allRecipes
+          .map((recipe) => {
+            const recipeIngredients = recipe.ingredients.map((i) =>
+              i.name.toLowerCase(),
+            );
+            const matches = ingredients.filter((ing) =>
+              recipeIngredients.some((ri) => ri.includes(ing.toLowerCase())),
+            );
+            const matchPercent = Math.round(
+              (matches.length / Math.min(recipe.ingredients.length, 5)) * 100,
+            );
+            return {
+              ...recipe,
+              matchPercent: Math.min(matchPercent, 100),
+              matchedIngredients: matches,
+            };
+          })
+          .filter((r) => r.matchPercent > 0)
+          .sort((a, b) => b.matchPercent - a.matchPercent);
+
+        // Show results
+        const resultsSection = document.getElementById("results-section");
+        const resultsGrid = document.getElementById("results-grid");
+        const matchCount = document.getElementById("match-count");
+
+        resultsSection.classList.remove("hidden");
+        matchCount.textContent = `${results.length} recipes found`;
+
+        if (results.length === 0) {
+          resultsGrid.innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
+              <p class="text-gray-500 text-lg">No matching recipes found</p>
+              <p class="text-gray-400 mt-2">Try adding more common ingredients</p>
+            </div>
+          `;
+        } else {
+          resultsGrid.innerHTML = results
+            .map(
+              (recipe) => `
+            <a href="recipe-detail.html?id=${recipe.id}" class="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all">
+              <div class="relative h-48 overflow-hidden">
+                <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-sm font-bold">
+                  ${recipe.matchPercent}% Match
+                </div>
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold text-lg text-gray-900 group-hover:text-primary transition-colors mb-2">${recipe.title}</h3>
+                <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                  <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span>${recipe.time}</span>
+                  <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base text-amber-500 fill-1">star</span>${recipe.rating}</span>
+                </div>
+                <div class="flex flex-wrap gap-1">
+                  ${recipe.matchedIngredients
+                    .slice(0, 3)
+                    .map(
+                      (ing) =>
+                        `<span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">✓ ${ing}</span>`,
+                    )
+                    .join("")}
+                </div>
+              </div>
+            </a>
+          `,
+            )
+            .join("");
+        }
+
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        updateIngredientsList();
+      });
+    </script>
+  </body>
+</html>

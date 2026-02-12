@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Library | COOKHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#EF4444", accent: "#F59E0B" },
+            fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 font-sans min-h-screen">
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <a href="index.html" class="flex items-center gap-2 text-primary">
+          <span class="material-symbols-outlined text-3xl fill-1"
+            >restaurant_menu</span
+          >
+          <span class="text-xl font-bold text-gray-900 uppercase">COOKHUB</span>
+        </a>
+        <nav class="hidden md:flex gap-8">
+          <a
+            href="index.html"
+            class="text-sm font-semibold text-gray-500 hover:text-primary"
+            >Explore</a
+          >
+          <a
+            href="index.html#fridge-raid"
+            class="text-sm font-semibold text-gray-500 hover:text-primary"
+            >Fridge Raid</a
+          >
+          <a href="#" class="text-sm font-semibold text-primary">My Library</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <button class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100">
+            <span class="material-symbols-outlined text-gray-500">search</span>
+          </button>
+          <div
+            class="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+              alt="User"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-6 py-10">
+      <section
+        class="mb-12 p-8 bg-gradient-to-r from-primary to-orange-500 rounded-3xl text-white"
+      >
+        <div class="flex items-center gap-6">
+          <div
+            class="w-24 h-24 rounded-2xl border-4 border-white/30 overflow-hidden shadow-xl"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop"
+              alt="User"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h1 class="text-3xl font-extrabold mb-1">Welcome back, Sarah!</h1>
+            <p class="text-white/80 font-medium">
+              Home Cook • Member since 2023
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-6 mt-8">
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4 text-center">
+            <p class="text-3xl font-extrabold">42</p>
+            <p class="text-sm text-white/70 font-medium">Saved Recipes</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4 text-center">
+            <p class="text-3xl font-extrabold">18</p>
+            <p class="text-sm text-white/70 font-medium">Cooked</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4 text-center">
+            <p class="text-3xl font-extrabold">5</p>
+            <p class="text-sm text-white/70 font-medium">Collections</p>
+          </div>
+        </div>
+      </section>
+      <section class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-extrabold">My Collections</h2>
+          <button
+            class="text-primary font-bold text-sm flex items-center gap-1"
+          >
+            <span class="material-symbols-outlined text-lg">add</span>New
+            Collection
+          </button>
+        </div>
+        <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+          <div
+            class="flex-shrink-0 w-48 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-lg transition-all cursor-pointer"
+          >
+            <div
+              class="w-full h-28 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mb-3"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary fill-1"
+                >favorite</span
+              >
+            </div>
+            <h3 class="font-bold text-gray-900">Favorites</h3>
+            <p class="text-sm text-gray-400">24 recipes</p>
+          </div>
+          <div
+            class="flex-shrink-0 w-48 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-lg transition-all cursor-pointer"
+          >
+            <div
+              class="w-full h-28 bg-gradient-to-br from-green-100 to-emerald-50 rounded-xl flex items-center justify-center mb-3"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-green-600 fill-1"
+                >eco</span
+              >
+            </div>
+            <h3 class="font-bold text-gray-900">Healthy</h3>
+            <p class="text-sm text-gray-400">8 recipes</p>
+          </div>
+          <div
+            class="flex-shrink-0 w-48 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-lg transition-all cursor-pointer"
+          >
+            <div
+              class="w-full h-28 bg-gradient-to-br from-amber-100 to-orange-50 rounded-xl flex items-center justify-center mb-3"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-amber-600 fill-1"
+                >timer</span
+              >
+            </div>
+            <h3 class="font-bold text-gray-900">Quick Meals</h3>
+            <p class="text-sm text-gray-400">10 recipes</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-extrabold">Saved Recipes</h2>
+          <select
+            class="text-sm font-semibold bg-white border border-gray-200 rounded-lg px-4 py-2"
+          >
+            <option>Recently Added</option>
+            <option>Most Cooked</option>
+            <option>Top Rated</option>
+          </select>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="savedRecipes"
+        ></div>
+      </section>
+    </main>
+    <footer class="mt-16 py-12 bg-gray-900 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <span class="material-symbols-outlined text-primary text-2xl fill-1"
+          >restaurant_menu</span
+        >
+        <span class="text-white font-bold uppercase">COOKHUB</span>
+      </div>
+      <p class="text-gray-500 text-xs">© 2024 COOKHUB. All rights reserved.</p>
+    </footer>
+    <script>
+      const recipes = [
+        {
+          id: 1,
+          title: "Miso-Ginger Glazed Salmon",
+          time: "25 min",
+          rating: 4.9,
+          img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&h=400&fit=crop",
+        },
+        {
+          id: 2,
+          title: "Mediterranean Quinoa Bowl",
+          time: "20 min",
+          rating: 4.7,
+          img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop",
+        },
+        {
+          id: 3,
+          title: "Thai Green Curry",
+          time: "35 min",
+          rating: 4.8,
+          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop",
+        },
+        {
+          id: 4,
+          title: "Avocado Toast Supreme",
+          time: "10 min",
+          rating: 4.5,
+          img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&h=400&fit=crop",
+        },
+        {
+          id: 5,
+          title: "Classic Beef Tacos",
+          time: "30 min",
+          rating: 4.6,
+          img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop",
+        },
+        {
+          id: 6,
+          title: "Creamy Mushroom Risotto",
+          time: "45 min",
+          rating: 4.8,
+          img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&h=400&fit=crop",
+        },
+      ];
+      document.getElementById("savedRecipes").innerHTML = recipes
+        .map(
+          (r) => `
+            <a href="recipe-detail.html" class="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="${r.img}" alt="${r.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <button class="absolute top-3 right-3 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center text-primary"><span class="material-symbols-outlined fill-1">favorite</span></button>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center gap-3 text-xs text-gray-400 mb-2">
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-accent">schedule</span>${r.time}</span>
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-accent fill-1">star</span>${r.rating}</span>
+                    </div>
+                    <h3 class="font-bold text-gray-900 group-hover:text-primary transition-colors">${r.title}</h3>
+                </div>
+            </a>
+        `,
+        )
+        .join("");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Shopping List | COOKHUB</title>
+    <meta
+      name="description"
+      content="COOKHUB Smart Shopping List - Export your ingredients for easy shopping."
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "off-white": "#F9FAFB",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply bg-off-white text-slate-black font-sans;
+        }
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+      input[type="checkbox"]:checked + span {
+        @apply line-through text-slate-400;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <header
+      class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-orange-100"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-10">
+          <a href="index.html" class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >cooking</span
+            >
+            <h2
+              class="text-xl font-800 tracking-tight text-slate-black uppercase"
+            >
+              COOKHUB
+            </h2>
+          </a>
+          <nav class="hidden md:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-slate-500 hover:text-primary transition-colors"
+              href="index.html"
+              >Browse</a
+            >
+            <a
+              class="text-sm font-semibold text-slate-500 hover:text-primary transition-colors"
+              href="library.html"
+              >My Recipes</a
+            >
+            <a class="text-sm font-semibold text-primary" href="#"
+              >Shopping List</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 bg-slate-black text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-primary transition-all shadow-sm"
+          >
+            <span class="material-symbols-outlined text-lg"
+              >account_circle</span
+            >
+            <span>Profile</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-10">
+      <a
+        class="inline-flex items-center gap-2 text-primary font-bold text-sm mb-8 hover:translate-x-[-4px] transition-transform group"
+        href="recipe-detail.html"
+      >
+        <span class="material-symbols-outlined text-lg">arrow_back</span>
+        <span>Return to Miso-Ginger Glazed Salmon Bowl</span>
+      </a>
+
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
+      >
+        <div>
+          <h1 class="text-4xl font-extrabold tracking-tight mb-2">
+            Smart Shopping List
+          </h1>
+          <p class="text-slate-500 font-medium text-lg">
+            Your appetite-stimulating culinary companion.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            class="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-primary text-primary rounded-xl text-sm font-bold hover:bg-primary hover:text-white transition-all"
+            onclick="clearCompleted()"
+          >
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+            Clear Completed
+          </button>
+          <button
+            class="flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all shadow-lg shadow-accent/20"
+            onclick="shareList()"
+          >
+            <span class="material-symbols-outlined text-lg">share</span>
+            Share List
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-12" id="shopping-list">
+        <!-- Shopping list sections will be loaded here -->
+      </div>
+
+      <div
+        class="mt-16 bg-white border-2 border-orange-50 p-8 rounded-[2rem] shadow-xl shadow-orange-100/50"
+      >
+        <h3
+          class="text-[10px] font-extrabold text-accent uppercase tracking-[0.2em] mb-6"
+        >
+          Quick Add Item
+        </h3>
+        <div class="flex gap-4">
+          <input
+            id="quick-add-input"
+            class="flex-1 bg-slate-50 border-slate-100 rounded-xl px-5 py-3 text-sm focus:ring-2 focus:ring-accent/50 focus:border-accent"
+            placeholder="e.g. Avocado, 2 units"
+            type="text"
+            onkeypress="handleQuickAdd(event)"
+          />
+          <button
+            class="bg-primary text-white hover:bg-slate-black transition-all px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-wider shadow-lg shadow-primary/20"
+            onclick="addQuickItem()"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="mt-24 py-16 bg-slate-black text-white/40 border-t border-white/5"
+    >
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div
+          class="flex items-center justify-center gap-2 text-primary mb-6 opacity-80"
+        >
+          <span class="material-symbols-outlined text-2xl font-bold"
+            >cooking</span
+          >
+          <h2 class="text-lg font-800 tracking-tight uppercase text-white">
+            COOKHUB
+          </h2>
+        </div>
+        <p class="text-xs font-bold tracking-widest uppercase mb-4 text-accent">
+          Collaborative Culinary Platform
+        </p>
+        <p class="text-[10px] opacity-30">
+          © 2024 COOKHUB COLLABORATIVE. ALL RIGHTS RESERVED.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const shoppingData = {
+        produce: [
+          { name: "Fresh Ginger Root", qty: "1 unit", checked: false },
+          { name: "Green Onions", qty: "1 bunch", checked: false },
+          { name: "Cucumber", qty: "1 medium", checked: false },
+          { name: "Edamame", qty: "1 cup", checked: false },
+        ],
+        meatSeafood: [
+          { name: "Fresh Salmon Fillets", qty: "2 lbs", checked: false },
+        ],
+        pantry: [
+          { name: "Soy Sauce (or Tamari)", qty: "1/2 cup", checked: false },
+          { name: "Rice Vinegar", qty: "2 tbsp", checked: false },
+          { name: "Honey", qty: "2 tbsp", checked: false },
+          { name: "Sesame Oil", qty: "1 tbsp", checked: false },
+          { name: "White Rice", qty: "2 cups", checked: false },
+        ],
+        dairy: [{ name: "Greek Yogurt", qty: "1 cup", checked: false }],
+      };
+
+      const categoryIcons = {
+        produce: "nutrition",
+        meatSeafood: "set_meal",
+        pantry: "inventory_2",
+        dairy: "egg_alt",
+      };
+
+      const categoryNames = {
+        produce: "Produce",
+        meatSeafood: "Meat & Seafood",
+        pantry: "Pantry",
+        dairy: "Dairy",
+      };
+
+      function renderShoppingList() {
+        const container = document.getElementById("shopping-list");
+        container.innerHTML = Object.entries(shoppingData)
+          .map(
+            ([category, items]) => `
+                <section>
+                    <div class="flex items-center gap-3 mb-6 border-b border-orange-100 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center shadow-md shadow-accent/20">
+                            <span class="material-symbols-outlined fill-1 text-2xl">${categoryIcons[category]}</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold uppercase tracking-wider text-accent text-sm">${categoryNames[category]}</h3>
+                    </div>
+                    <div class="grid gap-3">
+                        ${items
+                          .map(
+                            (item, index) => `
+                            <label class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-slate-100 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer">
+                                <div class="flex items-center gap-5">
+                                    <input class="rounded-md border-slate-300 text-primary focus:ring-primary w-6 h-6 transition-colors cursor-pointer" type="checkbox" ${item.checked ? "checked" : ""} onchange="toggleItem('${category}', ${index})">
+                                    <span class="text-slate-700 font-bold text-lg ${item.checked ? "line-through text-slate-400" : ""}">${item.name}</span>
+                                </div>
+                                <span class="bg-orange-50 px-3 py-1 rounded-lg text-xs font-extrabold text-accent uppercase tracking-tighter">${item.qty}</span>
+                            </label>
+                        `,
+                          )
+                          .join("")}
+                    </div>
+                </section>
+            `,
+          )
+          .join("");
+      }
+
+      function toggleItem(category, index) {
+        shoppingData[category][index].checked =
+          !shoppingData[category][index].checked;
+        renderShoppingList();
+      }
+
+      function clearCompleted() {
+        Object.keys(shoppingData).forEach((category) => {
+          shoppingData[category] = shoppingData[category].filter(
+            (item) => !item.checked,
+          );
+        });
+        renderShoppingList();
+      }
+
+      function shareList() {
+        const listText = Object.entries(shoppingData)
+          .map(([category, items]) => {
+            return `${categoryNames[category]}:\n${items.map((item) => `  ${item.checked ? "✓" : "○"} ${item.name} - ${item.qty}`).join("\n")}`;
+          })
+          .join("\n\n");
+
+        if (navigator.share) {
+          navigator.share({
+            title: "COOKHUB Shopping List",
+            text: listText,
+          });
+        } else {
+          navigator.clipboard.writeText(listText);
+          alert("Shopping list copied to clipboard!");
+        }
+      }
+
+      function handleQuickAdd(event) {
+        if (event.key === "Enter") {
+          addQuickItem();
+        }
+      }
+
+      function addQuickItem() {
+        const input = document.getElementById("quick-add-input");
+        const value = input.value.trim();
+        if (value) {
+          const parts = value.split(",");
+          const name = parts[0].trim();
+          const qty = parts[1] ? parts[1].trim() : "1 unit";
+          shoppingData.pantry.push({ name, qty, checked: false });
+          input.value = "";
+          renderShoppingList();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", renderShoppingList);
+    </script>
+  </body>
+</html>

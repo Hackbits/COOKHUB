@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Details | COOKHUB</title>
+    <meta
+      name="description"
+      content="View detailed recipe with ingredients and step-by-step instructions"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#EF4444",
+              accent: "#F59E0B",
+              "slate-black": "#111827",
+              "soft-cream": "#FFFDF9",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .logo-font {
+        font-family: "Playfair Display", serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fill-1 {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-soft-cream min-h-screen">
+    <!-- Navigation Header -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-12">
+          <a
+            href="index.html"
+            class="flex items-center gap-2 text-primary cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-3xl font-bold"
+              >restaurant</span
+            >
+            <h1
+              class="text-2xl font-bold tracking-tight text-primary logo-font italic"
+            >
+              COOKHUB
+            </h1>
+          </a>
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="discovery.html"
+              >Discovery</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="fridge-raid.html"
+              >Fridge Raid</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="community.html"
+              >Community</a
+            >
+            <a
+              class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors"
+              href="creator-studio.html"
+              >Creator Studio</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-6">
+          <a
+            href="index.html"
+            class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-black transition-all shadow-lg shadow-primary/20"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8">
+      <!-- Back Button -->
+      <a
+        href="javascript:history.back()"
+        class="inline-flex items-center gap-2 text-gray-500 hover:text-primary mb-6 font-semibold"
+      >
+        <span class="material-symbols-outlined">arrow_back</span>
+        Back to Recipes
+      </a>
+
+      <!-- Recipe Content -->
+      <div id="recipe-content">
+        <div class="text-center py-20">
+          <div
+            class="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"
+          ></div>
+          <p class="text-gray-500">Loading recipe...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-12 bg-gray-900 text-white/50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <a
+          href="index.html"
+          class="flex items-center justify-center gap-2 text-primary mb-6"
+        >
+          <span class="material-symbols-outlined text-2xl">restaurant</span>
+          <span class="text-xl font-bold text-white logo-font italic"
+            >COOKHUB</span
+          >
+        </a>
+        <p class="text-sm">© 2024 COOKHUB. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+      // Get recipe ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeId = parseInt(urlParams.get("id"));
+
+      // Find the recipe
+      function loadRecipe() {
+        const recipe = CookHubData.recipes.find((r) => r.id === recipeId);
+
+        if (!recipe) {
+          document.getElementById("recipe-content").innerHTML = `
+            <div class="text-center py-20">
+              <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">error</span>
+              <h2 class="text-2xl font-bold mb-2">Recipe Not Found</h2>
+              <p class="text-gray-500 mb-6">The recipe you're looking for doesn't exist.</p>
+              <a href="index.html" class="text-primary font-bold hover:underline">← Back to Home</a>
+            </div>
+          `;
+          return;
+        }
+
+        // Update page title
+        document.title = `${recipe.title} | COOKHUB`;
+
+        // Render recipe
+        document.getElementById("recipe-content").innerHTML = `
+          <!-- Hero Section -->
+          <div class="grid lg:grid-cols-2 gap-8 mb-12">
+            <!-- Image -->
+            <div class="relative rounded-3xl overflow-hidden h-[400px] lg:h-[500px]">
+              <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-full object-cover">
+              <button onclick="toggleFavoriteDetail(${recipe.id})" id="fav-btn" class="absolute top-6 right-6 w-14 h-14 bg-white/95 backdrop-blur rounded-full flex items-center justify-center ${recipe.isFavorite ? "text-primary" : "text-gray-300"} hover:text-primary shadow-lg hover:scale-110 transition-all">
+                <span class="material-symbols-outlined text-2xl ${recipe.isFavorite ? "fill-1" : ""}">favorite</span>
+              </button>
+            </div>
+            
+            <!-- Info -->
+            <div class="flex flex-col justify-center">
+              <div class="flex flex-wrap gap-2 mb-4">
+                ${recipe.tags.map((tag) => `<span class="bg-accent/20 text-accent px-4 py-1.5 rounded-full text-xs font-bold uppercase">${tag}</span>`).join("")}
+              </div>
+              
+              <h1 class="text-4xl lg:text-5xl font-extrabold mb-4 leading-tight">${recipe.title}</h1>
+              <p class="text-gray-500 text-lg mb-6">${recipe.description}</p>
+              
+              <!-- Stats -->
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-2xl p-4 text-center border border-gray-100">
+                  <span class="material-symbols-outlined text-2xl text-primary mb-1">schedule</span>
+                  <p class="font-bold">${recipe.time}</p>
+                  <p class="text-xs text-gray-400">Cook Time</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 text-center border border-gray-100">
+                  <span class="material-symbols-outlined text-2xl text-accent mb-1">trending_up</span>
+                  <p class="font-bold">${recipe.difficulty}</p>
+                  <p class="text-xs text-gray-400">Difficulty</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 text-center border border-gray-100">
+                  <span class="material-symbols-outlined text-2xl text-green-500 mb-1">group</span>
+                  <p class="font-bold">${recipe.servings}</p>
+                  <p class="text-xs text-gray-400">Servings</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 text-center border border-gray-100">
+                  <span class="material-symbols-outlined text-2xl text-orange-500 mb-1">local_fire_department</span>
+                  <p class="font-bold">${recipe.calories}</p>
+                  <p class="text-xs text-gray-400">Calories</p>
+                </div>
+              </div>
+              
+              <!-- Author & Rating -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img src="${recipe.author.avatar}" alt="${recipe.author.name}" class="w-12 h-12 rounded-full border-2 border-accent">
+                  <div>
+                    <p class="font-bold">${recipe.author.name}</p>
+                    <p class="text-xs text-gray-400">Recipe Creator</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-2xl text-amber-500 fill-1">star</span>
+                  <span class="text-2xl font-bold">${recipe.rating}</span>
+                  <span class="text-gray-400">(${recipe.reviews} reviews)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nutrition -->
+          <div class="bg-gradient-to-r from-primary to-accent rounded-3xl p-8 text-white mb-12">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+              <span class="material-symbols-outlined">monitoring</span>
+              Nutrition per Serving
+            </h2>
+            <div class="grid grid-cols-4 gap-6 text-center">
+              <div>
+                <p class="text-4xl font-bold">${recipe.calories}</p>
+                <p class="text-white/70">Calories</p>
+              </div>
+              <div>
+                <p class="text-4xl font-bold">${recipe.protein || "N/A"}</p>
+                <p class="text-white/70">Protein</p>
+              </div>
+              <div>
+                <p class="text-4xl font-bold">${recipe.carbs || "N/A"}</p>
+                <p class="text-white/70">Carbs</p>
+              </div>
+              <div>
+                <p class="text-4xl font-bold">${recipe.fats || "N/A"}</p>
+                <p class="text-white/70">Fats</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ingredients & Steps -->
+          <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Ingredients -->
+            <div class="lg:col-span-1">
+              <div class="bg-white rounded-3xl p-8 border border-gray-100 sticky top-28">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary">shopping_basket</span>
+                  Ingredients
+                </h2>
+                ${
+                  recipe.ingredients && recipe.ingredients.length > 0
+                    ? `
+                  <ul class="space-y-4">
+                    ${recipe.ingredients
+                      .map(
+                        (ing) => `
+                      <li class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary">
+                        <span>
+                          <strong class="text-primary">${ing.qty}</strong> ${ing.name}
+                          ${ing.substitutes ? `<span class="text-xs text-gray-400 block">or: ${ing.substitutes.join(", ")}</span>` : ""}
+                        </span>
+                      </li>
+                    `,
+                      )
+                      .join("")}
+                  </ul>
+                `
+                    : `
+                  <p class="text-gray-400 italic">Ingredients list coming soon...</p>
+                `
+                }
+              </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="lg:col-span-2">
+              <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">menu_book</span>
+                Instructions
+              </h2>
+              ${
+                recipe.steps && recipe.steps.length > 0
+                  ? `
+                <div class="space-y-6">
+                  ${recipe.steps
+                    .map(
+                      (step, idx) => `
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:border-primary transition-colors">
+                      <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold flex-shrink-0">
+                          ${idx + 1}
+                        </div>
+                        <div class="flex-grow">
+                          <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">${step.title}</h3>
+                            ${step.time ? `<span class="text-sm text-gray-400 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span>${step.time} min</span>` : ""}
+                          </div>
+                          <p class="text-gray-600">${step.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  `,
+                    )
+                    .join("")}
+                </div>
+              `
+                  : `
+                <div class="bg-white rounded-2xl p-8 border border-gray-100 text-center">
+                  <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">pending</span>
+                  <p class="text-gray-400">Detailed instructions coming soon...</p>
+                  <p class="text-gray-500 mt-2">This is a ${recipe.difficulty.toLowerCase()} recipe that takes about ${recipe.time}.</p>
+                </div>
+              `
+              }
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-12 flex flex-wrap gap-4 justify-center">
+            <button onclick="printRecipe()" class="px-8 py-4 bg-white border-2 border-gray-200 rounded-2xl font-bold flex items-center gap-2 hover:border-primary hover:text-primary transition-all">
+              <span class="material-symbols-outlined">print</span>
+              Print Recipe
+            </button>
+            <button onclick="shareRecipe()" class="px-8 py-4 bg-white border-2 border-gray-200 rounded-2xl font-bold flex items-center gap-2 hover:border-primary hover:text-primary transition-all">
+              <span class="material-symbols-outlined">share</span>
+              Share Recipe
+            </button>
+            <button onclick="saveRecipe(${recipe.id})" class="px-8 py-4 bg-primary text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-black transition-all shadow-lg shadow-primary/30">
+              <span class="material-symbols-outlined">bookmark</span>
+              Save to Library
+            </button>
+          </div>
+        `;
+      }
+
+      function toggleFavoriteDetail(id) {
+        const recipe = CookHubData.recipes.find((r) => r.id === id);
+        if (recipe) {
+          recipe.isFavorite = !recipe.isFavorite;
+          const btn = document.getElementById("fav-btn");
+          if (recipe.isFavorite) {
+            btn.classList.remove("text-gray-300");
+            btn.classList.add("text-primary");
+            btn.querySelector("span").classList.add("fill-1");
+          } else {
+            btn.classList.add("text-gray-300");
+            btn.classList.remove("text-primary");
+            btn.querySelector("span").classList.remove("fill-1");
+          }
+          app.showNotification(
+            recipe.isFavorite
+              ? "Added to favorites!"
+              : "Removed from favorites",
+            "success",
+          );
+        }
+      }
+
+      function printRecipe() {
+        window.print();
+      }
+
+      function shareRecipe() {
+        if (navigator.share) {
+          navigator.share({
+            title: document.title,
+            url: window.location.href,
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          app.showNotification("Recipe link copied to clipboard!", "success");
+        }
+      }
+
+      function saveRecipe(id) {
+        let saved = JSON.parse(
+          localStorage.getItem("cookhub_saved_recipes") || "[]",
+        );
+        if (!saved.includes(id)) {
+          saved.push(id);
+          localStorage.setItem("cookhub_saved_recipes", JSON.stringify(saved));
+          app.showNotification("Recipe saved to your library!", "success");
+        } else {
+          app.showNotification("Recipe already in your library", "info");
+        }
+      }
+
+      // Load recipe when page loads
+      document.addEventListener("DOMContentLoaded", loadRecipe);
+    </script>
+  </body>
+</html>

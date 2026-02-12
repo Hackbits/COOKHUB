@@ -1,65 +1,307 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import RecipeGrid from "@/components/recipes/RecipeGrid";
+import { CookHubData } from "@/lib/data";
+import Button from "@/components/ui/Button";
+import SearchBar from "@/components/ui/SearchBar";
+import Tag from "@/components/ui/Tag";
+
+export default function HomePage() {
+  const router = useRouter();
+  const [visibleCount, setVisibleCount] = useState(8);
+  const recipes = CookHubData.recipes;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <>
+      {/* Hero Section */}
+      <section id="home" className="py-8">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="relative rounded-[2.5rem] overflow-hidden h-[420px] shadow-2xl shadow-orange-100">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              alt="Culinary Background"
+              className="object-cover"
+              src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1600&h=900&fit=crop"
+              fill
+              priority
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-black/90 via-slate-black/50 to-transparent flex flex-col justify-center px-8 md:px-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 max-w-xl leading-tight serif-font">
+                Savor every <br />
+                <span className="text-primary italic">moment</span> and meal.
+              </h2>
+
+              <div className="max-w-2xl">
+                <SearchBar
+                  onSearch={(q) =>
+                    router.push(`/discovery?q=${encodeURIComponent(q)}`)
+                  }
+                  placeholder="What are you craving today?"
+                />
+              </div>
+
+              <p className="mt-4 text-white/80 text-sm font-medium ml-2 flex items-center gap-2">
+                <span className="material-symbols-outlined text-accent text-sm fill-1">
+                  local_fire_department
+                </span>
+                Try &quot;Warm autumn soup with roasted pumpkin&quot;
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Quick Categories */}
+      <section className="py-8">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+            {[
+              { icon: "🎂", label: "Birthday", filter: "birthday" },
+              { icon: "⚡", label: "Quick & Easy", filter: "quick" },
+              { icon: "🥗", label: "Healthy", filter: "healthy" },
+              { icon: "💑", label: "Date Night", filter: "date" },
+              { icon: "🌿", label: "Vegetarian", filter: "vegetarian" },
+              { icon: "🌶️", label: "Spicy", filter: "spicy" },
+              { icon: "🍰", label: "Desserts", filter: "dessert" },
+            ].map((cat) => (
+              <button
+                key={cat.filter}
+                onClick={() => router.push(`/discovery?filter=${cat.filter}`)}
+                className="flex-shrink-0 flex items-center gap-3 px-6 py-3.5 bg-white border-2 border-orange-100 rounded-2xl hover:border-primary hover:bg-primary hover:text-white transition-all group cursor-pointer"
+              >
+                <span className="text-2xl">{cat.icon}</span>
+                <span className="text-sm font-bold text-slate-black group-hover:text-white whitespace-nowrap">
+                  {cat.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recommended Recipes */}
+      <section id="recommended" className="py-12">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-extrabold tracking-tight mb-2">
+                🍽️ Recommended For You
+              </h2>
+              <p className="text-gray-500">
+                Handpicked recipes based on popular choices
+              </p>
+            </div>
+            <button
+              onClick={() => router.push("/discovery")}
+              className="flex items-center gap-2 text-primary font-bold hover:underline"
+            >
+              View All
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+
+          <RecipeGrid recipes={recipes.slice(0, visibleCount)} />
+
+          {visibleCount < recipes.length && (
+            <div className="mt-12 text-center">
+              <Button
+                variant="outline"
+                onClick={() => setVisibleCount((prev) => prev + 4)}
+                className="uppercase tracking-widest"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="material-symbols-outlined">add_circle</span>
+                  Load More Recipes
+                </span>
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Featured Creator Section */}
+      <section className="py-12 bg-gray-50/50">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="bg-white rounded-[2.5rem] p-8 md:p-12 border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col md:flex-row items-center gap-10">
+            <div className="relative group">
+              <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-white shadow-2xl transition-transform group-hover:scale-105 duration-500">
+                <Image
+                  src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=400&h=400"
+                  alt="Chef Alex Rivera"
+                  className="object-cover"
+                  width={256}
+                  height={256}
+                />
+              </div>
+              <div className="absolute bottom-4 right-4 w-10 h-10 bg-red-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+                <span className="material-symbols-outlined text-white text-sm font-bold">
+                  check
+                </span>
+              </div>
+            </div>
+
+            <div className="flex-1 text-center md:text-left">
+              <div className="flex flex-wrap justify-center md:justify-start items-center gap-3 mb-4">
+                <Tag variant="accent">GOLD TIER COOK</Tag>
+                <Tag variant="primary">PRO</Tag>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-black mb-4 serif-font">
+                Chef Alex Rivera
+              </h2>
+              <p className="text-gray-500 text-lg mb-8 max-w-xl leading-relaxed">
+                Culinary experimenter focusing on modern gastronomy and
+                sous-vide techniques. Sharing 15 years of kitchen wisdom with
+                the CookHub community.
+              </p>
+
+              <div className="flex flex-wrap justify-center md:justify-start items-center gap-8 mb-8">
+                <div>
+                  <div className="text-2xl font-black text-slate-black serif-font">
+                    124
+                  </div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Recipes
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-black text-slate-black serif-font">
+                    12.5k
+                  </div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Followers
+                  </div>
+                </div>
+                <button
+                  onClick={() => router.push("/profile")}
+                  className="bg-slate-black text-white px-8 py-4 rounded-2xl font-black text-sm hover:bg-primary transition-all shadow-lg shadow-black/10"
+                >
+                  View Full Profile
+                </button>
+              </div>
+            </div>
+
+            <div className="hidden lg:grid grid-cols-2 gap-4 w-1/3">
+              {CookHubData.recipes.slice(4, 8).map((recipe, idx) => (
+                <div
+                  key={idx}
+                  className="aspect-square rounded-2xl overflow-hidden shadow-md"
+                >
+                  <Image
+                    src={recipe.image}
+                    alt={recipe.title}
+                    className="object-cover hover:scale-110 transition-transform duration-500"
+                    fill
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <h2 className="text-3xl font-extrabold tracking-tight mb-2">
+            ⭐ Community Reviews
+          </h2>
+          <p className="text-gray-500 mb-10">What our community is saying</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {CookHubData.reviews.map((review) => (
+              <div
+                key={review.id}
+                className="bg-soft-cream p-6 rounded-3xl border border-orange-50 shadow-sm hover:shadow-lg transition-all"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-amber-500 flex items-center justify-center text-white font-bold text-lg">
+                      {review.avatar}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-black text-sm">
+                        {review.user}
+                      </h4>
+                      <div className="flex items-center text-primary">
+                        {Array(review.rating)
+                          .fill(0)
+                          .map((_, i) => (
+                            <span
+                              key={i}
+                              className="material-symbols-outlined text-sm fill-1"
+                            >
+                              star
+                            </span>
+                          ))}
+                        <span className="ml-2 text-xs text-slate-400 font-bold">
+                          {review.date}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {review.verified && (
+                    <span className="bg-orange-100 text-primary text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                      Verified Cook
+                    </span>
+                  )}
+                </div>
+                <p className="text-slate-600 leading-relaxed text-sm">
+                  {review.comment}
+                </p>
+                <div className="mt-4 flex items-center gap-4">
+                  <button className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-primary transition-colors">
+                    <span className="material-symbols-outlined text-lg">
+                      thumb_up
+                    </span>
+                    <span>{review.likes}</span>
+                  </button>
+                  <button className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-black transition-colors">
+                    <span className="material-symbols-outlined text-lg">
+                      chat_bubble
+                    </span>
+                    Reply
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="relative bg-gradient-to-r from-primary to-amber-500 rounded-[2.5rem] p-12 md:p-16 text-white overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="relative z-10 max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 serif-font">
+                Ready to start your culinary journey?
+              </h2>
+              <p className="text-white/80 text-lg mb-8">
+                Join thousands of food enthusiasts. Discover, cook, and share
+                amazing recipes with our community.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => router.push("/discovery")}
+                  className="bg-white text-primary px-8 py-4 rounded-2xl font-bold hover:bg-slate-black hover:text-white transition-all shadow-lg"
+                >
+                  Explore Recipes
+                </button>
+                <button
+                  onClick={() => router.push("/fridge-raid")}
+                  className="bg-white/20 backdrop-blur text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/30 transition-all border border-white/30"
+                >
+                  Try Fridge Raid
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
