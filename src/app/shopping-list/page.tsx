@@ -3,6 +3,15 @@
 import { useShoppingStore, MAX_SHOPPING_ITEMS } from "@/store/useShoppingStore";
 import { useState } from "react";
 import Button from "@/components/ui/Button";
+import {
+  AlertTriangle,
+  PlusCircle,
+  Tag,
+  Plus,
+  Check,
+  Trash2,
+  Trash,
+} from "lucide-react";
 
 export default function ShoppingListPage() {
   const {
@@ -49,7 +58,7 @@ export default function ShoppingListPage() {
 
           {isAtLimit && (
             <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-xl text-sm font-semibold mb-4">
-              <span className="material-symbols-outlined text-lg">warning</span>
+              <AlertTriangle className="text-lg" size={20} />
               Shopping list is full ({MAX_SHOPPING_ITEMS} items max). Remove
               items to add more.
             </div>
@@ -61,9 +70,7 @@ export default function ShoppingListPage() {
               {/* Item Name */}
               <div className="relative group flex-1">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined text-gray-400 group-focus-within:text-blue-500 transition-colors text-lg">
-                    add_circle
-                  </span>
+                  <PlusCircle className="text-gray-400 group-focus-within:text-blue-500 transition-colors text-lg" />
                 </div>
                 <input
                   className="w-full bg-gray-50 h-12 pl-12 pr-4 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 placeholder:text-gray-400 outline-none transition-all"
@@ -78,9 +85,7 @@ export default function ShoppingListPage() {
               {/* Quantity */}
               <div className="relative group w-28">
                 <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined text-gray-400 group-focus-within:text-blue-500 transition-colors text-base">
-                    tag
-                  </span>
+                  <Tag className="text-gray-400 group-focus-within:text-blue-500 transition-colors text-base" />
                 </div>
                 <input
                   className="w-full bg-gray-50 h-12 pl-9 pr-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 placeholder:text-gray-400 outline-none transition-all"
@@ -99,7 +104,7 @@ export default function ShoppingListPage() {
                 size="sm"
                 className="h-12"
               >
-                <span className="material-symbols-outlined text-base">add</span>
+                <Plus className="text-base mr-1" size={16} />
                 Add
               </Button>
             </div>
@@ -155,11 +160,7 @@ export default function ShoppingListPage() {
                           : "border-gray-300 hover:border-blue-500"
                       }`}
                     >
-                      {item.checked && (
-                        <span className="material-symbols-outlined text-sm">
-                          check
-                        </span>
-                      )}
+                      {item.checked && <Check size={14} strokeWidth={3} />}
                     </button>
 
                     {/* Item Name */}
@@ -210,9 +211,7 @@ export default function ShoppingListPage() {
                       onClick={() => removeItem(item.id)}
                       className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0"
                     >
-                      <span className="material-symbols-outlined text-lg">
-                        delete
-                      </span>
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 ))}
@@ -226,9 +225,7 @@ export default function ShoppingListPage() {
                     onClick={clearCompleted}
                     className="text-gray-600 hover:text-red-500 hover:border-red-300"
                   >
-                    <span className="material-symbols-outlined text-lg mr-2">
-                      delete_sweep
-                    </span>
+                    <Trash2 className="text-lg mr-2" size={18} />
                     Clear Completed ({completedCount})
                   </Button>
                 )}
@@ -237,9 +234,7 @@ export default function ShoppingListPage() {
                   onClick={clearAll}
                   className="text-gray-600 hover:text-red-500 hover:border-red-300"
                 >
-                  <span className="material-symbols-outlined text-lg mr-2">
-                    delete
-                  </span>
+                  <Trash className="text-lg mr-2" size={18} />
                   Clear All
                 </Button>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -28,9 +29,7 @@ export default function SearchBar({
       className={`relative group w-full ${className}`}
     >
       <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-        <span className="material-symbols-outlined text-gray-400 group-focus-within:text-primary transition-colors">
-          search
-        </span>
+        <Search className="text-gray-400 group-focus-within:text-primary transition-colors" />
       </div>
       <input
         type="text"

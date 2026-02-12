@@ -6,6 +6,7 @@ import { CookHubData } from "@/lib/data";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Tag from "@/components/ui/Tag";
+import { ShoppingBasket, Plus, History, X, Sparkles } from "lucide-react";
 
 const ingredientCategories = [
   {
@@ -175,9 +176,7 @@ export default function FridgeRaidPage() {
             <div className="relative group max-w-2xl mb-12">
               <div className="relative group">
                 <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined text-gray-400 group-focus-within:text-green-500 transition-colors">
-                    shopping_basket
-                  </span>
+                  <ShoppingBasket className="text-gray-400 group-focus-within:text-green-500 transition-colors" />
                 </div>
                 <input
                   className="w-full bg-white h-20 pl-14 pr-40 rounded-3xl border border-gray-100 text-lg md:text-xl focus:ring-8 focus:ring-green-500/5 focus:border-green-500 shadow-2xl shadow-green-900/5 placeholder:text-gray-400 outline-none transition-all"
@@ -197,7 +196,7 @@ export default function FridgeRaidPage() {
                   disabled={!inputValue.trim()}
                   className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-black text-white px-8 py-4 rounded-2xl font-black text-sm hover:bg-green-600 transition-all disabled:opacity-20 flex items-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-sm">add</span>
+                  <Plus size={16} />
                   Add item
                 </button>
               </div>
@@ -211,9 +210,7 @@ export default function FridgeRaidPage() {
                       onClick={() => addIngredient(s)}
                       className="w-full text-left px-6 py-4 hover:bg-green-50 flex items-center gap-4 transition-colors"
                     >
-                      <span className="material-symbols-outlined text-green-500 text-lg">
-                        history
-                      </span>
+                      <History className="text-green-500 text-lg" />
                       <span className="font-bold text-slate-black">{s}</span>
                     </button>
                   ))}
@@ -235,9 +232,7 @@ export default function FridgeRaidPage() {
                     onClick={() => removeIngredient(ing)}
                     className="w-6 h-6 flex items-center justify-center rounded-full text-gray-300 hover:bg-red-50 hover:text-red-500 transition-all"
                   >
-                    <span className="material-symbols-outlined text-sm">
-                      close
-                    </span>
+                    <X size={14} />
                   </button>
                 </div>
               ))}
@@ -259,7 +254,7 @@ export default function FridgeRaidPage() {
                 className="group relative overflow-hidden bg-green-500 hover:bg-green-600 shadow-green-500/30 gap-3"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <span className="material-symbols-outlined">auto_awesome</span>
+                <Sparkles />
                 Start Fridge Raid
               </Button>
             )}

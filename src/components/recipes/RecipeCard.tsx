@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Recipe } from "@/lib/types";
 import { useUserStore } from "@/store/useUserStore";
 import { useMounted } from "@/lib/hooks";
+import { Clock, Utensils, Star, Heart } from "lucide-react";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -29,7 +30,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           <div className="relative h-64 overflow-hidden">
             <Image
               alt={recipe.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover transition-transform duration-500"
               src={recipe.image}
               width={500}
               height={400}
@@ -51,15 +52,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           <div className="p-6 flex flex-col flex-1">
             <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
               <span className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-sm text-amber-500">
-                  schedule
-                </span>
+                <Clock size={16} className="text-amber-500" />
                 {recipe.time}
               </span>
               <span className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-sm text-amber-500">
-                  restaurant
-                </span>
+                <Utensils size={16} className="text-amber-500" />
                 {recipe.difficulty}
               </span>
             </div>
@@ -71,9 +68,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             </p>
             <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
               <div className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-amber-500 fill-1 text-lg">
-                  star
-                </span>
+                <Star size={18} className="text-amber-500 fill-amber-500" />
                 <span className="text-sm font-black">{recipe.rating}</span>
                 <span className="text-xs text-gray-400">
                   ({recipe.reviews.toLocaleString()})
@@ -104,11 +99,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           isFavorite || recipe.isFavorite ? "text-primary" : "text-gray-300"
         } hover:text-primary shadow-lg hover:scale-110 transition-all`}
       >
-        <span
-          className={`material-symbols-outlined ${isFavorite || recipe.isFavorite ? "fill-1" : ""}`}
-        >
-          favorite
-        </span>
+        <Heart
+          className={isFavorite || recipe.isFavorite ? "fill-current" : ""}
+          size={20}
+        />
       </button>
     </div>
   );

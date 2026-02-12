@@ -1,6 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Edit,
+  ImagePlus,
+  ShoppingBasket,
+  Plus,
+  X,
+  ListOrdered,
+  Trash2,
+  Send,
+  BookOpen,
+  Eye,
+  Heart,
+  Book,
+} from "lucide-react";
 
 export default function CreatorStudioPage() {
   const [activeTab, setActiveTab] = useState<
@@ -75,9 +89,7 @@ export default function CreatorStudioPage() {
               {/* Basic Info */}
               <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">
-                    edit_note
-                  </span>
+                  <Edit className="text-primary" />
                   Basic Information
                 </h2>
                 <div className="space-y-4">
@@ -163,9 +175,10 @@ export default function CreatorStudioPage() {
                       Cover Image
                     </label>
                     <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-primary transition-colors cursor-pointer">
-                      <span className="material-symbols-outlined text-4xl text-gray-300 mb-2">
-                        add_photo_alternate
-                      </span>
+                      <ImagePlus
+                        className="text-gray-300 mb-2 mx-auto"
+                        size={40}
+                      />
                       <p className="text-sm text-gray-400">
                         Click to upload or drag and drop
                       </p>
@@ -180,9 +193,7 @@ export default function CreatorStudioPage() {
               {/* Ingredients */}
               <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-green-500">
-                    grocery
-                  </span>
+                  <ShoppingBasket className="text-green-500" />
                   Ingredients
                 </h2>
                 <div className="space-y-3">
@@ -219,9 +230,7 @@ export default function CreatorStudioPage() {
                           onClick={() => removeIngredient(idx)}
                           className="text-gray-300 hover:text-red-500 transition-colors"
                         >
-                          <span className="material-symbols-outlined text-lg">
-                            close
-                          </span>
+                          <X size={18} />
                         </button>
                       )}
                     </div>
@@ -232,7 +241,7 @@ export default function CreatorStudioPage() {
                   onClick={addIngredient}
                   className="mt-4 flex items-center gap-2 text-sm text-primary font-bold hover:underline"
                 >
-                  <span className="material-symbols-outlined text-sm">add</span>
+                  <Plus size={14} />
                   Add Ingredient
                 </button>
               </div>
@@ -240,9 +249,7 @@ export default function CreatorStudioPage() {
               {/* Steps */}
               <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-blue-500">
-                    format_list_numbered
-                  </span>
+                  <ListOrdered className="text-blue-500" />
                   Cooking Steps
                 </h2>
                 <div className="space-y-4">
@@ -294,9 +301,7 @@ export default function CreatorStudioPage() {
                           onClick={() => removeStep(idx)}
                           className="text-gray-300 hover:text-red-500 transition-colors mt-1"
                         >
-                          <span className="material-symbols-outlined">
-                            delete
-                          </span>
+                          <Trash2 />
                         </button>
                       )}
                     </div>
@@ -307,7 +312,7 @@ export default function CreatorStudioPage() {
                   onClick={addStep}
                   className="mt-4 flex items-center gap-2 text-sm text-primary font-bold hover:underline"
                 >
-                  <span className="material-symbols-outlined text-sm">add</span>
+                  <Plus size={14} />
                   Add Step
                 </button>
               </div>
@@ -318,7 +323,7 @@ export default function CreatorStudioPage() {
                   type="submit"
                   className="px-10 py-4 bg-primary text-white rounded-2xl font-bold hover:bg-slate-black transition-all shadow-lg shadow-primary/20 flex items-center gap-2"
                 >
-                  <span className="material-symbols-outlined">publish</span>
+                  <Send size={20} />
                   Publish Recipe
                 </button>
                 <button
@@ -334,9 +339,7 @@ export default function CreatorStudioPage() {
           {/* My Recipes Tab */}
           {activeTab === "my-recipes" && (
             <div className="animate-fade-in text-center py-20">
-              <span className="material-symbols-outlined text-6xl text-gray-300 mb-4">
-                menu_book
-              </span>
+              <BookOpen className="text-gray-300 mb-4 mx-auto" size={64} />
               <h3 className="text-xl font-bold text-gray-400 mb-2">
                 No recipes yet
               </h3>
@@ -383,9 +386,9 @@ export default function CreatorStudioPage() {
                     <div
                       className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${stat.color}`}
                     >
-                      <span className="material-symbols-outlined">
-                        {stat.icon}
-                      </span>
+                      {stat.icon === "visibility" && <Eye />}
+                      {stat.icon === "favorite" && <Heart />}
+                      {stat.icon === "menu_book" && <Book />}
                     </div>
                     <div className="text-3xl font-extrabold mb-1">
                       {stat.value}

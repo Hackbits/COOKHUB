@@ -8,6 +8,15 @@ import { CookHubData } from "@/lib/data";
 import Button from "@/components/ui/Button";
 import SearchBar from "@/components/ui/SearchBar";
 import Tag from "@/components/ui/Tag";
+import {
+  Flame,
+  ArrowRight,
+  PlusCircle,
+  Check,
+  Star,
+  ThumbsUp,
+  MessageCircle,
+} from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -23,7 +32,7 @@ export default function HomePage() {
             <Image
               alt="Culinary Background"
               className="object-cover"
-              src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1600&h=900&fit=crop"
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&h=900&fit=crop"
               fill
               priority
             />
@@ -43,9 +52,7 @@ export default function HomePage() {
               </div>
 
               <p className="mt-4 text-white/80 text-sm font-medium ml-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-accent text-sm fill-1">
-                  local_fire_department
-                </span>
+                <Flame className="text-accent fill-accent" size={16} />
                 Try &quot;Warm autumn soup with roasted pumpkin&quot;
               </p>
             </div>
@@ -98,7 +105,7 @@ export default function HomePage() {
               className="flex items-center gap-2 text-primary font-bold hover:underline"
             >
               View All
-              <span className="material-symbols-outlined">arrow_forward</span>
+              <ArrowRight />
             </button>
           </div>
 
@@ -112,7 +119,7 @@ export default function HomePage() {
                 className="uppercase tracking-widest"
               >
                 <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined">add_circle</span>
+                  <PlusCircle />
                   Load More Recipes
                 </span>
               </Button>
@@ -126,7 +133,7 @@ export default function HomePage() {
         <div className="max-w-[1440px] mx-auto px-6">
           <div className="bg-white rounded-[2.5rem] p-8 md:p-12 border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col md:flex-row items-center gap-10">
             <div className="relative group">
-              <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-white shadow-2xl transition-transform group-hover:scale-105 duration-500">
+              <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-white shadow-2xl transition-transform duration-500">
                 <Image
                   src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=400&h=400"
                   alt="Chef Alex Rivera"
@@ -136,9 +143,7 @@ export default function HomePage() {
                 />
               </div>
               <div className="absolute bottom-4 right-4 w-10 h-10 bg-red-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
-                <span className="material-symbols-outlined text-white text-sm font-bold">
-                  check
-                </span>
+                <Check className="text-white" size={16} strokeWidth={4} />
               </div>
             </div>
 
@@ -191,7 +196,7 @@ export default function HomePage() {
                   <Image
                     src={recipe.image}
                     alt={recipe.title}
-                    className="object-cover hover:scale-110 transition-transform duration-500"
+                    className="object-cover transition-transform duration-500"
                     fill
                   />
                 </div>
@@ -225,16 +230,13 @@ export default function HomePage() {
                         {review.user}
                       </h4>
                       <div className="flex items-center text-primary">
-                        {Array(review.rating)
-                          .fill(0)
-                          .map((_, i) => (
-                            <span
-                              key={i}
-                              className="material-symbols-outlined text-sm fill-1"
-                            >
-                              star
-                            </span>
-                          ))}
+                        {Array(review.rating).map((_, i) => (
+                          <Star
+                            key={i}
+                            className="fill-current text-primary"
+                            size={16}
+                          />
+                        ))}
                         <span className="ml-2 text-xs text-slate-400 font-bold">
                           {review.date}
                         </span>
@@ -252,15 +254,11 @@ export default function HomePage() {
                 </p>
                 <div className="mt-4 flex items-center gap-4">
                   <button className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      thumb_up
-                    </span>
+                    <ThumbsUp size={18} />
                     <span>{review.likes}</span>
                   </button>
                   <button className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-black transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      chat_bubble
-                    </span>
+                    <MessageCircle size={18} />
                     Reply
                   </button>
                 </div>

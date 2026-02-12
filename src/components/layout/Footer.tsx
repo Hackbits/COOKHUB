@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Utensils } from "lucide-react";
 
 const footerLinks = [
   { href: "/discovery", label: "Discovery" },
@@ -13,9 +14,7 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <Link href="/" className="flex items-center gap-2 text-primary">
-            <span className="material-symbols-outlined text-2xl">
-              restaurant
-            </span>
+            <Utensils />
             <span className="text-xl font-bold text-white logo-font italic">
               COOKHUB
             </span>

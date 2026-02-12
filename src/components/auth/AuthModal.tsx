@@ -11,6 +11,7 @@ import {
 import { auth, googleProvider } from "@/lib/firebase";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
+import { CheckCircle } from "lucide-react";
 
 interface AuthModalProps {
   onClose: () => void;
@@ -339,9 +340,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       {/* Success Message */}
       {mode === "success" && (
         <div className="text-center py-8 animate-fade-in">
-          <span className="material-symbols-outlined text-6xl text-green-500 mb-4">
-            check_circle
-          </span>
+          <CheckCircle className="text-green-500 w-16 h-16 mb-4" />
           <p className="text-gray-500 mb-6 font-medium">
             Your account has been created successfully.
           </p>

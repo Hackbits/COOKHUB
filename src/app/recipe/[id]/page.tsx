@@ -10,6 +10,19 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Tabs from "@/components/ui/Tabs";
 import Tag from "@/components/ui/Tag";
+import {
+  Clock,
+  Utensils,
+  Star,
+  Users,
+  ShoppingCart,
+  PlayCircle,
+  Flame,
+  Dumbbell,
+  Wheat,
+  Droplet,
+  AlertCircle,
+} from "lucide-react";
 
 export default function RecipeDetailPage({
   params,
@@ -30,9 +43,7 @@ export default function RecipeDetailPage({
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <span className="material-symbols-outlined text-6xl text-gray-300 mb-4">
-            error
-          </span>
+          <AlertCircle size={64} className="text-gray-300 mb-4 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-400 mb-2">
             Recipe not found
           </h2>
@@ -96,27 +107,19 @@ export default function RecipeDetailPage({
 
             <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm font-medium">
               <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-amber-400">
-                  schedule
-                </span>
+                <Clock className="text-amber-400" size={20} />
                 {recipe.time}
               </span>
               <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-amber-400">
-                  restaurant
-                </span>
+                <Utensils className="text-amber-400" size={20} />
                 {recipe.difficulty}
               </span>
               <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-amber-400 fill-1">
-                  star
-                </span>
+                <Star className="text-amber-400 fill-current" size={20} />
                 {recipe.rating} ({recipe.reviews.toLocaleString()} reviews)
               </span>
               <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-amber-400">
-                  group
-                </span>
+                <Users className="text-amber-400" size={20} />
                 {recipe.servings} servings
               </span>
             </div>
@@ -199,9 +202,7 @@ export default function RecipeDetailPage({
                     onClick={handleAddToShoppingList}
                     className="mt-6 w-full"
                   >
-                    <span className="material-symbols-outlined mr-2">
-                      add_shopping_cart
-                    </span>
+                    <ShoppingCart className="mr-2" size={20} />
                     Add All to Shopping List
                   </Button>
                 </div>
@@ -216,9 +217,7 @@ export default function RecipeDetailPage({
                       href={`/cooking-mode?id=${recipe.id}`}
                       className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-black transition-all"
                     >
-                      <span className="material-symbols-outlined">
-                        play_circle
-                      </span>
+                      <PlayCircle size={20} />
                       Start Cooking Mode
                     </Link>
                   </div>
@@ -240,9 +239,7 @@ export default function RecipeDetailPage({
                             {step.description}
                           </p>
                           <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
-                            <span className="material-symbols-outlined text-sm">
-                              schedule
-                            </span>
+                            <Clock size={14} />
                             {step.time} min
                           </span>
                         </div>
@@ -263,25 +260,25 @@ export default function RecipeDetailPage({
                       {
                         label: "Calories",
                         value: `${recipe.calories}`,
-                        icon: "local_fire_department",
+                        icon: <Flame size={32} />,
                         color: "bg-orange-50 text-orange-600",
                       },
                       {
                         label: "Protein",
                         value: recipe.protein,
-                        icon: "fitness_center",
+                        icon: <Dumbbell size={32} />,
                         color: "bg-blue-50 text-blue-600",
                       },
                       {
                         label: "Carbs",
                         value: recipe.carbs,
-                        icon: "grain",
+                        icon: <Wheat size={32} />,
                         color: "bg-amber-50 text-amber-600",
                       },
                       {
                         label: "Fats",
                         value: recipe.fats,
-                        icon: "water_drop",
+                        icon: <Droplet size={32} />,
                         color: "bg-green-50 text-green-600",
                       },
                     ].map((item) => (
@@ -289,11 +286,11 @@ export default function RecipeDetailPage({
                         key={item.label}
                         className="bg-white rounded-2xl p-6 border border-gray-100 text-center hover:shadow-md transition-all"
                       >
-                        <span
-                          className={`material-symbols-outlined text-3xl mb-3 ${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mx-auto`}
+                        <div
+                          className={`mb-3 ${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mx-auto`}
                         >
                           {item.icon}
-                        </span>
+                        </div>
                         <div className="text-2xl font-extrabold mb-1">
                           {item.value}
                         </div>
@@ -324,16 +321,13 @@ export default function RecipeDetailPage({
                             <h4 className="font-bold text-sm">{review.user}</h4>
                             <div className="flex items-center gap-2">
                               <div className="flex text-primary">
-                                {Array(review.rating)
-                                  .fill(0)
-                                  .map((_, i) => (
-                                    <span
-                                      key={i}
-                                      className="material-symbols-outlined text-sm fill-1"
-                                    >
-                                      star
-                                    </span>
-                                  ))}
+                                {Array(review.rating).map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className="fill-current text-sm"
+                                    size={14}
+                                  />
+                                ))}
                               </div>
                               <span className="text-xs text-gray-400">
                                 {review.date}
@@ -398,9 +392,7 @@ export default function RecipeDetailPage({
                     onClick={() => router.push(`/cooking-mode?id=${recipe.id}`)}
                     className="w-full"
                   >
-                    <span className="material-symbols-outlined mr-2">
-                      play_circle
-                    </span>
+                    <PlayCircle className="mr-2" size={20} />
                     Start Cooking
                   </Button>
                   <Button
@@ -408,9 +400,7 @@ export default function RecipeDetailPage({
                     onClick={handleAddToShoppingList}
                     className="w-full"
                   >
-                    <span className="material-symbols-outlined mr-2">
-                      add_shopping_cart
-                    </span>
+                    <ShoppingCart className="mr-2" size={20} />
                     Add to Shopping List
                   </Button>
                 </div>

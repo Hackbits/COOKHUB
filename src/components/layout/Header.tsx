@@ -8,6 +8,17 @@ import AuthModal from "@/components/auth/AuthModal";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { useMounted } from "@/lib/hooks";
+import {
+  Bell,
+  Bookmark,
+  ChevronDown,
+  LogOut,
+  ShoppingCart,
+  User,
+  Utensils,
+  Menu,
+  X,
+} from "lucide-react";
 
 const navLinks = [
   { href: "/discovery", label: "Discovery" },
@@ -33,9 +44,7 @@ export default function Header() {
               href="/"
               className="flex items-center gap-2 text-primary cursor-pointer"
             >
-              <span className="material-symbols-outlined text-3xl font-bold">
-                restaurant
-              </span>
+              <Utensils />
               <h1 className="text-2xl font-bold tracking-tight text-primary logo-font italic">
                 COOKHUB
               </h1>
@@ -64,12 +73,12 @@ export default function Header() {
               href="/shopping-list"
               className="text-gray-400 hover:text-primary transition-colors hidden sm:block"
             >
-              <span className="material-symbols-outlined">shopping_cart</span>
+              <ShoppingCart />
             </Link>
 
             {/* Notifications */}
             <button className="text-gray-400 hover:text-primary transition-colors relative">
-              <span className="material-symbols-outlined">notifications</span>
+              <Bell />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
             </button>
 
@@ -91,9 +100,7 @@ export default function Header() {
                   <span className="text-sm font-bold hidden sm:inline">
                     {name}
                   </span>
-                  <span className="material-symbols-outlined text-gray-400 text-sm">
-                    expand_more
-                  </span>
+                  <ChevronDown />
                 </button>
 
                 {showUserMenu && (
@@ -103,9 +110,7 @@ export default function Header() {
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                       onClick={() => setShowUserMenu(false)}
                     >
-                      <span className="material-symbols-outlined text-lg">
-                        person
-                      </span>
+                      <User />
                       My Profile
                     </Link>
                     <Link
@@ -113,21 +118,10 @@ export default function Header() {
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                       onClick={() => setShowUserMenu(false)}
                     >
-                      <span className="material-symbols-outlined text-lg">
-                        bookmark
-                      </span>
+                      <Bookmark />
                       My Library
                     </Link>
-                    <Link
-                      href="/shopping-list"
-                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      <span className="material-symbols-outlined text-lg">
-                        shopping_cart
-                      </span>
-                      Shopping List
-                    </Link>
+
                     <hr className="my-2 border-gray-100" />
                     <button
                       onClick={() => {
@@ -136,9 +130,7 @@ export default function Header() {
                       }}
                       className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
                     >
-                      <span className="material-symbols-outlined text-lg">
-                        logout
-                      </span>
+                      <LogOut />
                       Sign Out
                     </button>
                   </div>
@@ -159,8 +151,8 @@ export default function Header() {
               className="lg:hidden text-gray-500 hover:text-primary transition-colors"
               onClick={() => setShowMobileMenu(!showMobileMenu)}
             >
-              <span className="material-symbols-outlined text-2xl">
-                {showMobileMenu ? "close" : "menu"}
+              <span className="text-2xl">
+                {showMobileMenu ? <X /> : <Menu />}
               </span>
             </button>
           </div>
@@ -189,9 +181,7 @@ export default function Header() {
                 onClick={() => setShowMobileMenu(false)}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
               >
-                <span className="material-symbols-outlined text-lg">
-                  shopping_cart
-                </span>
+                <ShoppingCart />
                 Shopping List
               </Link>
             </nav>

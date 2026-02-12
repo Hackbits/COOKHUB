@@ -5,6 +5,19 @@ import { useSearchParams } from "next/navigation";
 import { CookHubData } from "@/lib/data";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import {
+  ArrowLeft,
+  AlertCircle,
+  Utensils,
+  Play,
+  Pause,
+  RotateCcw,
+  CheckCircle,
+  Circle,
+  ArrowRight,
+  PartyPopper,
+  Check,
+} from "lucide-react";
 
 function CookingModeContent() {
   const searchParams = useSearchParams();
@@ -42,9 +55,7 @@ function CookingModeContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-black text-white">
         <div className="text-center">
-          <span className="material-symbols-outlined text-6xl text-gray-500 mb-4">
-            error
-          </span>
+          <AlertCircle className="text-gray-500 mb-4 mx-auto" size={64} />
           <h2 className="text-2xl font-bold mb-2">Recipe not found</h2>
           <Link href="/" className="text-primary font-bold hover:underline">
             Go back home
@@ -101,7 +112,7 @@ function CookingModeContent() {
             href={`/recipe/${recipe.id}`}
             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <ArrowLeft />
             <span className="text-sm font-semibold hidden sm:inline">Exit</span>
           </Link>
           <div className="text-center">
@@ -128,9 +139,7 @@ function CookingModeContent() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="text-center mb-12 animate-fade-in" key={currentStep}>
           <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-bold mb-6">
-            <span className="material-symbols-outlined text-sm">
-              restaurant
-            </span>
+            <Utensils size={16} />
             Step {currentStep + 1}
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 serif-font">
@@ -154,7 +163,7 @@ function CookingModeContent() {
                 onClick={() => startTimer(step.time)}
                 className="flex items-center gap-2"
               >
-                <span className="material-symbols-outlined">play_arrow</span>
+                <Play size={20} />
                 Start Timer ({step.time} min)
               </Button>
             )}
@@ -164,7 +173,7 @@ function CookingModeContent() {
                 onClick={() => setIsTimerRunning(false)}
                 className="flex items-center gap-2"
               >
-                <span className="material-symbols-outlined">pause</span>
+                <Pause size={20} />
                 Pause
               </Button>
             )}
@@ -174,7 +183,7 @@ function CookingModeContent() {
                   onClick={() => setIsTimerRunning(true)}
                   className="bg-green-500 hover:bg-green-600 flex items-center gap-2"
                 >
-                  <span className="material-symbols-outlined">play_arrow</span>
+                  <Play size={20} />
                   Resume
                 </Button>
                 <Button
@@ -185,7 +194,7 @@ function CookingModeContent() {
                   }}
                   className="text-white hover:bg-white/10 flex items-center gap-2"
                 >
-                  <span className="material-symbols-outlined">restart_alt</span>
+                  <RotateCcw size={20} />
                   Reset
                 </Button>
               </>
@@ -202,11 +211,11 @@ function CookingModeContent() {
                     : "text-white hover:bg-white/10"
                 }`}
               >
-                <span className="material-symbols-outlined">
-                  {completedSteps.includes(currentStep)
-                    ? "check_circle"
-                    : "radio_button_unchecked"}
-                </span>
+                {completedSteps.includes(currentStep) ? (
+                  <CheckCircle size={20} />
+                ) : (
+                  <Circle size={20} />
+                )}
                 {completedSteps.includes(currentStep)
                   ? "Completed"
                   : "Mark Complete"}
@@ -222,20 +231,20 @@ function CookingModeContent() {
             disabled={currentStep === 0}
             className={`px-6 py-3 rounded-xl font-bold transition-all flex items-center gap-2 ${currentStep === 0 ? "opacity-30 cursor-not-allowed" : "bg-white/10 text-white hover:bg-white/20"}`}
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <ArrowLeft />
             Previous
           </button>
           {currentStep < recipe.steps.length - 1 ? (
             <Button onClick={nextStep} className="gap-2">
               Next Step
-              <span className="material-symbols-outlined">arrow_forward</span>
+              <ArrowRight />
             </Button>
           ) : (
             <Link
               href={`/recipe/${recipe.id}`}
               className="px-8 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all flex items-center gap-2 shadow-lg shadow-green-500/30"
             >
-              <span className="material-symbols-outlined">celebration</span>
+              <PartyPopper size={20} />
               Finish!
             </Link>
           )}
@@ -273,9 +282,7 @@ function CookingModeContent() {
                   }`}
                 >
                   {completedSteps.includes(idx) ? (
-                    <span className="material-symbols-outlined text-sm">
-                      check
-                    </span>
+                    <Check size={14} strokeWidth={3} />
                   ) : (
                     idx + 1
                   )}
@@ -303,9 +310,7 @@ export default function CookingModePage() {
       fallback={
         <div className="min-h-screen bg-slate-black flex items-center justify-center">
           <div className="text-white/50 text-center">
-            <span className="material-symbols-outlined text-5xl animate-pulse mb-4">
-              restaurant
-            </span>
+            <Utensils className="animate-pulse mb-4 mx-auto" size={48} />
             <p className="font-bold">Loading Cooking Mode...</p>
           </div>
         </div>

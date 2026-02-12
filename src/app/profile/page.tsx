@@ -6,6 +6,14 @@ import { CookHubData } from "@/lib/data";
 import RecipeCard from "@/components/recipes/RecipeCard";
 import { useState } from "react";
 import Link from "next/link";
+import {
+  Check,
+  UserPlus,
+  Share2,
+  Utensils,
+  Bookmark,
+  Plus,
+} from "lucide-react";
 
 export default function ProfilePage() {
   const { fullName, avatar, bio, badges, stats, isLoggedIn } = useUserStore();
@@ -56,9 +64,7 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="absolute bottom-1 right-1 w-8 h-8 bg-red-500 rounded-full border-4 border-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-white text-xs font-bold">
-                  check
-                </span>
+                <Check className="text-white text-xs font-bold" size={14} />
               </div>
             </div>
 
@@ -85,13 +91,11 @@ export default function ProfilePage() {
                 <div className="flex-1" />
                 <div className="flex items-center gap-3">
                   <button className="bg-slate-black text-white px-8 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-primary transition-all shadow-lg shadow-black/10">
-                    <span className="material-symbols-outlined text-sm">
-                      person_add
-                    </span>
+                    <UserPlus size={16} />
                     Follow
                   </button>
                   <button className="w-12 h-12 rounded-2xl border border-gray-200 flex items-center justify-center text-gray-400 hover:text-primary transition-all">
-                    <span className="material-symbols-outlined">share</span>
+                    <Share2 size={20} />
                   </button>
                 </div>
               </div>
@@ -143,9 +147,7 @@ export default function ProfilePage() {
                   : "border-transparent text-gray-400 hover:text-gray-600"
               }`}
             >
-              <span className="material-symbols-outlined text-lg">
-                restaurant_menu
-              </span>
+              <Utensils className="text-lg" size={20} />
               My Creations
             </button>
             <button
@@ -156,9 +158,7 @@ export default function ProfilePage() {
                   : "border-transparent text-gray-400 hover:text-gray-600"
               }`}
             >
-              <span className="material-symbols-outlined text-lg">
-                bookmark
-              </span>
+              <Bookmark className="text-lg" size={20} />
               Saved Cookbook
             </button>
           </div>
@@ -177,9 +177,7 @@ export default function ProfilePage() {
 
           {activeTab === "saved" && (
             <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-              <span className="material-symbols-outlined text-6xl text-gray-200 mb-4">
-                bookmark
-              </span>
+              <Bookmark className="text-gray-200 mb-4 mx-auto" size={64} />
               <h3 className="text-xl font-bold text-gray-400">
                 No saved recipes yet
               </h3>
@@ -193,7 +191,7 @@ export default function ProfilePage() {
         href="/creator-studio"
         className="fixed bottom-12 right-12 bg-red-500 text-white px-8 py-5 rounded-3xl font-black text-sm flex items-center gap-3 hover:bg-slate-black transition-all shadow-2xl shadow-red-500/40 z-50 animate-bounce-subtle"
       >
-        <span className="material-symbols-outlined">add</span>
+        <Plus size={20} />
         Post New Recipe
       </Link>
     </div>

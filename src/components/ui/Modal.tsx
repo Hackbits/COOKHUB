@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { X } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -48,7 +49,7 @@ export default function Modal({
                 onClick={onClose}
                 className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all"
               >
-                <span className="material-symbols-outlined">close</span>
+                <X />
               </button>
             )}
           </div>

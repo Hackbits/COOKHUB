@@ -6,6 +6,28 @@ import { CookHubData } from "@/lib/data";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import Tabs from "@/components/ui/Tabs";
+import {
+  Lock,
+  Bookmark,
+  Utensils,
+  FolderHeart,
+  Heart,
+  Timer,
+  Leaf,
+} from "lucide-react";
+
+const getCollectionIcon = (iconName: string) => {
+  switch (iconName) {
+    case "favorite":
+      return <Heart className="text-primary fill-primary/20" />;
+    case "timer":
+      return <Timer className="text-amber-500" />;
+    case "eco":
+      return <Leaf className="text-green-500" />;
+    default:
+      return <FolderHeart className="text-primary fill-primary/20" />;
+  }
+};
 
 export default function LibraryPage() {
   const { savedRecipes, cookedRecipes, isLoggedIn } = useUserStore();
@@ -25,9 +47,11 @@ export default function LibraryPage() {
       <div className="min-h-screen">
         <section className="py-20">
           <div className="max-w-md mx-auto px-6 text-center">
-            <span className="material-symbols-outlined text-8xl text-gray-200 mb-6">
-              lock
-            </span>
+            <Lock
+              strokeWidth={1}
+              size={96}
+              className="text-gray-200 mb-6 mx-auto"
+            />
             <h2 className="text-2xl font-bold mb-3">
               Sign in to view your library
             </h2>
@@ -77,9 +101,11 @@ export default function LibraryPage() {
                 <RecipeGrid recipes={savedRecipesList} />
               ) : (
                 <div className="text-center py-20">
-                  <span className="material-symbols-outlined text-6xl text-gray-300 mb-4">
-                    bookmark
-                  </span>
+                  <Bookmark
+                    strokeWidth={1}
+                    size={64}
+                    className="text-gray-300 mb-4 mx-auto"
+                  />
                   <h3 className="text-xl font-bold text-gray-400 mb-2">
                     No saved recipes
                   </h3>
@@ -97,9 +123,11 @@ export default function LibraryPage() {
                 <RecipeGrid recipes={cookedRecipesList} />
               ) : (
                 <div className="text-center py-20">
-                  <span className="material-symbols-outlined text-6xl text-gray-300 mb-4">
-                    restaurant
-                  </span>
+                  <Utensils
+                    strokeWidth={1}
+                    size={64}
+                    className="text-gray-300 mb-4 mx-auto"
+                  />
                   <h3 className="text-xl font-bold text-gray-400 mb-2">
                     No cooked recipes yet
                   </h3>
@@ -140,9 +168,7 @@ export default function LibraryPage() {
                       </div>
                       <div className="p-5">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="material-symbols-outlined text-primary fill-1">
-                            {collection.icon}
-                          </span>
+                          {getCollectionIcon(collection.icon)}
                           <h3 className="font-bold text-lg">
                             {collection.name}
                           </h3>

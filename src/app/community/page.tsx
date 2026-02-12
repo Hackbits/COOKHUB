@@ -2,6 +2,18 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import {
+  Image as ImageIcon,
+  Utensils,
+  BarChart2,
+  MoreHorizontal,
+  Heart,
+  MessageCircle,
+  Share2,
+  Bookmark,
+  TrendingUp,
+  Star,
+} from "lucide-react";
 
 const posts = [
   {
@@ -126,21 +138,15 @@ export default function CommunityPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex gap-2">
                     <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <span className="material-symbols-outlined text-lg text-green-500">
-                        image
-                      </span>
+                      <ImageIcon className="text-lg text-green-500" size={20} />
                       Photo
                     </button>
                     <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <span className="material-symbols-outlined text-lg text-blue-500">
-                        restaurant_menu
-                      </span>
+                      <Utensils className="text-lg text-blue-500" size={20} />
                       Recipe
                     </button>
                     <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <span className="material-symbols-outlined text-lg text-amber-500">
-                        poll
-                      </span>
+                      <BarChart2 className="text-lg text-amber-500" size={20} />
                       Poll
                     </button>
                   </div>
@@ -177,9 +183,7 @@ export default function CommunityPage() {
                         <p className="text-xs text-gray-400">{post.time}</p>
                       </div>
                       <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                        <span className="material-symbols-outlined">
-                          more_horiz
-                        </span>
+                        <MoreHorizontal />
                       </button>
                     </div>
                     <p className="text-sm text-gray-700 leading-relaxed mb-4">
@@ -206,30 +210,23 @@ export default function CommunityPage() {
                               : "text-gray-400 hover:text-primary"
                           }`}
                         >
-                          <span
-                            className={`material-symbols-outlined text-lg ${likedPosts.includes(post.id) ? "fill-1" : ""}`}
-                          >
-                            favorite
-                          </span>
+                          <Heart
+                            className={`text-lg ${likedPosts.includes(post.id) ? "fill-current" : ""}`}
+                            size={20}
+                          />
                           {post.likes + (likedPosts.includes(post.id) ? 1 : 0)}
                         </button>
                         <button className="flex items-center gap-1.5 text-sm font-bold text-gray-400 hover:text-blue-500 transition-colors">
-                          <span className="material-symbols-outlined text-lg">
-                            chat_bubble
-                          </span>
+                          <MessageCircle className="text-lg" size={20} />
                           {post.comments}
                         </button>
                         <button className="flex items-center gap-1.5 text-sm font-bold text-gray-400 hover:text-green-500 transition-colors">
-                          <span className="material-symbols-outlined text-lg">
-                            share
-                          </span>
+                          <Share2 className="text-lg" size={20} />
                           {post.shares}
                         </button>
                       </div>
                       <button className="text-gray-400 hover:text-amber-500 transition-colors">
-                        <span className="material-symbols-outlined text-lg">
-                          bookmark
-                        </span>
+                        <Bookmark className="text-lg" size={20} />
                       </button>
                     </div>
                   </div>
@@ -242,9 +239,7 @@ export default function CommunityPage() {
               {/* Trending Topics */}
               <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">
-                    trending_up
-                  </span>
+                  <TrendingUp className="text-primary" />
                   Trending Topics
                 </h3>
                 <div className="space-y-3">
@@ -267,9 +262,7 @@ export default function CommunityPage() {
               {/* Top Creators */}
               <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-amber-500 fill-1">
-                    star
-                  </span>
+                  <Star className="text-amber-500 fill-amber-500" />
                   Top Creators
                 </h3>
                 <div className="space-y-4">

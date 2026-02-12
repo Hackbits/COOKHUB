@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
 import { CookHubData } from "@/lib/data";
 import Button from "@/components/ui/Button";
+import { Search, X, SearchX } from "lucide-react";
 
 const cuisines = [
   "All",
@@ -114,9 +115,7 @@ function DiscoveryContent() {
 
           <div className="relative max-w-2xl group mb-8">
             <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-              <span className="material-symbols-outlined text-gray-400 group-focus-within:text-primary transition-colors">
-                search
-              </span>
+              <Search className="text-gray-400 group-focus-within:text-primary transition-colors" />
             </div>
             <input
               className="w-full bg-white h-14 pl-14 pr-6 rounded-2xl border-2 border-gray-100 text-base focus:ring-4 focus:ring-primary/10 focus:border-primary shadow-sm placeholder:text-gray-400 outline-none transition-all"
@@ -193,7 +192,7 @@ function DiscoveryContent() {
               onClick={clearAllFilters}
               className="mt-4 text-sm text-primary font-bold hover:underline flex items-center gap-1"
             >
-              <span className="material-symbols-outlined text-sm">close</span>
+              <X size={16} />
               Clear all filters
             </button>
           )}
@@ -211,9 +210,7 @@ function DiscoveryContent() {
             <RecipeGrid recipes={filteredRecipes} />
           ) : (
             <div className="text-center py-20">
-              <span className="material-symbols-outlined text-6xl text-gray-300 mb-4">
-                search_off
-              </span>
+              <SearchX size={64} className="text-gray-300 mb-4 mx-auto" />
               <h3 className="text-xl font-bold text-gray-400 mb-2">
                 No recipes found
               </h3>
@@ -237,9 +234,7 @@ export default function DiscoveryPage() {
       fallback={
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-gray-400 text-center">
-            <span className="material-symbols-outlined text-5xl animate-pulse mb-4">
-              search
-            </span>
+            <Search className="animate-pulse mb-4 mx-auto" size={48} />
             <p className="font-bold">Loading Discovery...</p>
           </div>
         </div>
