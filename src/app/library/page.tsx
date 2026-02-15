@@ -5,7 +5,7 @@ import RecipeGrid from "@/components/recipes/RecipeGrid";
 import { CookHubData } from "@/lib/data";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
-import Tabs from "@/components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Lock,
   Bookmark,
@@ -31,9 +31,7 @@ const getCollectionIcon = (iconName: string) => {
 
 export default function LibraryPage() {
   const { savedRecipes, cookedRecipes, isLoggedIn } = useUserStore();
-  const [activeTab, setActiveTab] = useState<
-    "saved" | "cooked" | "collections"
-  >("saved");
+  const [activeTab, setActiveTab] = useState("saved");
 
   const savedRecipesList = CookHubData.recipes.filter((r) =>
     savedRecipes.includes(r.id),
@@ -79,17 +77,16 @@ export default function LibraryPage() {
 
           {/* Tabs */}
           <Tabs
-            options={[
-              { id: "saved", label: "saved" },
-              { id: "cooked", label: "cooked" },
-              { id: "collections", label: "collections" },
-            ]}
-            activeTab={activeTab}
-            onChange={(id) =>
-              setActiveTab(id as "saved" | "cooked" | "collections")
-            }
+            value={activeTab}
+            onValueChange={setActiveTab}
             className="max-w-md"
-          />
+          >
+            <TabsList>
+              <TabsTrigger value="saved">Saved</TabsTrigger>
+              <TabsTrigger value="cooked">Cooked</TabsTrigger>
+              <TabsTrigger value="collections">Collections</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </section>
 

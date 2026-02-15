@@ -5,8 +5,23 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import AuthModal from "@/components/auth/AuthModal";
-import Image from "next/image";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useMounted } from "@/lib/hooks";
 import {
   Bell,
@@ -17,7 +32,6 @@ import {
   User,
   Utensils,
   Menu,
-  X,
 } from "lucide-react";
 
 const navLinks = [
@@ -30,8 +44,7 @@ export default function Header() {
   const pathname = usePathname();
   const { isLoggedIn, name, avatar, logout } = useUserStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const isMounted = useMounted();
 
   return (
@@ -49,93 +62,88 @@ export default function Header() {
                 COOKHUB
               </h1>
             </Link>
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-semibold transition-colors cursor-pointer ${
-                    pathname === link.href
-                      ? "text-primary"
-                      : "text-gray-500 hover:text-primary"
-                  }`}
-                >
-                  {link.label}
+                <Link key={link.href} href={link.href}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={
+                      pathname === link.href
+                        ? "text-primary bg-primary/5 font-semibold"
+                        : "text-gray-500 hover:text-primary font-semibold"
+                    }
+                  >
+                    {link.label}
+                  </Button>
                 </Link>
               ))}
             </nav>
           </div>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             {/* Shopping List */}
-            <Link
-              href="/shopping-list"
-              className="text-gray-400 hover:text-primary transition-colors hidden sm:block"
-            >
-              <ShoppingCart />
+            <Link href="/shopping-list" className="hidden sm:inline-flex">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-gray-400 hover:text-primary"
+              >
+                <ShoppingCart className="h-5 w-5" />
+              </Button>
             </Link>
 
             {/* Notifications */}
-            <button className="text-gray-400 hover:text-primary transition-colors relative">
-              <Bell />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
-            </button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-400 hover:text-primary relative"
+            >
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full" />
+            </Button>
 
             {/* Auth / User */}
             {isMounted && isLoggedIn ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-                >
-                  <div className="relative w-9 h-9 flex-shrink-0">
-                    <Image
-                      src={avatar || "/default-avatar.png"}
-                      alt={name || "User"}
-                      className="rounded-full object-cover ring-2 ring-primary/20"
-                      fill
-                    />
-                  </div>
-                  <span className="text-sm font-bold hidden sm:inline">
-                    {name}
-                  </span>
-                  <ChevronDown />
-                </button>
-
-                {showUserMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 animate-slide-in z-50">
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      <User />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="gap-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={avatar || "/default-avatar.png"}
+                        alt={name || "User"}
+                      />
+                      <AvatarFallback>
+                        {name?.charAt(0)?.toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium hidden sm:inline">
+                      {name}
+                    </span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <User className="h-4 w-4 mr-2" />
                       My Profile
                     </Link>
-                    <Link
-                      href="/library"
-                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      <Bookmark />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/library">
+                      <Bookmark className="h-4 w-4 mr-2" />
                       My Library
                     </Link>
-
-                    <hr className="my-2 border-gray-100" />
-                    <button
-                      onClick={() => {
-                        logout();
-                        setShowUserMenu(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
-                    >
-                      <LogOut />
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button
                 onClick={() => setShowAuthModal(true)}
@@ -146,47 +154,58 @@ export default function Header() {
               </Button>
             )}
 
-            {/* Mobile Menu Toggle */}
-            <button
-              className="lg:hidden text-gray-500 hover:text-primary transition-colors"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              <span className="text-2xl">
-                {showMobileMenu ? <X /> : <Menu />}
-              </span>
-            </button>
+            {/* Mobile Menu */}
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <button className="lg:hidden p-2 text-gray-500 hover:text-primary transition-colors rounded-md hover:bg-gray-50">
+                  <Menu className="h-5 w-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-72">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-2 text-primary">
+                    <Utensils className="h-5 w-5" />
+                    <span className="logo-font italic">COOKHUB</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <Separator className="my-4" />
+                <nav className="flex flex-col gap-1">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <Button
+                        variant="ghost"
+                        className={`w-full justify-start ${
+                          pathname === link.href
+                            ? "bg-primary/10 text-primary font-semibold"
+                            : "text-gray-600 font-semibold"
+                        }`}
+                      >
+                        {link.label}
+                      </Button>
+                    </Link>
+                  ))}
+                  <Separator className="my-2" />
+                  <Link
+                    href="/shopping-list"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-gray-600 font-semibold"
+                    >
+                      <ShoppingCart className="h-4 w-4 mr-2" />
+                      Shopping List
+                    </Button>
+                  </Link>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {showMobileMenu && (
-          <div className="lg:hidden bg-white border-t border-gray-100 animate-slide-in">
-            <nav className="max-w-[1440px] mx-auto px-6 py-4 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setShowMobileMenu(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
-                    pathname === link.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/shopping-list"
-                onClick={() => setShowMobileMenu(false)}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
-              >
-                <ShoppingCart />
-                Shopping List
-              </Link>
-            </nav>
-          </div>
-        )}
       </header>
 
       {/* Auth Modal */}

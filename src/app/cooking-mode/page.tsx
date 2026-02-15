@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { CookHubData } from "@/lib/data";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   AlertCircle,
@@ -203,7 +203,7 @@ function CookingModeContent() {
               <Button
                 onClick={toggleStepComplete}
                 variant={
-                  completedSteps.includes(currentStep) ? "primary" : "ghost"
+                  completedSteps.includes(currentStep) ? "default" : "ghost"
                 }
                 className={`flex items-center gap-2 ${
                   completedSteps.includes(currentStep)

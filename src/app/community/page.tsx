@@ -2,6 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Image as ImageIcon,
   Utensils,
@@ -113,7 +119,7 @@ export default function CommunityPage() {
           <h1 className="text-4xl font-extrabold tracking-tight mb-2">
             👨‍🍳 Community
           </h1>
-          <p className="text-gray-500 text-lg">
+          <p className="text-muted-foreground text-lg">
             Connect with food lovers, share recipes, and get inspired
           </p>
         </div>
@@ -125,71 +131,72 @@ export default function CommunityPage() {
             {/* Feed */}
             <div className="lg:col-span-2 space-y-6">
               {/* Create Post */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-amber-500 flex items-center justify-center text-white font-bold text-lg">
-                    Y
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-amber-500 text-white font-bold text-lg">
+                        Y
+                      </AvatarFallback>
+                    </Avatar>
+                    <Input
+                      placeholder="Share a recipe tip, photo, or your latest creation..."
+                      className="flex-1"
+                    />
                   </div>
-                  <input
-                    className="flex-1 bg-gray-50 h-12 px-5 rounded-xl border border-gray-200 text-sm placeholder:text-gray-400 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                    placeholder="Share a recipe tip, photo, or your latest creation..."
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <ImageIcon className="text-lg text-green-500" size={20} />
-                      Photo
-                    </button>
-                    <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <Utensils className="text-lg text-blue-500" size={20} />
-                      Recipe
-                    </button>
-                    <button className="flex items-center gap-1.5 px-4 py-2 text-gray-500 hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors">
-                      <BarChart2 className="text-lg text-amber-500" size={20} />
-                      Poll
-                    </button>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="sm">
+                        <ImageIcon className="text-green-500" size={20} />
+                        Photo
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Utensils className="text-blue-500" size={20} />
+                        Recipe
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <BarChart2 className="text-amber-500" size={20} />
+                        Poll
+                      </Button>
+                    </div>
+                    <Button>Post</Button>
                   </div>
-                  <button className="bg-primary text-white px-6 py-2 rounded-xl font-bold text-sm hover:bg-slate-black transition-all">
-                    Post
-                  </button>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Posts */}
               {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all"
-                >
-                  <div className="p-6">
+                <Card key={post.id} className="overflow-hidden">
+                  <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <Image
-                        src={post.user.avatar}
-                        alt={post.user.name}
-                        width={48}
-                        height={48}
-                        className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/10"
-                      />
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage
+                          src={post.user.avatar}
+                          alt={post.user.name}
+                        />
+                        <AvatarFallback>
+                          {post.user.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <h4 className="font-bold text-sm">
                             {post.user.name}
                           </h4>
-                          <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
-                            {post.user.badge}
-                          </span>
+                          <Badge variant="secondary">{post.user.badge}</Badge>
                         </div>
-                        <p className="text-xs text-gray-400">{post.time}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {post.time}
+                        </p>
                       </div>
-                      <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                      <Button variant="ghost" size="icon">
                         <MoreHorizontal />
-                      </button>
+                      </Button>
                     </div>
-                    <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                       {post.content}
                     </p>
-                  </div>
+                  </CardContent>
                   {post.image && (
                     <Image
                       src={post.image}
@@ -199,97 +206,119 @@ export default function CommunityPage() {
                       className="w-full h-64 object-cover"
                     />
                   )}
-                  <div className="p-6 pt-4">
+                  <CardContent className="p-6 pt-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-6">
-                        <button
+                      <div className="flex items-center gap-4">
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => toggleLike(post.id)}
-                          className={`flex items-center gap-1.5 text-sm font-bold transition-colors ${
+                          className={
                             likedPosts.includes(post.id)
                               ? "text-primary"
-                              : "text-gray-400 hover:text-primary"
-                          }`}
+                              : "text-muted-foreground"
+                          }
                         >
                           <Heart
-                            className={`text-lg ${likedPosts.includes(post.id) ? "fill-current" : ""}`}
+                            className={
+                              likedPosts.includes(post.id) ? "fill-current" : ""
+                            }
                             size={20}
                           />
                           {post.likes + (likedPosts.includes(post.id) ? 1 : 0)}
-                        </button>
-                        <button className="flex items-center gap-1.5 text-sm font-bold text-gray-400 hover:text-blue-500 transition-colors">
-                          <MessageCircle className="text-lg" size={20} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-muted-foreground"
+                        >
+                          <MessageCircle size={20} />
                           {post.comments}
-                        </button>
-                        <button className="flex items-center gap-1.5 text-sm font-bold text-gray-400 hover:text-green-500 transition-colors">
-                          <Share2 className="text-lg" size={20} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-muted-foreground"
+                        >
+                          <Share2 size={20} />
                           {post.shares}
-                        </button>
+                        </Button>
                       </div>
-                      <button className="text-gray-400 hover:text-amber-500 transition-colors">
-                        <Bookmark className="text-lg" size={20} />
-                      </button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground"
+                      >
+                        <Bookmark size={20} />
+                      </Button>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
 
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Trending Topics */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <TrendingUp className="text-primary" />
-                  Trending Topics
-                </h3>
-                <div className="space-y-3">
-                  {trendingTopics.map((topic) => (
-                    <div
-                      key={topic.tag}
-                      className="flex items-center justify-between hover:bg-gray-50 -mx-2 px-2 py-2 rounded-lg transition-colors cursor-pointer"
-                    >
-                      <span className="text-sm font-bold text-primary">
-                        {topic.tag}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {topic.count}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="font-bold mb-4 flex items-center gap-2">
+                    <TrendingUp className="text-primary" />
+                    Trending Topics
+                  </h3>
+                  <div className="space-y-3">
+                    {trendingTopics.map((topic) => (
+                      <div
+                        key={topic.tag}
+                        className="flex items-center justify-between hover:bg-accent -mx-2 px-2 py-2 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <span className="text-sm font-bold text-primary">
+                          {topic.tag}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {topic.count}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Top Creators */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <Star className="text-amber-500 fill-amber-500" />
-                  Top Creators
-                </h3>
-                <div className="space-y-4">
-                  {posts.slice(0, 3).map((post) => (
-                    <div key={post.id} className="flex items-center gap-3">
-                      <Image
-                        src={post.user.avatar}
-                        alt={post.user.name}
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-bold truncate">
-                          {post.user.name}
-                        </h4>
-                        <p className="text-xs text-gray-400">
-                          {post.user.badge}
-                        </p>
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="font-bold mb-4 flex items-center gap-2">
+                    <Star className="text-amber-500 fill-amber-500" />
+                    Top Creators
+                  </h3>
+                  <div className="space-y-4">
+                    {posts.slice(0, 3).map((post) => (
+                      <div key={post.id} className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage
+                            src={post.user.avatar}
+                            alt={post.user.name}
+                          />
+                          <AvatarFallback>
+                            {post.user.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-bold truncate">
+                            {post.user.name}
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {post.user.badge}
+                          </p>
+                        </div>
+                        <Button variant="link" size="sm">
+                          Follow
+                        </Button>
                       </div>
-                      <button className="text-xs font-bold text-primary hover:underline">
-                        Follow
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

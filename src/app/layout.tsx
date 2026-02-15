@@ -4,6 +4,7 @@ import { DM_Sans } from "next/font/google";
 import "./main.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -31,9 +32,11 @@ export default function RootLayout({
         className={`${dmSans.variable} min-h-screen bg-soft-cream font-sans antialiased`}
         suppressHydrationWarning
       >
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <TooltipProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </TooltipProvider>
       </body>
     </html>
   );

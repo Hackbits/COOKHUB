@@ -13,21 +13,22 @@
 ### Phase 1: Next.js Frontend (Current Phase)
 
 - [x] Plan created
-- [ ] Initialize Next.js App Router project
-- [ ] Configure Tailwind CSS
-- [ ] Migrate design tokens and global styles
-- [ ] Create reusable components (Header, Footer, RecipeCard, etc.)
-- [ ] Create pages (Home, Discovery, Fridge Raid, Community, Creator Studio, Cooking Mode, Recipe Detail, Shopping List, Library)
-- [ ] Add Zustand for state management (Shopping List, User Preferences)
-- [ ] Integrate Firebase Auth (Google/GitHub social login)
+- [x] Initialize Next.js App Router project
+- [x] Configure Tailwind CSS
+- [x] Migrate design tokens and global styles
+- [x] Create reusable components (Header, Footer, RecipeCard, etc.)
+- [x] Create pages (Home, Discovery, Fridge Raid, Community, Creator Studio, Cooking Mode, Recipe Detail, Shopping List, Library)
+- [x] Add Zustand for state management (Shopping List, User Preferences)
+- [x] Integrate Firebase Auth (Google/GitHub social login)
 
-### Phase 2: Backend API (FastAPI)
+### Phase 2: Backend API (Vercel AI SDK + Next.js)
 
-- [ ] Set up FastAPI project structure
-- [ ] Recipe CRUD endpoints
-- [ ] Recipe Refactor AI endpoint (OpenAI/Gemini)
+> **Architecture Change**: Migrated from FastAPI to Next.js API Routes and Server Actions using the Vercel AI SDK, eliminating the need for a separate Python backend.
+
+- [x] Recipe Refactor AI endpoint — `src/app/api/ai/refactor/route.ts` (Vercel AI SDK + Google Gemini 2.5 Flash)
+- [x] Web scraping — `src/actions/scrape-recipe.ts` (Server Action using Cheerio with LD+JSON parsing)
 - [ ] Eco-Score calculation endpoint
-- [ ] Web scraping endpoint (Recipe-Scrapers)
+- [ ] Recipe CRUD endpoints (currently using static `lib/data.ts`)
 - [ ] User profile endpoints
 
 ### Phase 3: Database (MongoDB Atlas)
@@ -41,6 +42,23 @@
 - [ ] Socket.io for real-time notifications
 - [ ] Spoonacular/Edamam API integration for world recipes
 - [ ] Stripe for Pro subscriptions
+
+### Phase 5: Advanced AI Intelligence
+
+- [ ] AI-Powered "Fridge Raid" (Vector Embeddings & Semantic Search)
+- [ ] Smart Ingredient Extraction (Computer Vision: Google Vision/YOLO)
+- [ ] "Recipe Refactor" Engine (GenAI: GPT-4o/Gemini)
+- [ ] Personalized "Taste Profile" (ML: Content-based Filtering)
+- [ ] Automated Nutritional & Eco-Labeling (Data Mapping & Analysis)
+
+### Phase 6: Future AI Concepts
+
+- [ ] Hands-Free "AI Sous-Chef" (Voice Assistant)
+- [ ] "Plate Rater" (Aesthetics Scoring via Vision API)
+- [ ] "Fail Fixer" (Culinary Rescue Bot)
+- [ ] Smart Party Planner & Menu Generator (Constraint Satisfaction)
+- [ ] Dynamic Beverage Pairing (Sommelier AI)
+- [ ] "Recipe Remix" for Creators (Video-to-Recipe Generation)
 
 ---
 

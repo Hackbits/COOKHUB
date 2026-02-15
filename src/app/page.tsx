@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
 import { CookHubData } from "@/lib/data";
-import Button from "@/components/ui/Button";
-import SearchBar from "@/components/ui/SearchBar";
-import Tag from "@/components/ui/Tag";
+import { Button } from "@/components/ui/button";
+import SearchBar from "@/components/custom-ui/SearchBar";
+import { Badge } from "@/components/ui/badge";
 import {
   Flame,
   ArrowRight,
@@ -149,8 +149,8 @@ export default function HomePage() {
 
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-wrap justify-center md:justify-start items-center gap-3 mb-4">
-                <Tag variant="accent">GOLD TIER COOK</Tag>
-                <Tag variant="primary">PRO</Tag>
+                <Badge variant="secondary">GOLD TIER COOK</Badge>
+                <Badge variant="outline">PRO</Badge>
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-black mb-4 serif-font">
                 Chef Alex Rivera

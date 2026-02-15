@@ -4,7 +4,7 @@ import { Suspense, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
 import { CookHubData } from "@/lib/data";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { Search, X, SearchX } from "lucide-react";
 
 const cuisines = [
@@ -217,7 +217,7 @@ function DiscoveryContent() {
               <p className="text-gray-400 mb-6">
                 Try adjusting your filters or search terms
               </p>
-              <Button variant="primary" onClick={clearAllFilters}>
+              <Button variant="default" onClick={clearAllFilters}>
                 Clear Filters
               </Button>
             </div>

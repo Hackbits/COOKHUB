@@ -4,8 +4,8 @@ import { useState, useMemo } from "react";
 import RecipeCard from "@/components/recipes/RecipeCard";
 import { CookHubData } from "@/lib/data";
 import Image from "next/image";
-import Button from "@/components/ui/Button";
-import Tag from "@/components/ui/Tag";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ShoppingBasket, Plus, History, X, Sparkles } from "lucide-react";
 
 const ingredientCategories = [
@@ -160,7 +160,7 @@ export default function FridgeRaidPage() {
         <div className="max-w-[1440px] mx-auto px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
-              <Tag variant="green">Smart Match</Tag>
+              <Badge variant="secondary">Smart Match</Badge>
             </div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-black tracking-tight serif-font mb-6 leading-tight">
               The <span className="text-green-600 italic">Fridge Raid</span>{" "}

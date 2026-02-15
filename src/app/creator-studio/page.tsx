@@ -1,6 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Edit,
   ImagePlus,
@@ -17,9 +30,7 @@ import {
 } from "lucide-react";
 
 export default function CreatorStudioPage() {
-  const [activeTab, setActiveTab] = useState<
-    "create" | "my-recipes" | "analytics"
-  >("create");
+  const [activeTab, setActiveTab] = useState("create");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [cuisine, setCuisine] = useState("");
@@ -54,30 +65,22 @@ export default function CreatorStudioPage() {
           <h1 className="text-4xl font-extrabold tracking-tight mb-2">
             🧑‍🍳 Creator Studio
           </h1>
-          <p className="text-gray-500 text-lg mb-8">
+          <p className="text-muted-foreground text-lg mb-8">
             Create, publish, and manage your recipes
           </p>
 
           {/* Tabs */}
-          <div className="flex gap-1 bg-gray-100 rounded-2xl p-1 max-w-md">
-            {(["create", "my-recipes", "analytics"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all capitalize ${
-                  activeTab === tab
-                    ? "bg-white text-primary shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab === "my-recipes"
-                  ? "My Recipes"
-                  : tab === "analytics"
-                    ? "Analytics"
-                    : "Create"}
-              </button>
-            ))}
-          </div>
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="max-w-md"
+          >
+            <TabsList>
+              <TabsTrigger value="create">Create</TabsTrigger>
+              <TabsTrigger value="my-recipes">My Recipes</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </section>
 
@@ -87,251 +90,243 @@ export default function CreatorStudioPage() {
           {activeTab === "create" && (
             <form onSubmit={handleSubmit} className="space-y-8 animate-fade-in">
               {/* Basic Info */}
-              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <Edit className="text-primary" />
-                  Basic Information
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
-                      Recipe Title *
-                    </label>
-                    <input
-                      type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                      placeholder="Give your recipe a catchy name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
-                      Description *
-                    </label>
-                    <textarea
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all h-24 resize-none"
-                      placeholder="Describe your dish in a few sentences"
-                      required
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Cuisine
-                      </label>
-                      <input
-                        type="text"
-                        value={cuisine}
-                        onChange={(e) => setCuisine(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm"
-                        placeholder="Italian"
+              <Card>
+                <CardContent className="p-8">
+                  <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                    <Edit className="text-primary" />
+                    Basic Information
+                  </h2>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="recipe-title">Recipe Title *</Label>
+                      <Input
+                        id="recipe-title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Give your recipe a catchy name"
+                        required
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Difficulty
-                      </label>
-                      <select
-                        value={difficulty}
-                        onChange={(e) => setDifficulty(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm cursor-pointer"
-                      >
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Cook Time
-                      </label>
-                      <input
-                        type="text"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm"
-                        placeholder="25 mins"
+                    <div className="space-y-2">
+                      <Label htmlFor="recipe-desc">Description *</Label>
+                      <Textarea
+                        id="recipe-desc"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Describe your dish in a few sentences"
+                        required
+                        className="resize-none"
+                        rows={3}
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Servings
-                      </label>
-                      <input
-                        type="number"
-                        value={servings}
-                        onChange={(e) => setServings(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm"
-                        min="1"
-                      />
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="cuisine">Cuisine</Label>
+                        <Input
+                          id="cuisine"
+                          value={cuisine}
+                          onChange={(e) => setCuisine(e.target.value)}
+                          placeholder="Italian"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Difficulty</Label>
+                        <Select
+                          value={difficulty}
+                          onValueChange={setDifficulty}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Easy">Easy</SelectItem>
+                            <SelectItem value="Medium">Medium</SelectItem>
+                            <SelectItem value="Hard">Hard</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="cook-time">Cook Time</Label>
+                        <Input
+                          id="cook-time"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                          placeholder="25 mins"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="servings">Servings</Label>
+                        <Input
+                          id="servings"
+                          type="number"
+                          value={servings}
+                          onChange={(e) => setServings(e.target.value)}
+                          min={1}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Cover Image</Label>
+                      <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary transition-colors cursor-pointer">
+                        <ImagePlus
+                          className="text-muted-foreground mb-2 mx-auto"
+                          size={40}
+                        />
+                        <p className="text-sm text-muted-foreground">
+                          Click to upload or drag and drop
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          PNG, JPG up to 5MB
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
-                      Cover Image
-                    </label>
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-primary transition-colors cursor-pointer">
-                      <ImagePlus
-                        className="text-gray-300 mb-2 mx-auto"
-                        size={40}
-                      />
-                      <p className="text-sm text-gray-400">
-                        Click to upload or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-300 mt-1">
-                        PNG, JPG up to 5MB
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Ingredients */}
-              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <ShoppingBasket className="text-green-500" />
-                  Ingredients
-                </h2>
-                <div className="space-y-3">
-                  {ingredients.map((ing, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <span className="text-sm font-bold text-gray-400 w-6">
-                        {idx + 1}
-                      </span>
-                      <input
-                        type="text"
-                        value={ing.qty}
-                        onChange={(e) => {
-                          const updated = [...ingredients];
-                          updated[idx].qty = e.target.value;
-                          setIngredients(updated);
-                        }}
-                        className="w-28 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                        placeholder="2 cups"
-                      />
-                      <input
-                        type="text"
-                        value={ing.name}
-                        onChange={(e) => {
-                          const updated = [...ingredients];
-                          updated[idx].name = e.target.value;
-                          setIngredients(updated);
-                        }}
-                        className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                        placeholder="Ingredient name"
-                      />
-                      {ingredients.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeIngredient(idx)}
-                          className="text-gray-300 hover:text-red-500 transition-colors"
-                        >
-                          <X size={18} />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={addIngredient}
-                  className="mt-4 flex items-center gap-2 text-sm text-primary font-bold hover:underline"
-                >
-                  <Plus size={14} />
-                  Add Ingredient
-                </button>
-              </div>
+              <Card>
+                <CardContent className="p-8">
+                  <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                    <ShoppingBasket className="text-green-500" />
+                    Ingredients
+                  </h2>
+                  <div className="space-y-3">
+                    {ingredients.map((ing, idx) => (
+                      <div key={idx} className="flex items-center gap-3">
+                        <span className="text-sm font-bold text-muted-foreground w-6">
+                          {idx + 1}
+                        </span>
+                        <Input
+                          value={ing.qty}
+                          onChange={(e) => {
+                            const updated = [...ingredients];
+                            updated[idx].qty = e.target.value;
+                            setIngredients(updated);
+                          }}
+                          className="w-28"
+                          placeholder="2 cups"
+                        />
+                        <Input
+                          value={ing.name}
+                          onChange={(e) => {
+                            const updated = [...ingredients];
+                            updated[idx].name = e.target.value;
+                            setIngredients(updated);
+                          }}
+                          className="flex-1"
+                          placeholder="Ingredient name"
+                        />
+                        {ingredients.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeIngredient(idx)}
+                            className="text-muted-foreground hover:text-destructive"
+                          >
+                            <X size={18} />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="link"
+                    onClick={addIngredient}
+                    className="mt-4"
+                  >
+                    <Plus size={14} />
+                    Add Ingredient
+                  </Button>
+                </CardContent>
+              </Card>
 
               {/* Steps */}
-              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <ListOrdered className="text-blue-500" />
-                  Cooking Steps
-                </h2>
-                <div className="space-y-4">
-                  {steps.map((step, idx) => (
-                    <div
-                      key={idx}
-                      className="flex gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0 mt-1">
-                        {idx + 1}
+              <Card>
+                <CardContent className="p-8">
+                  <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                    <ListOrdered className="text-blue-500" />
+                    Cooking Steps
+                  </h2>
+                  <div className="space-y-4">
+                    {steps.map((step, idx) => (
+                      <div
+                        key={idx}
+                        className="flex gap-4 p-4 bg-muted rounded-xl border border-border"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm flex-shrink-0 mt-1">
+                          {idx + 1}
+                        </div>
+                        <div className="flex-1 space-y-3">
+                          <Input
+                            value={step.title}
+                            onChange={(e) => {
+                              const updated = [...steps];
+                              updated[idx].title = e.target.value;
+                              setSteps(updated);
+                            }}
+                            placeholder="Step title"
+                            className="font-semibold"
+                          />
+                          <Textarea
+                            value={step.description}
+                            onChange={(e) => {
+                              const updated = [...steps];
+                              updated[idx].description = e.target.value;
+                              setSteps(updated);
+                            }}
+                            placeholder="Describe this step in detail"
+                            className="resize-none"
+                            rows={3}
+                          />
+                          <Input
+                            value={step.time}
+                            onChange={(e) => {
+                              const updated = [...steps];
+                              updated[idx].time = e.target.value;
+                              setSteps(updated);
+                            }}
+                            className="w-24"
+                            placeholder="5 min"
+                          />
+                        </div>
+                        {steps.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeStep(idx)}
+                            className="text-muted-foreground hover:text-destructive mt-1"
+                          >
+                            <Trash2 />
+                          </Button>
+                        )}
                       </div>
-                      <div className="flex-1 space-y-3">
-                        <input
-                          type="text"
-                          value={step.title}
-                          onChange={(e) => {
-                            const updated = [...steps];
-                            updated[idx].title = e.target.value;
-                            setSteps(updated);
-                          }}
-                          className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                          placeholder="Step title"
-                        />
-                        <textarea
-                          value={step.description}
-                          onChange={(e) => {
-                            const updated = [...steps];
-                            updated[idx].description = e.target.value;
-                            setSteps(updated);
-                          }}
-                          className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all h-20 resize-none"
-                          placeholder="Describe this step in detail"
-                        />
-                        <input
-                          type="text"
-                          value={step.time}
-                          onChange={(e) => {
-                            const updated = [...steps];
-                            updated[idx].time = e.target.value;
-                            setSteps(updated);
-                          }}
-                          className="w-24 px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                          placeholder="5 min"
-                        />
-                      </div>
-                      {steps.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeStep(idx)}
-                          className="text-gray-300 hover:text-red-500 transition-colors mt-1"
-                        >
-                          <Trash2 />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={addStep}
-                  className="mt-4 flex items-center gap-2 text-sm text-primary font-bold hover:underline"
-                >
-                  <Plus size={14} />
-                  Add Step
-                </button>
-              </div>
+                    ))}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="link"
+                    onClick={addStep}
+                    className="mt-4"
+                  >
+                    <Plus size={14} />
+                    Add Step
+                  </Button>
+                </CardContent>
+              </Card>
 
               {/* Submit */}
               <div className="flex items-center gap-4">
-                <button
-                  type="submit"
-                  className="px-10 py-4 bg-primary text-white rounded-2xl font-bold hover:bg-slate-black transition-all shadow-lg shadow-primary/20 flex items-center gap-2"
-                >
+                <Button type="submit" size="lg">
                   <Send size={20} />
                   Publish Recipe
-                </button>
-                <button
-                  type="button"
-                  className="px-8 py-4 bg-white border-2 border-gray-200 text-gray-600 rounded-2xl font-bold hover:border-gray-300 transition-all"
-                >
+                </Button>
+                <Button type="button" variant="outline" size="lg">
                   Save as Draft
-                </button>
+                </Button>
               </div>
             </form>
           )}
@@ -339,19 +334,19 @@ export default function CreatorStudioPage() {
           {/* My Recipes Tab */}
           {activeTab === "my-recipes" && (
             <div className="animate-fade-in text-center py-20">
-              <BookOpen className="text-gray-300 mb-4 mx-auto" size={64} />
-              <h3 className="text-xl font-bold text-gray-400 mb-2">
+              <BookOpen
+                className="text-muted-foreground mb-4 mx-auto"
+                size={64}
+              />
+              <h3 className="text-xl font-bold text-muted-foreground mb-2">
                 No recipes yet
               </h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-muted-foreground mb-6">
                 Start creating your first recipe!
               </p>
-              <button
-                onClick={() => setActiveTab("create")}
-                className="px-8 py-3 bg-primary text-white rounded-xl font-bold hover:bg-slate-black transition-all"
-              >
+              <Button onClick={() => setActiveTab("create")}>
                 Create Recipe
-              </button>
+              </Button>
             </div>
           )}
 
@@ -363,44 +358,41 @@ export default function CreatorStudioPage() {
                   {
                     label: "Total Views",
                     value: "0",
-                    icon: "visibility",
+                    icon: <Eye />,
                     color: "bg-blue-50 text-blue-600",
                   },
                   {
                     label: "Total Likes",
                     value: "0",
-                    icon: "favorite",
+                    icon: <Heart />,
                     color: "bg-red-50 text-red-500",
                   },
                   {
                     label: "Recipes Published",
                     value: "0",
-                    icon: "menu_book",
+                    icon: <Book />,
                     color: "bg-green-50 text-green-600",
                   },
                 ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm"
-                  >
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${stat.color}`}
-                    >
-                      {stat.icon === "visibility" && <Eye />}
-                      {stat.icon === "favorite" && <Heart />}
-                      {stat.icon === "menu_book" && <Book />}
-                    </div>
-                    <div className="text-3xl font-extrabold mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-400 font-medium">
-                      {stat.label}
-                    </div>
-                  </div>
+                  <Card key={stat.label}>
+                    <CardContent className="p-6">
+                      <div
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${stat.color}`}
+                      >
+                        {stat.icon}
+                      </div>
+                      <div className="text-3xl font-extrabold mb-1">
+                        {stat.value}
+                      </div>
+                      <div className="text-sm text-muted-foreground font-medium">
+                        {stat.label}
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
               <div className="text-center py-12">
-                <p className="text-gray-400">
+                <p className="text-muted-foreground">
                   Publish recipes to start seeing analytics
                 </p>
               </div>

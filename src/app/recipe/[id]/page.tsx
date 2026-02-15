@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { useShoppingStore, MAX_SHOPPING_ITEMS } from "@/store/useShoppingStore";
 import Link from "next/link";
 import Image from "next/image";
-import Button from "@/components/ui/Button";
-import Tabs from "@/components/ui/Tabs";
-import Tag from "@/components/ui/Tag";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import RecipeRefactorModal from "@/components/recipes/RecipeRefactorModal";
 import {
   Clock,
   Utensils,
@@ -22,6 +23,7 @@ import {
   Wheat,
   Droplet,
   AlertCircle,
+  Sparkles,
 } from "lucide-react";
 
 export default function RecipeDetailPage({
@@ -37,6 +39,7 @@ export default function RecipeDetailPage({
     "ingredients" | "steps" | "nutrition"
   >("ingredients");
   const [servings, setServings] = useState(recipe?.servings || 4);
+  const [showRefactorModal, setShowRefactorModal] = useState(false);
   const { items, addRecipeIngredients } = useShoppingStore();
 
   if (!recipe) {
@@ -93,9 +96,9 @@ export default function RecipeDetailPage({
           <div className="max-w-[1440px] mx-auto">
             <div className="flex flex-wrap gap-2 mb-4">
               {recipe.tags.map((tag) => (
-                <Tag key={tag} variant="accent">
+                <Badge key={tag} variant="secondary">
                   {tag}
-                </Tag>
+                </Badge>
               ))}
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 serif-font max-w-3xl">
@@ -135,214 +138,219 @@ export default function RecipeDetailPage({
             <div className="lg:col-span-2">
               {/* Tabs */}
               <Tabs
-                options={[
-                  { id: "ingredients", label: "ingredients" },
-                  { id: "steps", label: "steps" },
-                  { id: "nutrition", label: "nutrition" },
-                ]}
-                activeTab={activeTab}
-                onChange={(id) =>
-                  setActiveTab(id as "ingredients" | "steps" | "nutrition")
+                value={activeTab}
+                onValueChange={(value) =>
+                  setActiveTab(value as "ingredients" | "steps" | "nutrition")
                 }
                 className="mb-8"
-              />
+              >
+                <TabsList>
+                  <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
+                  <TabsTrigger value="steps">Steps</TabsTrigger>
+                  <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+                </TabsList>
 
-              {/* Ingredients Tab */}
-              {activeTab === "ingredients" && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold">Ingredients</h2>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-gray-500">
-                        Servings:
-                      </span>
-                      <div className="flex items-center gap-2 bg-gray-100 rounded-xl px-1 py-1">
-                        <button
-                          onClick={() => setServings(Math.max(1, servings - 1))}
-                          className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-primary transition-colors"
-                        >
-                          −
-                        </button>
-                        <span className="w-8 text-center font-bold text-sm">
-                          {servings}
+                {/* Ingredients Tab */}
+                {activeTab === "ingredients" && (
+                  <div className="animate-fade-in">
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-2xl font-bold">Ingredients</h2>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-500">
+                          Servings:
                         </span>
-                        <button
-                          onClick={() => setServings(servings + 1)}
-                          className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-primary transition-colors"
-                        >
-                          +
-                        </button>
+                        <div className="flex items-center gap-2 bg-gray-100 rounded-xl px-1 py-1">
+                          <button
+                            onClick={() =>
+                              setServings(Math.max(1, servings - 1))
+                            }
+                            className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-primary transition-colors"
+                          >
+                            −
+                          </button>
+                          <span className="w-8 text-center font-bold text-sm">
+                            {servings}
+                          </span>
+                          <button
+                            onClick={() => setServings(servings + 1)}
+                            className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-primary transition-colors"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-3">
-                    {recipe.ingredients.map((ing, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/20 hover:shadow-sm transition-all"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                        <span className="font-bold text-sm text-primary min-w-[80px]">
-                          {ing.qty}
-                        </span>
-                        <span className="text-sm text-gray-700 flex-1">
-                          {ing.name}
-                        </span>
-                        {ing.substitutes && (
-                          <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg">
-                            Sub: {ing.substitutes.join(", ")}
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <Button
-                    onClick={handleAddToShoppingList}
-                    className="mt-6 w-full"
-                  >
-                    <ShoppingCart className="mr-2" size={20} />
-                    Add All to Shopping List
-                  </Button>
-                </div>
-              )}
-
-              {/* Steps Tab */}
-              {activeTab === "steps" && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold">Cooking Steps</h2>
-                    <Link
-                      href={`/cooking-mode?id=${recipe.id}`}
-                      className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-black transition-all"
-                    >
-                      <PlayCircle size={20} />
-                      Start Cooking Mode
-                    </Link>
-                  </div>
-
-                  <div className="space-y-4">
-                    {recipe.steps.map((step, idx) => (
-                      <div
-                        key={idx}
-                        className="flex gap-4 p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-md transition-all"
-                      >
-                        <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                          {idx + 1}
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-lg mb-2">
-                            {step.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm leading-relaxed">
-                            {step.description}
-                          </p>
-                          <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
-                            <Clock size={14} />
-                            {step.time} min
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Nutrition Tab */}
-              {activeTab === "nutrition" && (
-                <div className="animate-fade-in">
-                  <h2 className="text-2xl font-bold mb-6">
-                    Nutrition Information
-                  </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[
-                      {
-                        label: "Calories",
-                        value: `${recipe.calories}`,
-                        icon: <Flame size={32} />,
-                        color: "bg-orange-50 text-orange-600",
-                      },
-                      {
-                        label: "Protein",
-                        value: recipe.protein,
-                        icon: <Dumbbell size={32} />,
-                        color: "bg-blue-50 text-blue-600",
-                      },
-                      {
-                        label: "Carbs",
-                        value: recipe.carbs,
-                        icon: <Wheat size={32} />,
-                        color: "bg-amber-50 text-amber-600",
-                      },
-                      {
-                        label: "Fats",
-                        value: recipe.fats,
-                        icon: <Droplet size={32} />,
-                        color: "bg-green-50 text-green-600",
-                      },
-                    ].map((item) => (
-                      <div
-                        key={item.label}
-                        className="bg-white rounded-2xl p-6 border border-gray-100 text-center hover:shadow-md transition-all"
-                      >
+                    <div className="space-y-3">
+                      {recipe.ingredients.map((ing, idx) => (
                         <div
-                          className={`mb-3 ${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mx-auto`}
+                          key={idx}
+                          className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/20 hover:shadow-sm transition-all"
                         >
-                          {item.icon}
+                          <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
+                          <span className="font-bold text-sm text-primary min-w-[80px]">
+                            {ing.qty}
+                          </span>
+                          <span className="text-sm text-gray-700 flex-1">
+                            {ing.name}
+                          </span>
+                          {ing.substitutes && (
+                            <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg">
+                              Sub: {ing.substitutes.join(", ")}
+                            </span>
+                          )}
                         </div>
-                        <div className="text-2xl font-extrabold mb-1">
-                          {item.value}
-                        </div>
-                        <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                          {item.label}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                      ))}
+                    </div>
 
-              {/* Reviews */}
-              {reviews.length > 0 && (
-                <div className="mt-12">
-                  <h2 className="text-2xl font-bold mb-6">Reviews</h2>
-                  <div className="space-y-4">
-                    {reviews.map((review) => (
-                      <div
-                        key={review.id}
-                        className="bg-white p-6 rounded-2xl border border-gray-100"
+                    <Button
+                      onClick={handleAddToShoppingList}
+                      className="mt-6 w-full"
+                    >
+                      <ShoppingCart className="mr-2" size={20} />
+                      Add All to Shopping List
+                    </Button>
+                  </div>
+                )}
+
+                {/* Steps Tab */}
+                {activeTab === "steps" && (
+                  <div className="animate-fade-in">
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-2xl font-bold">Cooking Steps</h2>
+                      <Link
+                        href={`/cooking-mode?id=${recipe.id}`}
+                        className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-black transition-all"
                       >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-amber-500 flex items-center justify-center text-white font-bold">
-                            {review.avatar}
+                        <PlayCircle size={20} />
+                        Start Cooking Mode
+                      </Link>
+                    </div>
+
+                    <div className="space-y-4">
+                      {recipe.steps.map((step, idx) => (
+                        <div
+                          key={idx}
+                          className="flex gap-4 p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-md transition-all"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                            {idx + 1}
                           </div>
-                          <div>
-                            <h4 className="font-bold text-sm">{review.user}</h4>
-                            <div className="flex items-center gap-2">
-                              <div className="flex text-primary">
-                                {Array(review.rating).map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    className="fill-current text-sm"
-                                    size={14}
-                                  />
-                                ))}
+                          <div className="flex-1">
+                            <h3 className="font-bold text-lg mb-2">
+                              {step.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                              {step.description}
+                            </p>
+                            <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
+                              <Clock size={14} />
+                              {step.time} min
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Nutrition Tab */}
+                {activeTab === "nutrition" && (
+                  <div className="animate-fade-in">
+                    <h2 className="text-2xl font-bold mb-6">
+                      Nutrition Information
+                    </h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {[
+                        {
+                          label: "Calories",
+                          value: `${recipe.calories}`,
+                          icon: <Flame size={32} />,
+                          color: "bg-orange-50 text-orange-600",
+                        },
+                        {
+                          label: "Protein",
+                          value: recipe.protein,
+                          icon: <Dumbbell size={32} />,
+                          color: "bg-blue-50 text-blue-600",
+                        },
+                        {
+                          label: "Carbs",
+                          value: recipe.carbs,
+                          icon: <Wheat size={32} />,
+                          color: "bg-amber-50 text-amber-600",
+                        },
+                        {
+                          label: "Fats",
+                          value: recipe.fats,
+                          icon: <Droplet size={32} />,
+                          color: "bg-green-50 text-green-600",
+                        },
+                      ].map((item) => (
+                        <div
+                          key={item.label}
+                          className="bg-white rounded-2xl p-6 border border-gray-100 text-center hover:shadow-md transition-all"
+                        >
+                          <div
+                            className={`mb-3 ${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mx-auto`}
+                          >
+                            {item.icon}
+                          </div>
+                          <div className="text-2xl font-extrabold mb-1">
+                            {item.value}
+                          </div>
+                          <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                            {item.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Reviews */}
+                {reviews.length > 0 && (
+                  <div className="mt-12">
+                    <h2 className="text-2xl font-bold mb-6">Reviews</h2>
+                    <div className="space-y-4">
+                      {reviews.map((review) => (
+                        <div
+                          key={review.id}
+                          className="bg-white p-6 rounded-2xl border border-gray-100"
+                        >
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-amber-500 flex items-center justify-center text-white font-bold">
+                              {review.avatar}
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-sm">
+                                {review.user}
+                              </h4>
+                              <div className="flex items-center gap-2">
+                                <div className="flex text-primary">
+                                  {Array(review.rating).map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className="fill-current text-sm"
+                                      size={14}
+                                    />
+                                  ))}
+                                </div>
+                                <span className="text-xs text-gray-400">
+                                  {review.date}
+                                </span>
                               </div>
-                              <span className="text-xs text-gray-400">
-                                {review.date}
-                              </span>
                             </div>
                           </div>
+                          <p className="text-sm text-gray-600 leading-relaxed">
+                            {review.comment}
+                          </p>
                         </div>
-                        <p className="text-sm text-gray-600 leading-relaxed">
-                          {review.comment}
-                        </p>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </Tabs>
             </div>
 
             {/* Sidebar */}
@@ -403,12 +411,34 @@ export default function RecipeDetailPage({
                     <ShoppingCart className="mr-2" size={20} />
                     Add to Shopping List
                   </Button>
+
+                  {/* AI Refactor Button */}
+                  <button
+                    onClick={() => setShowRefactorModal(true)}
+                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3.5 rounded-2xl font-bold text-sm hover:shadow-lg hover:shadow-purple-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <Sparkles size={18} className="group-hover:animate-pulse" />
+                    AI Remix This Recipe
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Refactor Modal */}
+      {showRefactorModal && (
+        <RecipeRefactorModal
+          recipe={recipe}
+          onClose={() => setShowRefactorModal(false)}
+          onApply={(newRecipe) => {
+            // In a real app, this would save the new recipe to the user's library
+            console.log("New recipe generated:", newRecipe);
+            alert("Recipe saved to your library! (Simulation)");
+          }}
+        />
+      )}
     </div>
   );
 }
