@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useUserStore } from "@/store/useUserStore";
-import { CookHubData } from "@/lib/data";
+import { Recipe } from "@/lib/types";
+// import { CookHubData } from "@/lib/data";
 import RecipeCard from "@/components/recipes/RecipeCard";
 import { useState } from "react";
 import Link from "next/link";
@@ -45,7 +46,121 @@ export default function ProfilePage() {
         },
       };
 
-  const myRecipes = CookHubData.recipes.slice(0, 4);
+  // Curated recipes for Alex Rivera
+  const myRecipes: Recipe[] = [
+    {
+      id: 101,
+      title: "Deconstructed Beet Salad",
+      description:
+        "A visually stunning salad featuring roasted beets, goat cheese mousse, and candied walnuts.",
+      image:
+        "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?w=500&h=500&fit=crop",
+      time: "45 mins",
+      difficulty: "Medium",
+      rating: 4.9,
+      reviews: 56,
+      servings: 2,
+      calories: 320,
+      protein: "8g",
+      carbs: "15g",
+      fats: "22g",
+      tags: ["Vegetarian", "Gourmet", "Starter"],
+      cuisine: "Modern",
+      ingredients: [],
+      steps: [],
+      isFavorite: false,
+      author: {
+        name: "Chef Alex Rivera",
+        avatar:
+          "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=200&h=200",
+      },
+      category: "Starter",
+    },
+    {
+      id: 102,
+      title: "Sous-vide Salmon",
+      description:
+        "Perfectly cooked salmon with a crispy skin, served with asparagus and lemon butter sauce.",
+      image:
+        "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&h=500&fit=crop",
+      time: "1 hr 15 mins",
+      difficulty: "Hard",
+      rating: 5.0,
+      reviews: 120,
+      servings: 2,
+      calories: 450,
+      protein: "35g",
+      carbs: "10g",
+      fats: "28g",
+      tags: ["Seafood", "Sous-vide", "Dinner"],
+      cuisine: "Modern",
+      ingredients: [],
+      steps: [],
+      isFavorite: true,
+      author: {
+        name: "Chef Alex Rivera",
+        avatar:
+          "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=200&h=200",
+      },
+      category: "Main",
+    },
+    {
+      id: 103,
+      title: "Mirror Glaze Mousse",
+      description:
+        "A delicate chocolate mousse cake with a shiny, reflective mirror glaze finish.",
+      image:
+        "https://images.unsplash.com/photo-1563612116625-3012372fccce?w=500&h=500&fit=crop",
+      time: "3 hrs",
+      difficulty: "Hard",
+      rating: 4.8,
+      reviews: 89,
+      servings: 8,
+      calories: 550,
+      protein: "6g",
+      carbs: "60g",
+      fats: "30g",
+      tags: ["Dessert", "Chocolate", "Baking"],
+      cuisine: "French",
+      ingredients: [],
+      steps: [],
+      isFavorite: true,
+      author: {
+        name: "Chef Alex Rivera",
+        avatar:
+          "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=200&h=200",
+      },
+      category: "Dessert",
+    },
+    {
+      id: 104,
+      title: "Scallop Carpaccio",
+      description:
+        "Thinly sliced fresh scallops with a citrus dressing and microgreens.",
+      image:
+        "https://images.unsplash.com/photo-1626077366710-d02951dc4056?w=500&h=500&fit=crop",
+      time: "20 mins",
+      difficulty: "Medium",
+      rating: 4.7,
+      reviews: 42,
+      servings: 4,
+      calories: 180,
+      protein: "12g",
+      carbs: "5g",
+      fats: "10g",
+      tags: ["Appetizer", "Raw", "Seafood"],
+      cuisine: "Modern",
+      ingredients: [],
+      steps: [],
+      isFavorite: false,
+      author: {
+        name: "Chef Alex Rivera",
+        avatar:
+          "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=200&h=200",
+      },
+      category: "Appetizer",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">

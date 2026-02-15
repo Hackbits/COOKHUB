@@ -6,6 +6,13 @@ import RecipeGrid from "@/components/recipes/RecipeGrid";
 import { CookHubData } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Search, X, SearchX } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const cuisines = [
   "All",
@@ -118,12 +125,17 @@ function DiscoveryContent() {
               <Search className="text-gray-400 group-focus-within:text-primary transition-colors" />
             </div>
             <input
-              className="w-full bg-white h-14 pl-14 pr-6 rounded-2xl border-2 border-gray-100 text-base focus:ring-4 focus:ring-primary/10 focus:border-primary shadow-sm placeholder:text-gray-400 outline-none transition-all"
+              className="w-full bg-white h-14 pl-14 pr-32 rounded-2xl border-2 border-gray-100 text-base focus:ring-4 focus:ring-primary/10 focus:border-primary shadow-sm placeholder:text-gray-400 outline-none transition-all"
               placeholder="Search recipes, ingredients, cuisines..."
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <div className="absolute inset-y-0 right-2 flex items-center">
+              <Button onClick={() => {}} className="h-10 rounded-xl px-6">
+                Search
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-6">
@@ -173,17 +185,27 @@ function DiscoveryContent() {
               <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">
                 Sort By
               </label>
-              <select
+              <Select
                 value={sortBy}
-                onChange={(e) =>
-                  setSortBy(e.target.value as "rating" | "time" | "reviews")
+                onValueChange={(value) =>
+                  setSortBy(value as "rating" | "time" | "reviews")
                 }
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-gray-200 text-gray-600 outline-none focus:border-primary transition-all cursor-pointer"
               >
-                <option value="rating">Highest Rated</option>
-                <option value="reviews">Most Reviewed</option>
-                <option value="time">Quickest</option>
-              </select>
+                <SelectTrigger className="w-[180px] rounded-xl h-9 bg-white border border-gray-200 text-xs font-bold text-gray-600 focus:ring-primary/10 hover:border-primary/50 transition-all">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="rating" className="font-bold text-xs">
+                    Highest Rated
+                  </SelectItem>
+                  <SelectItem value="reviews" className="font-bold text-xs">
+                    Most Reviewed
+                  </SelectItem>
+                  <SelectItem value="time" className="font-bold text-xs">
+                    Quickest
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

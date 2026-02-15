@@ -7,7 +7,6 @@ const footerLinks = [
   { href: "/discovery", label: "Discovery" },
   { href: "/fridge-raid", label: "Fridge Raid" },
   { href: "/community", label: "Community" },
-  { href: "/creator-studio", label: "Creator Studio" },
 ];
 
 export default function Footer() {

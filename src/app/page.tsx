@@ -188,17 +188,43 @@ export default function HomePage() {
             </div>
 
             <div className="hidden lg:grid grid-cols-2 gap-4 w-1/3">
-              {CookHubData.recipes.slice(4, 8).map((recipe, idx) => (
+              {[
+                {
+                  image:
+                    "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?w=500&h=500&fit=crop",
+                  title: "Deconstructed Beet Salad",
+                },
+                {
+                  image:
+                    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&h=500&fit=crop",
+                  title: "Sous-vide Salmon",
+                },
+                {
+                  image:
+                    "https://images.unsplash.com/photo-1563612116625-3012372fccce?w=500&h=500&fit=crop",
+                  title: "Mirror Glaze Mousse",
+                },
+                {
+                  image:
+                    "https://images.unsplash.com/photo-1626077366710-d02951dc4056?w=500&h=500&fit=crop",
+                  title: "Scallop Carpaccio",
+                },
+              ].map((recipe, idx) => (
                 <div
                   key={idx}
-                  className="aspect-square rounded-2xl overflow-hidden shadow-md"
+                  className="aspect-square rounded-2xl overflow-hidden shadow-md group/img relative"
                 >
                   <Image
                     src={recipe.image}
                     alt={recipe.title}
-                    className="object-cover transition-transform duration-500"
+                    className="object-cover transition-transform duration-500 group-hover/img:scale-110"
                     fill
                   />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-end p-3">
+                    <p className="text-white text-xs font-bold truncate">
+                      {recipe.title}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

@@ -10,7 +10,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import RecipeRefactorModal from "@/components/recipes/RecipeRefactorModal";
+import RecipeRefactorModal, {
+  type RefactoredRecipeData,
+} from "@/components/recipes/RecipeRefactorModal";
+import type { Ingredient, Step } from "@/lib/types";
 import {
   Clock,
   Utensils,
@@ -22,6 +25,7 @@ import {
   Dumbbell,
   Wheat,
   Droplet,
+  RotateCcw,
   AlertCircle,
   Sparkles,
 } from "lucide-react";
@@ -40,7 +44,30 @@ export default function RecipeDetailPage({
   >("ingredients");
   const [servings, setServings] = useState(recipe?.servings || 4);
   const [showRefactorModal, setShowRefactorModal] = useState(false);
+  const [refactored, setRefactored] = useState<RefactoredRecipeData | null>(
+    null,
+  );
   const { items, addRecipeIngredients } = useShoppingStore();
+
+  // Use refactored data if available, otherwise original recipe
+  const displayTitle = refactored?.title || recipe?.title;
+  const displayDescription = refactored?.description || recipe?.description;
+  const displayIngredients: Ingredient[] = refactored?.ingredients
+    ? refactored.ingredients.map((i) => ({
+        qty: i.qty,
+        name: i.name,
+        category: i.category as Ingredient["category"],
+      }))
+    : recipe?.ingredients || [];
+  const displaySteps: Step[] = refactored?.steps || recipe?.steps || [];
+  const displayCalories = refactored?.calories ?? recipe?.calories;
+  const displayProtein = refactored?.protein || recipe?.protein;
+  const displayCarbs = refactored?.carbs || recipe?.carbs;
+  const displayFats = refactored?.fats || recipe?.fats;
+  const displayTime = refactored?.time || recipe?.time;
+  const displayDifficulty = refactored?.difficulty || recipe?.difficulty;
+  const displayTags = refactored?.tags || recipe?.tags;
+  const displayServingsCount = refactored?.servings ?? recipe?.servings;
 
   if (!recipe) {
     return (
@@ -95,27 +122,35 @@ export default function RecipeDetailPage({
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <div className="max-w-[1440px] mx-auto">
             <div className="flex flex-wrap gap-2 mb-4">
-              {recipe.tags.map((tag) => (
+              {refactored && (
+                <Badge
+                  variant="secondary"
+                  className="bg-purple-500/80 text-white border-purple-400"
+                >
+                  ✨ AI Remixed
+                </Badge>
+              )}
+              {(displayTags || []).map((tag) => (
                 <Badge key={tag} variant="secondary">
                   {tag}
                 </Badge>
               ))}
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 serif-font max-w-3xl">
-              {recipe.title}
+              {displayTitle}
             </h1>
             <p className="text-white/80 text-lg mb-6 max-w-2xl">
-              {recipe.description}
+              {displayDescription}
             </p>
 
             <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm font-medium">
               <span className="flex items-center gap-2">
                 <Clock className="text-amber-400" size={20} />
-                {recipe.time}
+                {displayTime}
               </span>
               <span className="flex items-center gap-2">
                 <Utensils className="text-amber-400" size={20} />
-                {recipe.difficulty}
+                {displayDifficulty}
               </span>
               <span className="flex items-center gap-2">
                 <Star className="text-amber-400 fill-current" size={20} />
@@ -123,7 +158,7 @@ export default function RecipeDetailPage({
               </span>
               <span className="flex items-center gap-2">
                 <Users className="text-amber-400" size={20} />
-                {recipe.servings} servings
+                {displayServingsCount} servings
               </span>
             </div>
           </div>
@@ -182,7 +217,7 @@ export default function RecipeDetailPage({
                     </div>
 
                     <div className="space-y-3">
-                      {recipe.ingredients.map((ing, idx) => (
+                      {displayIngredients.map((ing, idx) => (
                         <div
                           key={idx}
                           className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/20 hover:shadow-sm transition-all"
@@ -228,12 +263,14 @@ export default function RecipeDetailPage({
                     </div>
 
                     <div className="space-y-4">
-                      {recipe.steps.map((step, idx) => (
+                      {displaySteps.map((step, idx) => (
                         <div
                           key={idx}
                           className="flex gap-4 p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-md transition-all"
                         >
-                          <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                          <div
+                            className={`w-10 h-10 rounded-full ${refactored ? "bg-gradient-to-br from-purple-600 to-indigo-600" : "bg-primary"} text-white flex items-center justify-center font-bold text-sm flex-shrink-0`}
+                          >
                             {idx + 1}
                           </div>
                           <div className="flex-1">
@@ -264,25 +301,25 @@ export default function RecipeDetailPage({
                       {[
                         {
                           label: "Calories",
-                          value: `${recipe.calories}`,
+                          value: `${displayCalories}`,
                           icon: <Flame size={32} />,
                           color: "bg-orange-50 text-orange-600",
                         },
                         {
                           label: "Protein",
-                          value: recipe.protein,
+                          value: displayProtein,
                           icon: <Dumbbell size={32} />,
                           color: "bg-blue-50 text-blue-600",
                         },
                         {
                           label: "Carbs",
-                          value: recipe.carbs,
+                          value: displayCarbs,
                           icon: <Wheat size={32} />,
                           color: "bg-amber-50 text-amber-600",
                         },
                         {
                           label: "Fats",
-                          value: recipe.fats,
+                          value: displayFats,
                           icon: <Droplet size={32} />,
                           color: "bg-green-50 text-green-600",
                         },
@@ -420,6 +457,18 @@ export default function RecipeDetailPage({
                     <Sparkles size={18} className="group-hover:animate-pulse" />
                     AI Remix This Recipe
                   </button>
+
+                  {/* Reset to Original */}
+                  {refactored && (
+                    <Button
+                      variant="outline"
+                      onClick={() => setRefactored(null)}
+                      className="w-full"
+                    >
+                      <RotateCcw className="mr-2" size={16} />
+                      Reset to Original
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -432,10 +481,11 @@ export default function RecipeDetailPage({
         <RecipeRefactorModal
           recipe={recipe}
           onClose={() => setShowRefactorModal(false)}
-          onApply={(newRecipe) => {
-            // In a real app, this would save the new recipe to the user's library
-            console.log("New recipe generated:", newRecipe);
-            alert("Recipe saved to your library! (Simulation)");
+          onApply={(_markdown, structured) => {
+            if (structured) {
+              setRefactored(structured);
+              setActiveTab("steps");
+            }
           }}
         />
       )}
