@@ -27,9 +27,9 @@
 
 - [x] Recipe Refactor AI endpoint — `src/app/api/ai/refactor/route.ts` (Vercel AI SDK + Google Gemini 2.5 Flash)
 - [x] Web scraping — `src/actions/scrape-recipe.ts` (Server Action using Cheerio with LD+JSON parsing)
-- [ ] Eco-Score calculation endpoint
-- [ ] Recipe CRUD endpoints (currently using static `lib/data.ts`)
-- [ ] User profile endpoints
+- [x] Eco-Score calculation endpoint — `src/app/api/ecoscore/route.ts`
+- [x] Recipe CRUD endpoints — `src/app/api/recipes/route.ts` + `src/app/api/recipes/[id]/route.ts`
+- [x] User profile endpoints — `src/app/api/user/route.ts` + `saved/` + `cooked/`
 
 ### Phase 3: Database (MongoDB Atlas)
 
