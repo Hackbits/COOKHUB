@@ -101,15 +101,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         size="icon"
         onClick={handleFavorite}
         className={`absolute top-4 right-4 z-10 bg-background/95 backdrop-blur rounded-full ${
-          isFavorite || recipe.isFavorite
-            ? "text-primary"
-            : "text-muted-foreground"
+          isFavorite ? "text-primary" : "text-muted-foreground"
         } hover:text-primary shadow-lg`}
       >
-        <Heart
-          className={isFavorite || recipe.isFavorite ? "fill-current" : ""}
-          size={20}
-        />
+        <Heart className={isFavorite ? "fill-current" : ""} size={20} />
       </Button>
     </div>
   );

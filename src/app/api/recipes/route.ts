@@ -41,7 +41,6 @@ const CreateRecipeSchema = z.object({
   ingredients: z.array(IngredientSchema),
   steps: z.array(StepSchema),
   author: AuthorSchema,
-  isFavorite: z.boolean().optional(),
 });
 
 // --- GET /api/recipes ---
@@ -110,7 +109,7 @@ export async function POST(req: Request) {
       id: newId,
       rating: 0,
       reviews: 0,
-      isFavorite: false,
+
       ...parsed.data,
     };
 

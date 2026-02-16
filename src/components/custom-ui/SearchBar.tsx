@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+import { Button } from "@/components/ui/button";
+
 interface SearchBarProps {
   onSearch: (query: string) => void;
   placeholder?: string;
@@ -17,22 +19,34 @@ export default function SearchBar({
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && query.trim()) {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
       onSearch(query.trim());
     }
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-      <Input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder={placeholder}
-        className="pl-10"
-      />
-    </div>
+    <form
+      onSubmit={handleSearch}
+      className={`relative flex items-center gap-2 ${className}`}
+    >
+      <div className="relative flex-1">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={placeholder}
+          className="pl-12 py-6 text-base rounded-2xl border-2 border-orange-100 focus-visible:ring-primary bg-white shadow-sm"
+        />
+      </div>
+      <Button
+        type="submit"
+        size="lg"
+        className="rounded-2xl px-6 py-6 font-bold shadow-md hover:shadow-lg transition-all"
+      >
+        Search
+      </Button>
+    </form>
   );
 }

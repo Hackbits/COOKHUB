@@ -68,7 +68,7 @@ export default function ProfilePage() {
       cuisine: "Modern",
       ingredients: [],
       steps: [],
-      isFavorite: false,
+
       author: {
         name: "Chef Alex Rivera",
         avatar:
@@ -96,7 +96,7 @@ export default function ProfilePage() {
       cuisine: "Modern",
       ingredients: [],
       steps: [],
-      isFavorite: true,
+
       author: {
         name: "Chef Alex Rivera",
         avatar:
@@ -124,7 +124,7 @@ export default function ProfilePage() {
       cuisine: "French",
       ingredients: [],
       steps: [],
-      isFavorite: true,
+
       author: {
         name: "Chef Alex Rivera",
         avatar:
@@ -152,7 +152,7 @@ export default function ProfilePage() {
       cuisine: "Modern",
       ingredients: [],
       steps: [],
-      isFavorite: false,
+
       author: {
         name: "Chef Alex Rivera",
         avatar:

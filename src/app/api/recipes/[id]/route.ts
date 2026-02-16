@@ -19,7 +19,6 @@ const UpdateRecipeSchema = z.object({
   tags: z.array(z.string()).optional(),
   category: z.string().optional(),
   cuisine: z.string().optional(),
-  isFavorite: z.boolean().optional(),
 });
 
 type Params = { params: Promise<{ id: string }> };

@@ -40,7 +40,6 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: Step[];
   author: Author;
-  isFavorite: boolean;
 }
 
 export interface Collection {
