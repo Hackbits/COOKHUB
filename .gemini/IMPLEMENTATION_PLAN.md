@@ -60,6 +60,24 @@
 - [ ] Dynamic Beverage Pairing (Sommelier AI)
 - [ ] "Recipe Remix" for Creators (Video-to-Recipe Generation)
 
+### Phase 7: Automation & DevOps
+
+- [ ] **Vercel Deployment** — Connect GitHub repo for auto-deploy on every `git push` to `main`, preview URLs for PRs, centralized env variable management
+- [ ] **GitHub Actions CI/CD** — Run `next build` + `next lint` + `tsc --noEmit` on every PR to prevent broken code reaching production
+- [ ] **Pre-Commit Hooks** — `lint-staged` + `husky` for auto-formatting and linting before every commit
+- [ ] **Dependency Updates** — Enable Dependabot or Renovate Bot for automated PR creation when packages are outdated
+- [ ] **Error Monitoring** — Integrate Sentry (Next.js SDK) for real-time production error tracking and alerting
+- [ ] **Vercel Cron Jobs** — Schedule recurring tasks (recipe ingestion via `scrape-recipe.ts`, weekly digests, stale data cleanup)
+- [ ] **Automated DB Backups** — MongoDB Atlas scheduled backups (aligns with Phase 3)
+
+### Phase 8: Analytics, SEO & Notifications
+
+- [ ] **Vercel Analytics / PostHog** — Track page views, user flows, and Core Web Vitals
+- [ ] **Auto-Generated Sitemap & Robots.txt** — Next.js `sitemap.ts` + `robots.ts` for search engine indexing
+- [ ] **Dynamic OG Images** — `opengraph-image.tsx` + `generateMetadata()` for per-recipe social sharing cards
+- [ ] **Email Automation** — Resend or SendGrid for welcome emails, weekly recipe digests, and cooking reminders
+- [ ] **Uptime Monitoring** — BetterUptime or UptimeRobot to alert if the site goes down
+
 ---
 
 ## Phase 1 Detailed Steps (Starting Now)
