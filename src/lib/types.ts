@@ -13,6 +13,9 @@ export interface Step {
   title: string;
   description: string;
   time: number; // in minutes
+  image?: string;
+  proTip?: string;
+  phase?: "Preparation" | "Cooking" | "Plating";
 }
 
 export interface Author {

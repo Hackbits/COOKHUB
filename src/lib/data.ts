@@ -55,34 +55,43 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Prepare the Glaze",
+          title: "Master the Miso Glaze",
           description:
-            "In a small saucepan, whisk together miso paste, soy sauce, ginger, honey, and rice vinegar. Simmer over medium heat for 5-7 minutes until slightly thickened.",
+            "In a small saucepan over medium heat, combine the miso paste, soy sauce, grated ginger, honey, and rice vinegar. Whisk continuously as it comes to a gentle simmer. Let it bubble softly for 5-7 minutes. You're looking for a glossy, slightly thickened consistency that coats the back of a spoon—similar to warm maple syrup. The aroma should be savory-sweet and fragrant with ginger.",
           time: 7,
+          phase: "Preparation",
+          proTip:
+            "Use fresh ginger for a sharper flavor that cuts through the richness of the salmon. If it gets too thick, just whisk in a teaspoon of water.",
         },
         {
-          title: "Season the Salmon",
+          title: "Prep & Season the Salmon",
           description:
-            "Pat salmon fillets dry with paper towels. Season both sides with salt and pepper.",
+            "Remove the salmon from the fridge and pat the fillets extremely dry with paper towels—moisture is the enemy of a crispy sear! Season both sides generously with kosher salt and freshly cracked black pepper. Press the seasoning gently into the flesh to ensure it adheres.",
           time: 2,
+          phase: "Preparation",
         },
         {
-          title: "Sear the Salmon",
+          title: "Sear the Salmon to Perfection",
           description:
-            "Heat oil in a large skillet over medium-high heat. Place salmon skin-side up and cook for 4 minutes until golden.",
+            "Heat your oil in a large skillet over medium-high heat until it shimmers but doesn't smoke. Carefully place the salmon fillets skin-side down in the pan, pressing gently with a spatula for 10 seconds to maximize skin contact. Cook undisturbed for 4-5 minutes until the skin is crispy and the salmon turns opaque halfway up the side.",
+          time: 5,
+          phase: "Cooking",
+          proTip:
+            "Resist the urge to move the salmon! If it sticks, it's not ready to flip yet. A perfect sear releases itself.",
+        },
+        {
+          title: "Glaze and Caramelize",
+          description:
+            "Flip the salmon fillets over. Immediately brush them generously with your prepared Miso-Ginger glaze. Let them cook for another 3-4 minutes. As the glaze hits the hot pan, it will bubble and caramelize rapidly. Brush with a second layer of glaze one minute before finishing to get that sticky, glossy shine without burning.",
           time: 4,
+          phase: "Cooking",
         },
         {
-          title: "Apply the Glaze",
+          title: "Artful Assembly",
           description:
-            "Flip salmon, brush generously with the glaze. Cook for 3-4 minutes. Brush with more glaze.",
-          time: 4,
-        },
-        {
-          title: "Assemble Bowls",
-          description:
-            "Divide rice among bowls. Top with glazed salmon, cucumber, green onions, and sesame seeds. Drizzle remaining glaze.",
+            "Fluff the steamed rice with a fork and create a bed in each bowl. Place a glazed salmon fillet prominently on top. Arrange the sliced cucumber and green onions around the salmon to create color contrast. Sprinkle toasted sesame seeds over everything for texture. Finally, drizzle any remaining glaze from the pan over the salmon and rice for that final burst of umami flavor.",
           time: 3,
+          phase: "Plating",
         },
       ],
       author: {
@@ -123,28 +132,34 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Cook Quinoa",
+          title: "The Perfect Quinoa Fluff",
           description:
-            "Rinse quinoa and cook according to package directions. Let cool slightly.",
-          time: 15,
+            "Rinse the quinoa thoroughly in a fine-mesh sieve under cold running water until the water runs clear—this removes the bitter saponin coating. Combine with water in a pot, bring to a boil, then cover and reduce heat to low. Simmer for 15 minutes. Remove from heat and let it steam with the lid on for 5 more minutes before fluffing with a fork.",
+          time: 20,
+          phase: "Cooking",
+          proTip:
+            "Toast the dry quinoa in the saucepan for 2 minutes before adding water to unlock a deeper, nuttier flavor profile.",
         },
         {
-          title: "Prep Vegetables",
+          title: "Vegetable Prep Work",
           description:
-            "Halve cherry tomatoes, dice cucumber, slice red onion thinly.",
+            "While the quinoa cooks, prepare your fresh ingredients. Slice the cherry tomatoes in half to release their juices. Dice the cucumber into bite-sized refreshers. Thinly slice the red onion—if you find raw onion too sharp, soak the slices in ice water for 10 minutes to mellow them out.",
           time: 5,
+          phase: "Preparation",
         },
         {
-          title: "Make Dressing",
+          title: "Whisk the Vinaigrette",
           description:
-            "Whisk olive oil, lemon juice, salt, pepper, and dried oregano.",
+            "In a small bowl, whisk together the extra virgin olive oil, fresh lemon juice, kosher salt, cracked black pepper, and dried oregano. Emulsify until the dressing becomes slightly opaque and creamy-looking. Taste and adjust acidity if needed.",
           time: 2,
+          phase: "Preparation",
         },
         {
-          title: "Assemble",
+          title: "Build the Power Bowl",
           description:
-            "Combine quinoa with vegetables, chickpeas, and olives. Drizzle dressing and top with feta.",
+            "In a large mixing bowl, combine the warm fluffy quinoa with the drained chickpeas, prepped vegetables, and Kalamata olives. Pour the dressing over while the quinoa is still warm to help it absorb the flavors. Toss gently to combine. Top generously with crumbled feta cheese before serving.",
           time: 3,
+          phase: "Plating",
         },
       ],
       author: {
@@ -184,33 +199,41 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Season Chicken",
+          title: "Season the Chicken",
           description:
-            "Season chicken breasts with Italian seasoning, salt, and pepper.",
+            "Pat the chicken breasts dry with paper towels. Season both sides generously with the Italian seasoning, kosher salt, and black pepper. Press the herbs into the meat to create a crust when searing.",
           time: 2,
+          phase: "Preparation",
         },
         {
-          title: "Sear Chicken",
+          title: "Golden Sear",
           description:
-            "Cook chicken in olive oil until golden, about 6-7 minutes per side. Remove and set aside.",
+            "Heat the olive oil in a large skillet over medium-high heat. Add the chicken breasts and cook without moving them for 6-7 minutes until a golden-brown crust forms. Flip and cook for another 5-6 minutes until cooked through (165°F internal). Remove chicken to a plate and cover with foil to keep warm.",
           time: 15,
+          phase: "Cooking",
+          proTip:
+            "Don't overcrowd the pan! If the chicken pieces are touching, they will steam instead of sear.",
         },
         {
-          title: "Make Sauce",
+          title: "Build the Cream Sauce",
           description:
-            "Sauté garlic, add sun-dried tomatoes, broth, and cream. Simmer until thickened.",
+            "In the same pan (don't wipe it out! those brown bits are flavor), reduce heat to medium. Sauté the minced garlic for 30 seconds until fragrant. Add the sun-dried tomatoes and chicken broth, scraping up the browned bits from the bottom. Stir in the heavy cream and bring to a gentle simmer until slightly thickened.",
           time: 8,
+          phase: "Cooking",
         },
         {
-          title: "Add Spinach",
-          description: "Stir in spinach and parmesan until wilted and melted.",
-          time: 3,
-        },
-        {
-          title: "Combine",
+          title: "Wilt the Spinach",
           description:
-            "Return chicken to pan, spoon sauce over, and simmer for 2-3 minutes.",
+            "Stir in the Parmesan cheese until melted and smooth. Add the fresh spinach by the handful, stirring constantly until it wilts down into the sauce, which should take about 1-2 minutes.",
           time: 3,
+          phase: "Cooking",
+        },
+        {
+          title: "Final Simmer & Serve",
+          description:
+            "Return the cooked chicken (and any juices from the plate) back into the skillet. Spoon the rich, creamy sauce over the chicken and let it simmer together for 2-3 minutes to reheat the chicken and marry the flavors. Serve hot, garnished with extra Parmesan.",
+          time: 3,
+          phase: "Plating",
         },
       ],
       author: {
@@ -255,33 +278,41 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Prep Ingredients",
+          title: "Aromatic Mise en Place",
           description:
-            "Slice chicken into bite-sized pieces. Cut bell pepper into strips.",
+            "Preparation is key for stir-fries and curries! Slice the chicken thighs into bite-sized, uniform strips for even cooking. De-seed the bell pepper and slice it into thin strips. If you're using bamboo shoots, rinse them well to remove any tinny flavor. Have all your liquids and pastes measured and ready by the stove.",
           time: 5,
+          phase: "Preparation",
         },
         {
-          title: "Fry Curry Paste",
+          title: "Bloom the Curry Paste",
           description:
-            "In a wok, fry curry paste in coconut cream until fragrant.",
+            "Heat half of the thick coconut cream (from the top of the can) in a wok or large pot over medium heat. Add the green curry paste and fry it in the coconut fat for 2-3 minutes. You want to see the oil start to separate from the paste and smell an intense, aromatic fragrance—this 'blooming' process releases the essential oils.",
           time: 3,
+          phase: "Cooking",
+          proTip:
+            "If your coconut milk doesn't separate, add a splash of vegetable oil to help fry the paste properly.",
         },
         {
-          title: "Cook Chicken",
-          description: "Add chicken pieces and cook until no longer pink.",
+          title: "Seal the Chicken",
+          description:
+            "Add the sliced chicken thighs to the fragrant curry base. Stir-fry for 3-4 minutes, ensuring every piece is coated in the green paste. Cook until the outside of the chicken is opaque and no longer pink.",
           time: 8,
+          phase: "Cooking",
         },
         {
-          title: "Add Coconut Milk",
+          title: "Simmer & Meld",
           description:
-            "Pour in remaining coconut milk, bamboo shoots, and bell pepper. Simmer.",
+            "Pour in the remaining coconut milk (and a little water or stock if you prefer a thinner curry). Add the bamboo shoots and bell pepper strips. Bring to a boil, then reduce heat to a gentle simmer. Let it bubble for 10 minutes until the vegetables are tender but still have a bit of bite.",
           time: 10,
+          phase: "Cooking",
         },
         {
-          title: "Season & Finish",
+          title: "The Thai Flavor Balance",
           description:
-            "Add fish sauce, sugar, and Thai basil. Serve over jasmine rice.",
+            "Turn off the heat—this is crucial! excessive boiling destroys fresh herb flavors. Stir in the fish sauce for saltiness, palm sugar for sweetness, and tear the Thai basil leaves right into the pot. Taste and adjust: it should be a perfect harmony of spicy, salty, sweet, and aromatic. Serve immediately over steaming jasmine rice.",
           time: 4,
+          phase: "Plating",
         },
       ],
       author: {
@@ -320,27 +351,34 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Brown Beef",
+          title: "Sear the Beef",
           description:
-            "Cook ground beef in a skillet over medium-high heat until browned. Drain excess fat.",
+            "Heat a large skillet over medium-high heat. Add the ground beef and break it up with a wooden spoon. Cook for 6-8 minutes, stirring occasionally, until the beef is fully browned and no pink remains. Carefully drain the excess grease from the pan, leaving just a teaspoon for flavor.",
           time: 8,
+          phase: "Cooking",
         },
         {
-          title: "Season",
+          title: "Simmer with Spices",
           description:
-            "Add taco seasoning and water according to package. Simmer until thickened.",
+            "Stir in the taco seasoning packet and the amount of water recommended on the package (usually about 2/3 cup). Reduce heat to low and let it simmer for 5 minutes. The sauce will thicken and coat the meat, making it juicy and flavorful rather than dry.",
           time: 5,
+          phase: "Cooking",
+          proTip:
+            "For an extra depth of flavor, add a tablespoon of tomato paste or a splash of beef broth instead of just water.",
         },
         {
-          title: "Warm Shells",
-          description: "Heat taco shells according to package directions.",
+          title: "Crisp the Shells",
+          description:
+            "While the meat simmers, preheat your oven to 350°F (175°C). Arrange the taco shells on a baking sheet and heat them for 3-5 minutes. This restores their crunch and warm corn flavor.",
           time: 3,
+          phase: "Preparation",
         },
         {
-          title: "Assemble",
+          title: "Taco Bar Assembly",
           description:
-            "Fill shells with beef, top with cheese, lettuce, tomatoes, sour cream, and cilantro.",
+            "Spoon the seasoned beef into the warm taco shells. Top immediately with shredded cheese so it gets slightly melty. Layer on the crispy lettuce, diced tomatoes, a dollop of sour cream, and fresh cilantro. Serve with lime wedges for a zesty kick.",
           time: 5,
+          phase: "Plating",
         },
       ],
       author: {
@@ -379,33 +417,41 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Prep Mushrooms",
+          title: "Golden Mushroom Prep",
           description:
-            "Clean and slice mushrooms. Sauté in butter until golden. Set aside.",
+            "Gently clean the wild mushrooms with a damp cloth (don't soak them!). Slice them into meaty pieces. Heat half the butter in a heavy-bottomed pot over medium-high heat. Sauté the mushrooms until they release their liquid and turn golden brown. Remove them from the pot and set aside to keep their texture perfect.",
           time: 8,
+          phase: "Preparation",
         },
         {
-          title: "Toast Rice",
+          title: "Toasting the Rice",
           description:
-            "Sauté shallot and garlic. Add rice and toast for 2 minutes.",
+            "In the same pot, add the minced shallot and cook until translucent. Add the Arborio rice and toast it, stirring constantly, for 2-3 minutes. The grains should become slightly translucent at the edges with a pearly white center. This step creates a shell that prevents the rice from turning into mush.",
           time: 4,
+          phase: "Cooking",
         },
         {
-          title: "Add Wine",
-          description: "Pour in white wine and stir until absorbed.",
+          title: "Deglaze with Wine",
+          description:
+            "Pour in the white wine. It will hiss and steam aggressively. Stir constantly until the wine has completely evaporated and satisfied the thirsty rice grains. This adds a crucial layer of acidity to balance the creaminess.",
           time: 3,
+          phase: "Cooking",
         },
         {
-          title: "Add Broth",
+          title: "The Ladle Method",
           description:
-            "Add warm broth one ladle at a time, stirring constantly until absorbed before adding more.",
+            "Reduce heat to medium. Begin adding the warm vegetable broth one ladle at a time. Stir frequently (you don't need to stir constantly, but often). Wait until the liquid is almost completely absorbed before adding the next ladle. The rice releases its starch slowly, creating that natural creamy texture.",
           time: 25,
+          phase: "Cooking",
+          proTip:
+            "If you run out of broth and the rice is still crunchy, just continue with hot water. The starch does the heavy lifting for texture.",
         },
         {
-          title: "Finish",
+          title: "The Mantecatura",
           description:
-            "Stir in mushrooms, parmesan, and remaining butter. Season and serve immediately.",
+            "When the rice is tender but still has a slight bite (al dente), remove the pot from the heat. Vigorously stir in the cold butter, grated Parmesan, and the reserved sautéed mushrooms. This final step, called 'mantecatura', whips air into the risotto making it incredibly creamy and glossy. Serve immediately on warmed plates.",
           time: 5,
+          phase: "Plating",
         },
       ],
       author: {
@@ -450,27 +496,32 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Cook Beef",
+          title: "Savory Beef Bulrog",
           description:
-            "Season beef with soy sauce, garlic, and sesame oil. Cook until browned.",
+            "In a hot skillet, brown the ground beef breaking it into small crumbles. Stir in the soy sauce, minced garlic, and a drizzle of sesame oil. Cook until the liquid evaporates and the beef is caramelized and deeply flavorful.",
           time: 8,
+          phase: "Cooking",
         },
         {
-          title: "Prep Vegetables",
+          title: "Vegetable Namul",
           description:
-            "Blanch spinach and bean sprouts. Sauté carrots until tender.",
+            "Each vegetable needs individual attention. Blanch the spinach in boiling water for 30 seconds, drain, squeeze dry, and season with salt and sesame oil. Sauté the julienned carrots and bean sprouts separately in a little oil until just tender-crisp. Arrange them on a platter so you can assemble easily.",
           time: 12,
+          phase: "Preparation",
         },
         {
-          title: "Fry Eggs",
-          description: "Fry eggs sunny-side up in sesame oil.",
-          time: 3,
-        },
-        {
-          title: "Assemble",
+          title: "The Perfect Sunny-Side Up",
           description:
-            "Arrange rice in bowls, top with vegetables, beef, and egg. Serve with gochujang.",
+            "Heat a non-stick pan over medium heat with a little oil. Crack the eggs carefully to keep the yolks intact. Cook until the whites are set but the yolks are still runny. That runny yolk acts as a sauce for the rice bowl.",
+          time: 3,
+          phase: "Cooking",
+        },
+        {
+          title: "Colorful Assembly",
+          description:
+            "Scoop warm steamed rice into bowls. Arrange the beef and prepared vegetables in neat sections over the rice to create a color wheel. Place the fried egg in the center. Add a generous dollop of Gochujang (Korean chili paste) on the side. Mix everything thoroughly just before eating!",
           time: 5,
+          phase: "Plating",
         },
       ],
       author: {
@@ -509,28 +560,34 @@ export const CookHubData: CookHubDataType = {
       ],
       steps: [
         {
-          title: "Make Marinade",
+          title: "Zesty Marinade",
           description:
-            "Combine lemon juice, zest, olive oil, garlic, herbs, and seasonings.",
+            "In a glass bowl or measuring cup, whisk together the juice of 2 lemons, olive oil, minced garlic, chopped fresh rosemary, thyme leaves, red pepper flakes, salt, and pepper. The acid from the lemon will tenderize the meat, while the oil carries the herb flavors.",
           time: 5,
+          phase: "Preparation",
+          proTip:
+            "Zest the lemons before juicing them! The zest contains essential oils that pack way more lemony flavor than the juice alone.",
         },
         {
-          title: "Marinate Chicken",
+          title: "Flavor Infusion",
           description:
-            "Coat chicken in marinade. Let sit for at least 15 minutes.",
+            "Place the chicken breasts in a ziplock bag or shallow dish. Pour the marinade over, massaging it to ensure every inch is coated. Let it marinate in the refrigerator for at least 15 minutes, but no longer than 2 hours (or the texture can become mealy from the acid).",
           time: 15,
+          phase: "Preparation",
         },
         {
-          title: "Grill",
+          title: "Char-Grill",
           description:
-            "Grill over medium-high heat for 6-7 minutes per side until cooked through.",
+            "Preheat your grill or grill pan to medium-high heat. Oil the grates to prevent sticking. Place the chicken on the grill and cook for 6-7 minutes per side. You want definitive grill marks and an internal temperature of 165°F (74°C). Grill the remaining lemon halves cut-side down for a smoky garnish.",
           time: 14,
+          phase: "Cooking",
         },
         {
           title: "Rest & Serve",
           description:
-            "Let rest 5 minutes, then slice and serve with grilled lemon halves.",
+            "Transfer the chicken to a cutting board and let it rest for 5 minutes. This allows the juices to redistribute throughout the meat instead of spilling out when you slice. Serve topped with fresh herbs and a squeeze of the caramelized grilled lemon.",
           time: 5,
+          phase: "Plating",
         },
       ],
       author: {

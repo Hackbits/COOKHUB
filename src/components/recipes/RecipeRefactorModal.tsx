@@ -38,7 +38,14 @@ export interface RefactoredRecipeData {
   fats?: string;
   tags?: string[];
   ingredients?: { qty: string; name: string; category: string }[];
-  steps?: { title: string; description: string; time: number }[];
+  steps?: {
+    title: string;
+    description: string;
+    time: number;
+    image?: string;
+    proTip?: string;
+    phase?: "Preparation" | "Cooking" | "Plating";
+  }[];
 }
 
 interface RecipeRefactorModalProps {
