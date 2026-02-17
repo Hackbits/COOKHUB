@@ -31,11 +31,19 @@
 - [x] Recipe CRUD endpoints — `src/app/api/recipes/route.ts` + `src/app/api/recipes/[id]/route.ts`
 - [x] User profile endpoints — `src/app/api/user/route.ts` + `saved/` + `cooked/`
 
-### Phase 3: Database (MongoDB Atlas)
+### Phase 3: Database (Firebase Firestore + Storage)
 
-- [ ] Schema design for Users, Recipes, Notifications
-- [ ] MongoDB Atlas Vector Search for semantic recipe search
-- [ ] Image storage via Cloudinary
+> **Architecture Change**: Migrated from the planned MongoDB Atlas to **Firebase Firestore** + **Firebase Storage**, consolidating all backend services on the Firebase platform already used for Auth.
+
+- [x] Firestore service modules — `recipe-service.ts`, `user-service.ts`, `review-service.ts`, `storage-service.ts`
+- [x] Seed script — `scripts/seed-firestore.ts` (firebase-admin)
+- [x] API routes migrated to Firestore service calls
+- [x] Page components migrated to Firestore service calls
+- [x] Types updated (number → string IDs)
+- [x] Zustand stores updated (number → string IDs)
+- [x] Add Firebase Storage domain to `next.config.ts`
+- [x] Implement collections in Firestore
+- [x] Add loading states to fridge-raid + discovery pages
 
 ### Phase 4: Real-Time & Integrations
 
@@ -63,12 +71,12 @@
 ### Phase 7: Automation & DevOps
 
 - [ ] **Vercel Deployment** — Connect GitHub repo for auto-deploy on every `git push` to `main`, preview URLs for PRs, centralized env variable management
-- [ ] **GitHub Actions CI/CD** — Run `next build` + `next lint` + `tsc --noEmit` on every PR to prevent broken code reaching production
-- [ ] **Pre-Commit Hooks** — `lint-staged` + `husky` for auto-formatting and linting before every commit
-- [ ] **Dependency Updates** — Enable Dependabot or Renovate Bot for automated PR creation when packages are outdated
+- [x] **GitHub Actions CI/CD** — `.github/workflows/ci.yml` runs `tsc --noEmit` + `eslint` + `next build` on every push/PR
+- [x] **Pre-Commit Hooks** — `husky` + `lint-staged` auto-lints and formats staged files before every commit
+- [x] **Dependency Updates** — `.github/dependabot.yml` for weekly npm + monthly GitHub Actions automated PR creation
 - [ ] **Error Monitoring** — Integrate Sentry (Next.js SDK) for real-time production error tracking and alerting
 - [ ] **Vercel Cron Jobs** — Schedule recurring tasks (recipe ingestion via `scrape-recipe.ts`, weekly digests, stale data cleanup)
-- [ ] **Automated DB Backups** — MongoDB Atlas scheduled backups (aligns with Phase 3)
+- [ ] **Automated DB Backups** — Firebase Firestore scheduled exports to Cloud Storage
 
 ### Phase 8: Analytics, SEO & Notifications
 

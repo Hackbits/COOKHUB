@@ -21,8 +21,8 @@ interface UserState {
   };
   inventory: string[];
   dietaryPreferences: string[];
-  savedRecipes: number[];
-  cookedRecipes: number[];
+  savedRecipes: string[];
+  cookedRecipes: string[];
 
   // Actions
   login: (user: {
@@ -33,8 +33,8 @@ interface UserState {
   }) => void;
   logout: () => void;
   updateProfile: (data: Partial<UserState>) => void;
-  toggleSavedRecipe: (recipeId: number) => void;
-  markAsCooked: (recipeId: number) => void;
+  toggleSavedRecipe: (recipeId: string) => void;
+  markAsCooked: (recipeId: string) => void;
 }
 
 export const useUserStore = create<UserState>()(

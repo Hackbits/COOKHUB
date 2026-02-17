@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense, useState, useMemo } from "react";
+import { Suspense, useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
-import { CookHubData } from "@/lib/data";
+import { getRecipes } from "@/lib/services/recipe-service";
+import type { Recipe } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Search, X, SearchX } from "lucide-react";
 import {
@@ -31,13 +32,22 @@ function DiscoveryContent() {
   const initialQuery = searchParams.get("q") || "";
   const initialFilter = searchParams.get("filter") || "";
 
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCuisine, setSelectedCuisine] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [sortBy, setSortBy] = useState<"rating" | "time" | "reviews">("rating");
 
+  useEffect(() => {
+    getRecipes()
+      .then(setAllRecipes)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
   const filteredRecipes = useMemo(() => {
-    let results = CookHubData.recipes;
+    let results = allRecipes;
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -97,7 +107,14 @@ function DiscoveryContent() {
     });
 
     return results;
-  }, [searchQuery, selectedCuisine, selectedDifficulty, sortBy, initialFilter]);
+  }, [
+    searchQuery,
+    selectedCuisine,
+    selectedDifficulty,
+    sortBy,
+    initialFilter,
+    allRecipes,
+  ]);
 
   const clearAllFilters = () => {
     setSearchQuery("");
@@ -228,7 +245,16 @@ function DiscoveryContent() {
             {filteredRecipes.length !== 1 ? "s" : ""} found
           </p>
 
-          {filteredRecipes.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse rounded-2xl bg-muted h-72"
+                />
+              ))}
+            </div>
+          ) : filteredRecipes.length > 0 ? (
             <RecipeGrid recipes={filteredRecipes} />
           ) : (
             <div className="text-center py-20">

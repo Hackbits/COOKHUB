@@ -2,7 +2,8 @@
 
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import { CookHubData } from "@/lib/data";
+import { getRecipeById } from "@/lib/services/recipe-service";
+import type { Recipe } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +22,21 @@ import {
 
 function CookingModeContent() {
   const searchParams = useSearchParams();
-  const recipeId = Number(searchParams.get("id"));
-  const recipe = CookHubData.recipes.find((r) => r.id === recipeId);
+  const recipeIdParam = searchParams.get("id") || "";
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+
+  useEffect(() => {
+    if (!recipeIdParam) return;
+    let cancelled = false;
+    getRecipeById(recipeIdParam)
+      .then((r) => {
+        if (!cancelled) setRecipe(r);
+      })
+      .catch(console.error);
+    return () => {
+      cancelled = true;
+    };
+  }, [recipeIdParam]);
 
   const [currentStep, setCurrentStep] = useState(0);
   const [timerSeconds, setTimerSeconds] = useState(0);

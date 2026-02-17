@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { useUserStore } from "@/store/useUserStore";
-import { Recipe } from "@/lib/types";
-// import { CookHubData } from "@/lib/data";
+import type { Recipe } from "@/lib/types";
 import RecipeCard from "@/components/recipes/RecipeCard";
 import { useState } from "react";
 import Link from "next/link";
@@ -49,7 +48,7 @@ export default function ProfilePage() {
   // Curated recipes for Alex Rivera
   const myRecipes: Recipe[] = [
     {
-      id: 101,
+      id: "profile-101",
       title: "Deconstructed Beet Salad",
       description:
         "A visually stunning salad featuring roasted beets, goat cheese mousse, and candied walnuts.",
@@ -77,7 +76,7 @@ export default function ProfilePage() {
       category: "Starter",
     },
     {
-      id: 102,
+      id: "profile-102",
       title: "Sous-vide Salmon",
       description:
         "Perfectly cooked salmon with a crispy skin, served with asparagus and lemon butter sauce.",
@@ -105,7 +104,7 @@ export default function ProfilePage() {
       category: "Main",
     },
     {
-      id: 103,
+      id: "profile-103",
       title: "Mirror Glaze Mousse",
       description:
         "A delicate chocolate mousse cake with a shiny, reflective mirror glaze finish.",
@@ -133,7 +132,7 @@ export default function ProfilePage() {
       category: "Dessert",
     },
     {
-      id: 104,
+      id: "profile-104",
       title: "Scallop Carpaccio",
       description:
         "Thinly sliced fresh scallops with a citrus dressing and microgreens.",

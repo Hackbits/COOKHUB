@@ -1,5 +1,6 @@
 /**
  * COOKHUB - TypeScript Type Definitions
+ * IDs are Firestore auto-generated strings.
  */
 
 export interface Ingredient {
@@ -24,7 +25,7 @@ export interface Author {
 }
 
 export interface Recipe {
-  id: number;
+  id: string;
   title: string;
   description: string;
   time: string;
@@ -43,19 +44,22 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: Step[];
   author: Author;
+  createdAt?: unknown;
+  updatedAt?: unknown;
 }
 
 export interface Collection {
-  id: number;
+  id: string;
   name: string;
   icon: string;
   color: string;
-  recipeIds: number[];
+  recipeIds: string[];
+  userId?: string;
 }
 
 export interface Review {
-  id: number;
-  recipeId: number;
+  id: string;
+  recipeId: string;
   user: string;
   rating: number;
   date: string;
@@ -63,16 +67,18 @@ export interface Review {
   verified: boolean;
   likes: number;
   avatar: string;
+  createdAt?: unknown;
 }
 
 export interface User {
+  firebaseUid: string;
   name: string;
   fullName: string;
   email: string;
   avatar: string;
   memberSince: string;
-  savedRecipes: number[];
-  cookedRecipes: number[];
+  savedRecipes: string[];
+  cookedRecipes: string[];
   isLoggedIn: boolean;
 }
 
@@ -81,11 +87,4 @@ export interface ShoppingItem {
   qty: string;
   checked: boolean;
   category: string;
-}
-
-export interface CookHubDataType {
-  recipes: Recipe[];
-  collections: Collection[];
-  reviews: Review[];
-  user: User;
 }

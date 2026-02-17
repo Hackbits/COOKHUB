@@ -109,9 +109,24 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         avatar: user.photoURL || undefined,
       });
       onClose();
-    } catch (err) {
-      console.error(err);
-      setError("Google Sign-In failed. Please try again.");
+    } catch (err: unknown) {
+      console.error("Google Sign-In error:", err);
+      const firebaseError = err as { code?: string; message?: string };
+      if (firebaseError.code === "auth/unauthorized-domain") {
+        setError(
+          `This domain is not authorized for sign-in. Add it to Firebase Console → Authentication → Settings → Authorized domains. Current domain: ${window.location.hostname}`,
+        );
+      } else if (firebaseError.code === "auth/popup-closed-by-user") {
+        // User closed the popup, no error needed
+      } else if (firebaseError.code === "auth/popup-blocked") {
+        setError(
+          "Popup was blocked by the browser. Please allow popups for this site.",
+        );
+      } else {
+        setError(
+          `Google Sign-In failed: ${firebaseError.code || firebaseError.message || "Unknown error"}`,
+        );
+      }
     }
   };
 

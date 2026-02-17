@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CookHubData } from "@/lib/data";
+import { getRecipes, createRecipe } from "@/lib/services/recipe-service";
 import { z } from "zod/v4";
 
 // --- Zod Schemas ---
@@ -15,6 +15,8 @@ const StepSchema = z.object({
   title: z.string(),
   description: z.string(),
   time: z.number(),
+  phase: z.enum(["Preparation", "Cooking", "Plating"]).optional(),
+  proTip: z.string().optional(),
 });
 
 const AuthorSchema = z.object({
@@ -27,8 +29,8 @@ const CreateRecipeSchema = z.object({
   description: z.string().min(1),
   time: z.string(),
   difficulty: z.enum(["Easy", "Medium", "Hard"]),
-  rating: z.number().min(0).max(5).optional(),
-  reviews: z.number().optional(),
+  rating: z.number().min(0).max(5),
+  reviews: z.number(),
   servings: z.number().min(1),
   calories: z.number().min(0),
   protein: z.string(),
@@ -48,34 +50,11 @@ const CreateRecipeSchema = z.object({
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
-    const cuisine = searchParams.get("cuisine");
-    const search = searchParams.get("search");
+    const category = searchParams.get("category") || undefined;
+    const cuisine = searchParams.get("cuisine") || undefined;
+    const search = searchParams.get("search") || undefined;
 
-    let recipes = [...CookHubData.recipes];
-
-    if (category) {
-      recipes = recipes.filter(
-        (r) => r.category.toLowerCase() === category.toLowerCase(),
-      );
-    }
-
-    if (cuisine) {
-      recipes = recipes.filter(
-        (r) => r.cuisine.toLowerCase() === cuisine.toLowerCase(),
-      );
-    }
-
-    if (search) {
-      const q = search.toLowerCase();
-      recipes = recipes.filter(
-        (r) =>
-          r.title.toLowerCase().includes(q) ||
-          r.description.toLowerCase().includes(q) ||
-          r.tags.some((t) => t.toLowerCase().includes(q)),
-      );
-    }
-
+    const recipes = await getRecipes({ category, cuisine, search });
     return NextResponse.json(recipes);
   } catch (error) {
     console.error("GET /api/recipes error:", error);
@@ -100,21 +79,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const newId =
-      CookHubData.recipes.length > 0
-        ? Math.max(...CookHubData.recipes.map((r) => r.id)) + 1
-        : 1;
-
-    const newRecipe = {
-      id: newId,
-      rating: 0,
-      reviews: 0,
-
-      ...parsed.data,
-    };
-
-    CookHubData.recipes.push(newRecipe);
-
+    const newRecipe = await createRecipe(parsed.data);
     return NextResponse.json(newRecipe, { status: 201 });
   } catch (error) {
     console.error("POST /api/recipes error:", error);

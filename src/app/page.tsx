@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
-import { CookHubData } from "@/lib/data";
+import { getRecipes } from "@/lib/services/recipe-service";
+import { getReviewsByRecipe } from "@/lib/services/review-service";
+import type { Recipe, Review } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import SearchBar from "@/components/custom-ui/SearchBar";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +23,39 @@ import {
 export default function HomePage() {
   const router = useRouter();
   const [visibleCount, setVisibleCount] = useState(8);
-  const recipes = CookHubData.recipes;
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const allRecipes = await getRecipes();
+        setRecipes(allRecipes);
+        // Load reviews for the first recipe (for the Community Reviews section)
+        if (allRecipes.length > 0) {
+          const firstRecipeReviews = await getReviewsByRecipe(allRecipes[0].id);
+          setReviews(firstRecipeReviews);
+        }
+      } catch (err) {
+        console.error("Failed to load recipes:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-400 text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="font-bold">Loading recipes...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -241,7 +275,7 @@ export default function HomePage() {
           <p className="text-gray-500 mb-10">What our community is saying</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CookHubData.reviews.map((review) => (
+            {reviews.map((review) => (
               <div
                 key={review.id}
                 className="bg-soft-cream p-6 rounded-3xl border border-orange-50 shadow-sm hover:shadow-lg transition-all"

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
-import { CookHubData } from "@/lib/data";
+import { getRecipeById, getCollections } from "@/lib/services/recipe-service";
+import type { Recipe, Collection } from "@/lib/types";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -32,13 +33,48 @@ const getCollectionIcon = (iconName: string) => {
 export default function LibraryPage() {
   const { savedRecipes, cookedRecipes, isLoggedIn } = useUserStore();
   const [activeTab, setActiveTab] = useState("saved");
+  const [savedRecipesList, setSavedRecipesList] = useState<Recipe[]>([]);
+  const [cookedRecipesList, setCookedRecipesList] = useState<Recipe[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [collectionRecipesMap, setCollectionRecipesMap] = useState<
+    Record<string, Recipe[]>
+  >({});
 
-  const savedRecipesList = CookHubData.recipes.filter((r) =>
-    savedRecipes.includes(r.id),
-  );
-  const cookedRecipesList = CookHubData.recipes.filter((r) =>
-    cookedRecipes.includes(r.id),
-  );
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    // Fetch saved recipes
+    Promise.all(savedRecipes.map((id) => getRecipeById(id)))
+      .then((results) =>
+        setSavedRecipesList(results.filter((r): r is Recipe => r !== null)),
+      )
+      .catch(console.error);
+  }, [isLoggedIn, savedRecipes]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    // Fetch cooked recipes
+    Promise.all(cookedRecipes.map((id) => getRecipeById(id)))
+      .then((results) =>
+        setCookedRecipesList(results.filter((r): r is Recipe => r !== null)),
+      )
+      .catch(console.error);
+  }, [isLoggedIn, cookedRecipes]);
+
+  useEffect(() => {
+    getCollections()
+      .then(async (cols) => {
+        setCollections(cols);
+        const map: Record<string, Recipe[]> = {};
+        for (const col of cols) {
+          const recipes = await Promise.all(
+            col.recipeIds.map((id) => getRecipeById(id)),
+          );
+          map[col.id] = recipes.filter((r): r is Recipe => r !== null);
+        }
+        setCollectionRecipesMap(map);
+      })
+      .catch(console.error);
+  }, []);
 
   if (!isLoggedIn) {
     return (
@@ -139,10 +175,9 @@ export default function LibraryPage() {
           {activeTab === "collections" && (
             <div className="animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {CookHubData.collections.map((collection) => {
-                  const collectionRecipes = CookHubData.recipes.filter((r) =>
-                    collection.recipeIds.includes(r.id),
-                  );
+                {collections.map((collection) => {
+                  const collectionRecipes =
+                    collectionRecipesMap[collection.id] || [];
                   return (
                     <div
                       key={collection.id}

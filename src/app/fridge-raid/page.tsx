@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import RecipeCard from "@/components/recipes/RecipeCard";
-import { CookHubData } from "@/lib/data";
+import { getRecipes } from "@/lib/services/recipe-service";
+import type { Recipe } from "@/lib/types";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -67,11 +68,20 @@ export default function FridgeRaidPage() {
   const [inputValue, setInputValue] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+  const [recipesLoading, setRecipesLoading] = useState(true);
+
+  useEffect(() => {
+    getRecipes()
+      .then(setAllRecipes)
+      .catch(console.error)
+      .finally(() => setRecipesLoading(false));
+  }, []);
 
   // Get all unique ingredients from our database for suggestions
   const allPossibleIngredients = useMemo(() => {
     const ings = new Set<string>();
-    CookHubData.recipes.forEach((r) => {
+    allRecipes.forEach((r: Recipe) => {
       r.ingredients.forEach((i) => ings.add(i.name.split(",")[0].trim()));
     });
     // Add common ones too
@@ -79,7 +89,7 @@ export default function FridgeRaidPage() {
       cat.items.forEach((item) => ings.add(item)),
     );
     return Array.from(ings).sort();
-  }, []);
+  }, [allRecipes]);
 
   const suggestions = useMemo(() => {
     if (!inputValue.trim()) return [];
@@ -110,13 +120,13 @@ export default function FridgeRaidPage() {
 
   const matchedRecipes = useMemo(() => {
     if (ingredients.length === 0) return [];
-    return CookHubData.recipes
-      .map((recipe) => {
+    return allRecipes
+      .map((recipe: Recipe) => {
         const recipeIngNames = recipe.ingredients.map((i) =>
           i.name.toLowerCase(),
         );
         const matchedItems = ingredients.filter((ing) =>
-          recipeIngNames.some((ri) => ri.includes(ing.toLowerCase())),
+          recipeIngNames.some((ri: string) => ri.includes(ing.toLowerCase())),
         );
         const matchCount = matchedItems.length;
         const missingCount = recipe.ingredients.length - matchCount;
@@ -125,9 +135,12 @@ export default function FridgeRaidPage() {
         );
         return { recipe, matchCount, matchPercent, missingCount, matchedItems };
       })
-      .filter((r) => r.matchCount > 0)
-      .sort((a, b) => b.matchPercent - a.matchPercent);
-  }, [ingredients]);
+      .filter((r: { matchCount: number }) => r.matchCount > 0)
+      .sort(
+        (a: { matchPercent: number }, b: { matchPercent: number }) =>
+          b.matchPercent - a.matchPercent,
+      );
+  }, [ingredients, allRecipes]);
 
   const handleSearch = () => {
     setHasSearched(true);
@@ -179,9 +192,14 @@ export default function FridgeRaidPage() {
                   <ShoppingBasket className="text-gray-400 group-focus-within:text-green-500 transition-colors" />
                 </div>
                 <input
-                  className="w-full bg-white h-20 pl-14 pr-40 rounded-3xl border border-gray-100 text-lg md:text-xl focus:ring-8 focus:ring-green-500/5 focus:border-green-500 shadow-2xl shadow-green-900/5 placeholder:text-gray-400 outline-none transition-all"
-                  placeholder="e.g. Chicken, Spinach, Onion..."
+                  className="w-full bg-white h-20 pl-14 pr-40 rounded-3xl border border-gray-100 text-lg md:text-xl focus:ring-8 focus:ring-green-500/5 focus:border-green-500 shadow-2xl shadow-green-900/5 placeholder:text-gray-400 outline-none transition-all disabled:opacity-50"
+                  placeholder={
+                    recipesLoading
+                      ? "Loading ingredients..."
+                      : "e.g. Chicken, Spinach, Onion..."
+                  }
                   type="text"
+                  disabled={recipesLoading}
                   value={inputValue}
                   onChange={(e) => {
                     setInputValue(e.target.value);
@@ -333,7 +351,15 @@ export default function FridgeRaidPage() {
             {matchedRecipes.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {matchedRecipes.map(
-                  ({ recipe, matchPercent, matchedItems }) => (
+                  ({
+                    recipe,
+                    matchPercent,
+                    matchedItems,
+                  }: {
+                    recipe: Recipe;
+                    matchPercent: number;
+                    matchedItems: string[];
+                  }) => (
                     <div key={recipe.id} className="relative group">
                       <div className="absolute -top-3 -right-3 z-20">
                         <div
@@ -355,7 +381,7 @@ export default function FridgeRaidPage() {
                       </div>
                       <RecipeCard recipe={recipe} />
                       <div className="mt-4 flex flex-wrap gap-1">
-                        {matchedItems.slice(0, 3).map((m) => (
+                        {matchedItems.slice(0, 3).map((m: string) => (
                           <span
                             key={m}
                             className="text-[9px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full"

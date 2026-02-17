@@ -1,16 +1,33 @@
 import { NextResponse } from "next/server";
-import { CookHubData } from "@/lib/data";
+import { getUserByUid, toggleSavedRecipe } from "@/lib/services/user-service";
 import { z } from "zod/v4";
 
 const ToggleSavedSchema = z.object({
-  recipeId: z.number().int().positive(),
+  uid: z.string().min(1),
+  recipeId: z.string().min(1),
 });
 
-// --- GET /api/user/saved ---
+// --- GET /api/user/saved?uid=<firebaseUid> ---
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    return NextResponse.json({ savedRecipes: CookHubData.user.savedRecipes });
+    const { searchParams } = new URL(req.url);
+    const uid = searchParams.get("uid");
+
+    if (!uid) {
+      return NextResponse.json(
+        { error: "Missing uid query parameter" },
+        { status: 400 },
+      );
+    }
+
+    const user = await getUserByUid(uid);
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ savedRecipes: user.savedRecipes });
   } catch (error) {
     console.error("GET /api/user/saved error:", error);
     return NextResponse.json(
@@ -34,19 +51,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const { recipeId } = parsed.data;
-    const idx = CookHubData.user.savedRecipes.indexOf(recipeId);
-
-    if (idx === -1) {
-      CookHubData.user.savedRecipes.push(recipeId);
-    } else {
-      CookHubData.user.savedRecipes.splice(idx, 1);
-    }
+    const { uid, recipeId } = parsed.data;
+    const result = await toggleSavedRecipe(uid, recipeId);
 
     return NextResponse.json({
-      savedRecipes: CookHubData.user.savedRecipes,
       toggled: recipeId,
-      action: idx === -1 ? "saved" : "removed",
+      action: result.saved ? "saved" : "removed",
     });
   } catch (error) {
     console.error("POST /api/user/saved error:", error);

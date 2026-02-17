@@ -1,7 +1,8 @@
 "use client";
 
-import { use, useState, useRef } from "react";
-import { CookHubData } from "@/lib/data";
+import { use, useState, useRef, useEffect } from "react";
+import { getRecipeById } from "@/lib/services/recipe-service";
+import { getReviewsByRecipe } from "@/lib/services/review-service";
 import { useRouter } from "next/navigation";
 import { useShoppingStore, MAX_SHOPPING_ITEMS } from "@/store/useShoppingStore";
 import Link from "next/link";
@@ -14,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import RecipeRefactorModal, {
   type RefactoredRecipeData,
 } from "@/components/recipes/RecipeRefactorModal";
-import type { Ingredient, Step } from "@/lib/types";
+import type { Ingredient, Step, Recipe, Review } from "@/lib/types";
 import {
   Clock,
   Utensils,
@@ -41,7 +42,27 @@ export default function RecipeDetailPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const recipe = CookHubData.recipes.find((r) => r.id === Number(id));
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const [r, rev] = await Promise.all([
+          getRecipeById(id),
+          getReviewsByRecipe(id),
+        ]);
+        setRecipe(r);
+        setReviews(rev);
+      } catch (err) {
+        console.error("Failed to load recipe:", err);
+      } finally {
+        setPageLoading(false);
+      }
+    }
+    load();
+  }, [id]);
 
   const [activeTab, setActiveTab] = useState<
     "ingredients" | "steps" | "nutrition"
@@ -155,6 +176,17 @@ export default function RecipeDetailPage({
     });
   };
 
+  if (pageLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-400 text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="font-bold">Loading recipe...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!recipe) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -171,7 +203,7 @@ export default function RecipeDetailPage({
     );
   }
 
-  const reviews = CookHubData.reviews.filter((r) => r.recipeId === recipe.id);
+  // Reviews are loaded via useEffect above
 
   const handleAddToShoppingList = () => {
     const beforeCount = items.length;

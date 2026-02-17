@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { CookHubData } from "@/lib/data";
+import {
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+} from "@/lib/services/recipe-service";
 import { z } from "zod/v4";
 
 // Partial update schema — all fields optional
@@ -28,8 +32,7 @@ type Params = { params: Promise<{ id: string }> };
 export async function GET(_req: Request, { params }: Params) {
   try {
     const { id } = await params;
-    const recipeId = parseInt(id, 10);
-    const recipe = CookHubData.recipes.find((r) => r.id === recipeId);
+    const recipe = await getRecipeById(id);
 
     if (!recipe) {
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
@@ -50,10 +53,9 @@ export async function GET(_req: Request, { params }: Params) {
 export async function PUT(req: Request, { params }: Params) {
   try {
     const { id } = await params;
-    const recipeId = parseInt(id, 10);
-    const index = CookHubData.recipes.findIndex((r) => r.id === recipeId);
+    const existing = await getRecipeById(id);
 
-    if (index === -1) {
+    if (!existing) {
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
 
@@ -67,12 +69,9 @@ export async function PUT(req: Request, { params }: Params) {
       );
     }
 
-    CookHubData.recipes[index] = {
-      ...CookHubData.recipes[index],
-      ...parsed.data,
-    };
-
-    return NextResponse.json(CookHubData.recipes[index]);
+    await updateRecipe(id, parsed.data);
+    const updated = await getRecipeById(id);
+    return NextResponse.json(updated);
   } catch (error) {
     console.error("PUT /api/recipes/[id] error:", error);
     return NextResponse.json(
@@ -87,15 +86,14 @@ export async function PUT(req: Request, { params }: Params) {
 export async function DELETE(_req: Request, { params }: Params) {
   try {
     const { id } = await params;
-    const recipeId = parseInt(id, 10);
-    const index = CookHubData.recipes.findIndex((r) => r.id === recipeId);
+    const recipe = await getRecipeById(id);
 
-    if (index === -1) {
+    if (!recipe) {
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
 
-    const deleted = CookHubData.recipes.splice(index, 1)[0];
-    return NextResponse.json({ message: "Recipe deleted", recipe: deleted });
+    await deleteRecipe(id);
+    return NextResponse.json({ message: "Recipe deleted", recipe });
   } catch (error) {
     console.error("DELETE /api/recipes/[id] error:", error);
     return NextResponse.json(

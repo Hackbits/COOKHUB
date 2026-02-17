@@ -12,7 +12,7 @@ interface ShoppingItem {
   qty: string;
   category: string;
   checked: boolean;
-  recipeId?: number;
+  recipeId?: string;
 }
 
 interface ShoppingStore {
@@ -24,7 +24,7 @@ interface ShoppingStore {
   clearCompleted: () => void;
   clearAll: () => void;
   addRecipeIngredients: (
-    recipeId: number,
+    recipeId: string,
     ingredients: { name: string; qty: string; category: string }[],
   ) => void;
 }

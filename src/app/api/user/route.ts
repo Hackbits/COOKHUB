@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CookHubData } from "@/lib/data";
+import { getUserByUid, updateUser } from "@/lib/services/user-service";
 import { z } from "zod/v4";
 
 const UpdateUserSchema = z.object({
@@ -7,13 +7,30 @@ const UpdateUserSchema = z.object({
   fullName: z.string().min(1).optional(),
   email: z.string().email().optional(),
   avatar: z.string().optional(),
+  bio: z.string().optional(),
 });
 
-// --- GET /api/user ---
+// --- GET /api/user?uid=<firebaseUid> ---
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    return NextResponse.json(CookHubData.user);
+    const { searchParams } = new URL(req.url);
+    const uid = searchParams.get("uid");
+
+    if (!uid) {
+      return NextResponse.json(
+        { error: "Missing uid query parameter" },
+        { status: 400 },
+      );
+    }
+
+    const user = await getUserByUid(uid);
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(user);
   } catch (error) {
     console.error("GET /api/user error:", error);
     return NextResponse.json(
@@ -28,7 +45,16 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const parsed = UpdateUserSchema.safeParse(body);
+    const { uid, ...rest } = body;
+
+    if (!uid) {
+      return NextResponse.json(
+        { error: "Missing uid in request body" },
+        { status: 400 },
+      );
+    }
+
+    const parsed = UpdateUserSchema.safeParse(rest);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -37,8 +63,9 @@ export async function PUT(req: Request) {
       );
     }
 
-    Object.assign(CookHubData.user, parsed.data);
-    return NextResponse.json(CookHubData.user);
+    await updateUser(uid, parsed.data);
+    const updated = await getUserByUid(uid);
+    return NextResponse.json(updated);
   } catch (error) {
     console.error("PUT /api/user error:", error);
     return NextResponse.json(

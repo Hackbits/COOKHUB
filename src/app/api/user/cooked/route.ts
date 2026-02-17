@@ -1,16 +1,33 @@
 import { NextResponse } from "next/server";
-import { CookHubData } from "@/lib/data";
+import { getUserByUid, markAsCooked } from "@/lib/services/user-service";
 import { z } from "zod/v4";
 
 const MarkCookedSchema = z.object({
-  recipeId: z.number().int().positive(),
+  uid: z.string().min(1),
+  recipeId: z.string().min(1),
 });
 
-// --- GET /api/user/cooked ---
+// --- GET /api/user/cooked?uid=<firebaseUid> ---
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    return NextResponse.json({ cookedRecipes: CookHubData.user.cookedRecipes });
+    const { searchParams } = new URL(req.url);
+    const uid = searchParams.get("uid");
+
+    if (!uid) {
+      return NextResponse.json(
+        { error: "Missing uid query parameter" },
+        { status: 400 },
+      );
+    }
+
+    const user = await getUserByUid(uid);
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ cookedRecipes: user.cookedRecipes });
   } catch (error) {
     console.error("GET /api/user/cooked error:", error);
     return NextResponse.json(
@@ -34,16 +51,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const { recipeId } = parsed.data;
+    const { uid, recipeId } = parsed.data;
+    await markAsCooked(uid, recipeId);
 
-    if (!CookHubData.user.cookedRecipes.includes(recipeId)) {
-      CookHubData.user.cookedRecipes.push(recipeId);
-    }
-
-    return NextResponse.json({
-      cookedRecipes: CookHubData.user.cookedRecipes,
-      marked: recipeId,
-    });
+    return NextResponse.json({ marked: recipeId });
   } catch (error) {
     console.error("POST /api/user/cooked error:", error);
     return NextResponse.json(
