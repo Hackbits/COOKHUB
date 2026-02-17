@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -19,6 +18,7 @@ import {
   TrendingUp,
   Star,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const posts = [
   {
