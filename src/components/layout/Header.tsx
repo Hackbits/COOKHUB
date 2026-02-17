@@ -23,6 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useMounted } from "@/lib/hooks";
+import { SocketIndicator } from "@/components/socket-indicator";
 import {
   Bell,
   Bookmark,
@@ -83,6 +84,9 @@ export default function Header() {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2">
+            <div className="hidden md:block">
+              <SocketIndicator />
+            </div>
             {/* Shopping List */}
             <Link href="/shopping-list" className="hidden sm:inline-flex">
               <Button
