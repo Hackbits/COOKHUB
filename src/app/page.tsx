@@ -32,7 +32,7 @@ export default function HomePage() {
       try {
         const allRecipes = await getRecipes();
         setRecipes(allRecipes);
-        // Load reviews for the first recipe (for the Community Reviews section)
+
         if (allRecipes.length > 0) {
           const firstRecipeReviews = await getReviewsByRecipe(allRecipes[0].id);
           setReviews(firstRecipeReviews);
