@@ -29,8 +29,8 @@ const serviceAccount = JSON.parse(
   fs.readFileSync(serviceAccountPath, "utf-8"),
 ) as ServiceAccount;
 
-initializeApp({ credential: cert(serviceAccount) });
-const db = getFirestore();
+const app = initializeApp({ credential: cert(serviceAccount) });
+const db = getFirestore(app, "default");
 
 // ---------- 2. Source data (copied inline to avoid import path issues) ----------
 
@@ -682,10 +682,11 @@ async function seed() {
 
   // Seed reviews (link to first recipe)
   for (const review of reviews) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { recipeTitle, ...reviewData } = review;
     const ref = await db.collection("reviews").add({
-      ...review,
+      ...reviewData,
       recipeId: recipeIdMap[0], // All sample reviews are for the first recipe
-      recipeTitle: undefined, // Remove helper field
       createdAt: new Date(),
     });
     console.log(`  ✅ Review by ${review.user} → ${ref.id}`);
