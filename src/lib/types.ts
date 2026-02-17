@@ -80,6 +80,10 @@ export interface User {
   savedRecipes: string[];
   cookedRecipes: string[];
   isLoggedIn: boolean;
+  isPro?: boolean;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  subscriptionStatus?: "active" | "canceled" | "past_due" | "incomplete";
 }
 
 export interface ShoppingItem {

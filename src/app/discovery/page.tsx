@@ -35,6 +35,8 @@ function DiscoveryContent() {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [externalRecipes, setExternalRecipes] = useState<Recipe[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [selectedCuisine, setSelectedCuisine] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [sortBy, setSortBy] = useState<"rating" | "time" | "reviews">("rating");
@@ -46,8 +48,38 @@ function DiscoveryContent() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+
+    setIsSearching(true);
+    try {
+      const params = new URLSearchParams();
+      params.append("q", searchQuery);
+      if (selectedCuisine !== "All") params.append("cuisine", selectedCuisine);
+
+      const res = await fetch(`/api/recipes/search?${params.toString()}`);
+      const data = await res.json();
+      if (data.recipes) {
+        setExternalRecipes(data.recipes);
+      }
+    } catch (error) {
+      console.error("Search failed", error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   const filteredRecipes = useMemo(() => {
-    let results = allRecipes;
+    // Start with local recipes
+    let results = [...allRecipes];
+
+    // Combine with external recipes if we have them and they match current filters
+    // We de-duplicate by ID roughly
+    if (externalRecipes.length > 0) {
+      const localIds = new Set(results.map((r) => r.id));
+      const newExternal = externalRecipes.filter((r) => !localIds.has(r.id));
+      results = [...results, ...newExternal];
+    }
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -114,10 +146,12 @@ function DiscoveryContent() {
     sortBy,
     initialFilter,
     allRecipes,
+    externalRecipes,
   ]);
 
   const clearAllFilters = () => {
     setSearchQuery("");
+    setExternalRecipes([]);
     setSelectedCuisine("All");
     setSelectedDifficulty("All");
     setSortBy("rating");
@@ -147,10 +181,15 @@ function DiscoveryContent() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
             <div className="absolute inset-y-0 right-2 flex items-center">
-              <Button onClick={() => {}} className="h-10 rounded-xl px-6">
-                Search
+              <Button
+                onClick={handleSearch}
+                disabled={isSearching}
+                className="h-10 rounded-xl px-6"
+              >
+                {isSearching ? "Searching..." : "Search"}
               </Button>
             </div>
           </div>

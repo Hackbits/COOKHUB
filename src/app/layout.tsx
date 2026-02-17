@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 
@@ -38,6 +39,7 @@ export default function RootLayout({
             <Header />
             <main>{children}</main>
             <Footer />
+            <Analytics />
           </TooltipProvider>
         </SocketProvider>
       </body>

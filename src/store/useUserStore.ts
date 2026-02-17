@@ -11,7 +11,13 @@ interface UserState {
   name: string;
   fullName: string;
   email: string;
+
   avatar: string;
+  firebaseUid: string;
+  isPro: boolean;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  subscriptionStatus?: string;
   bio: string;
   badges: string[];
   stats: {
@@ -29,7 +35,13 @@ interface UserState {
     name: string;
     fullName: string;
     email: string;
+
+    firebaseUid: string;
     avatar?: string;
+    isPro?: boolean;
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    subscriptionStatus?: string;
   }) => void;
   logout: () => void;
   updateProfile: (data: Partial<UserState>) => void;
@@ -44,7 +56,10 @@ export const useUserStore = create<UserState>()(
       name: "",
       fullName: "",
       email: "",
+
       avatar: "",
+      firebaseUid: "",
+      isPro: false,
       bio: "Culinary experimenter focusing on modern gastronomy and sous-vide techniques.",
       badges: ["GOLD TIER COOK", "PRO"],
       stats: {
@@ -84,7 +99,13 @@ export const useUserStore = create<UserState>()(
           name: "",
           fullName: "",
           email: "",
+
           avatar: "",
+          firebaseUid: "",
+          isPro: false,
+          stripeCustomerId: undefined,
+          stripeSubscriptionId: undefined,
+          subscriptionStatus: undefined,
           bio: "",
           badges: [],
           stats: { recipes: 0, followers: 0, saves: 0 },
