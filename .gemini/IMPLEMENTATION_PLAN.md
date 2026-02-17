@@ -70,13 +70,13 @@
 
 ### Phase 7: Automation & DevOps
 
-- [ ] **Vercel Deployment** — Connect GitHub repo for auto-deploy on every `git push` to `main`, preview URLs for PRs, centralized env variable management
+- [ ] **Vercel Deployment** — Connect GitHub repo. **Requires Env Vars**: `CRON_SECRET`, `FIREBASE_SERVICE_ACCOUNT_KEY`, `NEXT_PUBLIC_SENTRY_DSN`.
 - [x] **GitHub Actions CI/CD** — `.github/workflows/ci.yml` runs `tsc --noEmit` + `eslint` + `next build` on every push/PR
 - [x] **Pre-Commit Hooks** — `husky` + `lint-staged` auto-lints and formats staged files before every commit
 - [x] **Dependency Updates** — `.github/dependabot.yml` for weekly npm + monthly GitHub Actions automated PR creation
-- [ ] **Error Monitoring** — Integrate Sentry (Next.js SDK) for real-time production error tracking and alerting
-- [ ] **Vercel Cron Jobs** — Schedule recurring tasks (recipe ingestion via `scrape-recipe.ts`, weekly digests, stale data cleanup)
-- [ ] **Automated DB Backups** — Firebase Firestore scheduled exports to Cloud Storage
+- [x] **Error Monitoring** — Integrated Sentry (Next.js SDK)
+- [x] **Vercel Cron Jobs** — Defined in `vercel.json` (scrapers, digests, cleanup, backups)
+- [x] **Automated DB Backups** — `src/app/api/cron/backup-firestore/route.ts` triggers Firestore export to Storage bucket (requires `FIREBASE_SERVICE_ACCOUNT_KEY`)
 
 ### Phase 8: Analytics, SEO & Notifications
 
