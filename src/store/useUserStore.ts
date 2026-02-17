@@ -88,6 +88,11 @@ export const useUserStore = create<UserState>()(
           name: user.name,
           fullName: user.fullName,
           email: user.email,
+          firebaseUid: user.firebaseUid,
+          isPro: user.isPro || false,
+          stripeCustomerId: user.stripeCustomerId,
+          stripeSubscriptionId: user.stripeSubscriptionId,
+          subscriptionStatus: user.subscriptionStatus,
           avatar:
             user.avatar ||
             `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=ef4444&color=fff`,

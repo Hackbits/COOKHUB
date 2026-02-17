@@ -49,6 +49,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         fullName: user.displayName || user.email?.split("@")[0] || "User",
         email: user.email || "",
         avatar: user.photoURL || undefined,
+        firebaseUid: user.uid,
       });
       onClose();
     } catch (err) {
@@ -88,6 +89,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         name: fullName.split(" ")[0],
         fullName,
         email,
+        firebaseUid: user.uid,
       });
       setMode("success");
     } catch (err) {
@@ -107,6 +109,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         fullName: user.displayName || "User",
         email: user.email || "",
         avatar: user.photoURL || undefined,
+        firebaseUid: user.uid,
       });
       onClose();
     } catch (err: unknown) {
