@@ -24,6 +24,13 @@ app.prepare().then(() => {
     socket.on("join-room", (room) => {
       socket.join(room);
       console.log(`User joined room: ${room}`);
+
+      // Test Notification
+      socket.emit("notification:new", {
+        type: "success",
+        title: "Welcome to CookHub!",
+        message: "Real-time notifications are now active.",
+      });
     });
 
     socket.on("disconnect", () => {

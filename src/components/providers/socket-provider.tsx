@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { io as ClientIO, Socket } from "socket.io-client";
+import { useNotificationStore } from "@/store/useNotificationStore";
+import { Notification } from "@/lib/types";
 
 type SocketContextType = {
   socket: Socket | null;
@@ -39,6 +41,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("Socket disconnected");
       setIsConnected(false);
     });
+
+    socket.on(
+      "notification:new",
+      (notification: Omit<Notification, "id" | "createdAt" | "read">) => {
+        useNotificationStore.getState().addNotification(notification);
+      },
+    );
 
     socket.connect();
 

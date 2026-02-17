@@ -24,6 +24,9 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useMounted } from "@/lib/hooks";
 import { SocketIndicator } from "@/components/socket-indicator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNotificationStore } from "@/store/useNotificationStore";
+import { NotificationItem } from "@/components/notifications/NotificationItem";
 import {
   Bell,
   Bookmark,
@@ -44,6 +47,8 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const { isLoggedIn, name, avatar, logout } = useUserStore();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, clearAll } =
+    useNotificationStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMounted = useMounted();
@@ -99,14 +104,61 @@ export default function Header() {
             </Link>
 
             {/* Notifications */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-primary relative"
-            >
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="relative group">
+                  <Bell className="h-5 w-5 text-gray-500 group-hover:text-primary transition-colors" />
+                  {unreadCount > 0 && (
+                    <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white animate-pulse" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80 p-0">
+                <div className="flex items-center justify-between px-4 py-3 border-b bg-gray-50/50">
+                  <h4 className="font-semibold text-sm">Notifications</h4>
+                  {unreadCount > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      className="h-auto px-2 py-0.5 text-xs text-primary hover:text-primary/80 hover:bg-transparent"
+                      onClick={markAllAsRead}
+                    >
+                      Mark all read
+                    </Button>
+                  )}
+                </div>
+                <ScrollArea className="h-[300px]">
+                  {notifications.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
+                      <Bell className="h-8 w-8 mb-2 opacity-20" />
+                      <p className="text-sm">No notifications yet</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-1 p-2">
+                      {notifications.map((notification) => (
+                        <NotificationItem
+                          key={notification.id}
+                          notification={notification}
+                          onRead={markAsRead}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+                {notifications.length > 0 && (
+                  <div className="p-2 border-t bg-gray-50/50 text-center">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full h-8 text-xs text-muted-foreground"
+                      onClick={clearAll}
+                    >
+                      Clear all
+                    </Button>
+                  </div>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Auth / User */}
             {isMounted && isLoggedIn ? (
