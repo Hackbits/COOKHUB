@@ -5,13 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import { Wifi, WifiOff } from "lucide-react";
 
 export const SocketIndicator = () => {
-  const { isConnected } = useSocket();
+  const { isConnected, transport } = useSocket();
 
   if (!isConnected) {
     return (
-      <Badge variant="outline" className="bg-yellow-600 text-white border-none">
+      <Badge variant="outline" className="bg-slate-500 text-white border-none">
         <WifiOff className="h-4 w-4 mr-2" />
-        Fallback: Polling
+        Disconnected
+      </Badge>
+    );
+  }
+
+  if (transport === "polling") {
+    return (
+      <Badge variant="outline" className="bg-yellow-600 text-white border-none">
+        <Wifi className="h-4 w-4 mr-2" />
+        Live: Polling
       </Badge>
     );
   }

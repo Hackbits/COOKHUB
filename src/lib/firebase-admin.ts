@@ -28,5 +28,5 @@ export function getAdminApp() {
 
 export function getAdminFirestore() {
   const app = getAdminApp();
-  return getFirestore(app);
+  return getFirestore(app, "default");
 }

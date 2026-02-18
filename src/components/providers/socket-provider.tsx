@@ -8,11 +8,13 @@ import { Notification } from "@/lib/types";
 type SocketContextType = {
   socket: Socket | null;
   isConnected: boolean;
+  transport: string;
 };
 
 const SocketContext = createContext<SocketContextType>({
   socket: null,
   isConnected: false,
+  transport: "none",
 });
 
 export const useSocket = () => {
@@ -24,10 +26,11 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     ClientIO(process.env.NEXT_PUBLIC_SITE_URL || "", {
       path: "/api/socket/io",
       addTrailingSlash: false,
-      autoConnect: false, // Prevents connection during render
+      autoConnect: false,
     }),
   );
   const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("none");
 
   useEffect(() => {
     if (!socket) return;
@@ -35,11 +38,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on("connect", () => {
       console.log("Socket connected:", socket.id);
       setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (rawTransport: { name: string }) => {
+        setTransport(rawTransport.name);
+      });
     });
 
     socket.on("disconnect", () => {
       console.log("Socket disconnected");
       setIsConnected(false);
+      setTransport("none");
     });
 
     socket.on(
@@ -59,7 +68,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected }}>
+    <SocketContext.Provider value={{ socket, isConnected, transport }}>
       {children}
     </SocketContext.Provider>
   );
