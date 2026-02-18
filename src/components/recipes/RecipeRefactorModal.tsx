@@ -50,14 +50,16 @@ export interface RefactoredRecipeData {
 
 interface RecipeRefactorModalProps {
   recipe: Recipe;
+  isOpen: boolean;
   onClose: () => void;
-  onApply: (markdown: string, structured: RefactoredRecipeData | null) => void;
+  onRefactored: (data: RefactoredRecipeData | null) => void;
 }
 
 export default function RecipeRefactorModal({
   recipe,
+  isOpen,
   onClose,
-  onApply,
+  onRefactored,
 }: RecipeRefactorModalProps) {
   const [instruction, setInstruction] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -96,7 +98,7 @@ export default function RecipeRefactorModal({
   };
 
   return (
-    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-3xl p-0 overflow-hidden bg-white dark:bg-zinc-950 gap-0">
         {/* Header / Title Area */}
         <div className="p-6 pb-2 border-b border-gray-100 dark:border-zinc-800 flex justify-between items-start bg-white dark:bg-zinc-950 z-20">
@@ -345,7 +347,7 @@ export default function RecipeRefactorModal({
                 </Button>
                 <Button
                   onClick={() => {
-                    onApply(result, structured);
+                    onRefactored(structured);
                     onClose();
                   }}
                   className="bg-green-600 hover:bg-green-700 text-white rounded-xl h-12 px-8 shadow-lg shadow-green-600/20"
