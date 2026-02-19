@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import RecipeGrid from "@/components/recipes/RecipeGrid";
 import type { Recipe } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { Search, X, SearchX } from "lucide-react";
+import { Search, X, SearchX, Globe } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -40,23 +40,35 @@ export default function DiscoveryClient({
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [externalRecipes, setExternalRecipes] = useState<Recipe[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchSource, setSearchSource] = useState<"community" | "web">(
+    "community",
+  );
   const [selectedCuisine, setSelectedCuisine] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [sortBy, setSortBy] = useState<"rating" | "time" | "reviews">("rating");
 
   const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim() && searchSource === "community") return;
 
     setIsSearching(true);
     try {
       const params = new URLSearchParams();
       params.append("q", searchQuery);
+      params.append("source", searchSource);
       if (selectedCuisine !== "All") params.append("cuisine", selectedCuisine);
 
-      const res = await fetch(`/api/recipes/search?${params.toString()}`);
-      const data = await res.json();
-      if (data.recipes) {
-        setExternalRecipes(data.recipes);
+      // Always fetch if source is web or if we want to filter community via API (optional)
+      // For now, community is client-side filtered, web is server-side
+      if (searchSource === "web") {
+        const res = await fetch(`/api/recipes/search?${params.toString()}`);
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setExternalRecipes(data);
+        }
+      } else {
+        // Clear external results when switching back to community if desired,
+        // or keep them if we want to mix. Let's clear for distinct views.
+        setExternalRecipes([]);
       }
     } catch (error) {
       console.error("Search failed", error);
@@ -66,13 +78,13 @@ export default function DiscoveryClient({
   };
 
   const filteredRecipes = useMemo(() => {
-    let results = [...allRecipes];
-
-    if (externalRecipes.length > 0) {
-      const localIds = new Set(results.map((r) => r.id));
-      const newExternal = externalRecipes.filter((r) => !localIds.has(r.id));
-      results = [...results, ...newExternal];
+    // If Web Source is active, show external results
+    if (searchSource === "web") {
+      return [...externalRecipes];
     }
+
+    // Otherwise, filter Community recipes locally
+    let results = [...allRecipes];
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -140,6 +152,7 @@ export default function DiscoveryClient({
     initialFilter,
     allRecipes,
     externalRecipes,
+    searchSource,
   ]);
 
   const clearAllFilters = () => {
@@ -163,6 +176,33 @@ export default function DiscoveryClient({
           <p className="text-gray-500 text-lg mb-8">
             Explore cuisines from around the world
           </p>
+
+          {/* Source Toggle */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-white p-1 rounded-full border shadow-sm inline-flex">
+              <button
+                onClick={() => setSearchSource("community")}
+                className={`flex items-center gap-2 px-6 py-2 rounded-full font-medium transition ${
+                  searchSource === "community"
+                    ? "bg-primary text-white shadow-md"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                Community
+              </button>
+              <button
+                onClick={() => setSearchSource("web")}
+                className={`flex items-center gap-2 px-6 py-2 rounded-full font-medium transition ${
+                  searchSource === "web"
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                <Globe size={18} />
+                World Recipes
+              </button>
+            </div>
+          </div>
 
           <div className="relative max-w-2xl group mb-8">
             <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">

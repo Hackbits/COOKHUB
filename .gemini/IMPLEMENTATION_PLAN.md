@@ -47,8 +47,8 @@
 
 ### Phase 4: Real-Time & Integrations
 
-- [/] Socket.io for real-time notifications (Infrastructure ready)
-- [ ] Spoonacular/Edamam API integration for world recipes
+- [x] Socket.io for real-time notifications (Infrastructure ready)
+- [x] Spoonacular/Edamam API integration for world recipes
 - [ ] Stripe for Pro subscriptions
 
 ### Phase 5: Advanced AI Intelligence
@@ -70,7 +70,7 @@
 
 ### Phase 7: Automation & DevOps
 
-- [ ] **Vercel Deployment** — Connect GitHub repo. **Requires Env Vars**: `CRON_SECRET`, `FIREBASE_SERVICE_ACCOUNT_KEY`, `NEXT_PUBLIC_SENTRY_DSN`.
+- [x] **Vercel Deployment** — Connect GitHub repo. **Env Vars Ready**: `FIREBASE_SERVICE_ACCOUNT_KEY`, `NEXT_PUBLIC_SITE_URL`. Still requires: `CRON_SECRET`, `NEXT_PUBLIC_SENTRY_DSN`.
 - [x] **GitHub Actions CI/CD** — `.github/workflows/ci.yml` runs `tsc --noEmit` + `eslint` + `next build` on every push/PR
 - [x] **Pre-Commit Hooks** — `husky` + `lint-staged` auto-lints and formats staged files before every commit
 - [x] **Dependency Updates** — `.github/dependabot.yml` for weekly npm + monthly GitHub Actions automated PR creation
@@ -81,8 +81,8 @@
 ### Phase 8: Analytics, SEO & Notifications
 
 - [ ] **Vercel Analytics / PostHog** — Track page views, user flows, and Core Web Vitals
-- [ ] **Auto-Generated Sitemap & Robots.txt** — Next.js `sitemap.ts` + `robots.ts` for search engine indexing
-- [ ] **Dynamic OG Images** — `opengraph-image.tsx` + `generateMetadata()` for per-recipe social sharing cards
+- [x] **Auto-Generated Sitemap & Robots.txt** — Next.js `sitemap.ts` + `robots.ts` for search engine indexing (with dynamic env support)
+- [x] **Dynamic OG Images** — `opengraph-image.tsx` + `generateMetadata()` for per-recipe social sharing cards
 - [ ] **Email Automation** — Resend or SendGrid for welcome emails, weekly recipe digests, and cooking reminders
 - [ ] **Uptime Monitoring** — BetterUptime or UptimeRobot to alert if the site goes down
 

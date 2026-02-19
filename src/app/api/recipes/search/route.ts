@@ -1,27 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
-import { searchRecipes } from "@/lib/services/spoonacular-service";
+import { searchExternalRecipes } from "@/lib/services/server/external-recipe-service";
+import { getServerRecipes } from "@/lib/services/server/recipe-service";
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("q") || "";
-  const cuisine = searchParams.get("cuisine") || undefined;
-  const diet = searchParams.get("diet") || undefined;
-  const type = searchParams.get("type") || undefined;
-  const offset = parseInt(searchParams.get("offset") || "0", 10);
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const query = searchParams.get("q");
+  const source = searchParams.get("source") || "all"; // 'community', 'web', 'all'
 
-  // If no query and no filters, avoid hitting the external API unnecessarily
-  // potentially return curated local or random recipes
-  if (!query && !cuisine && !diet && !type) {
-    return NextResponse.json({ recipes: [] });
+  if (!query) {
+    return NextResponse.json(
+      { error: "Query parameter 'q' is required" },
+      { status: 400 },
+    );
   }
 
   try {
-    const recipes = await searchRecipes(query, { cuisine, diet, type, offset });
-    return NextResponse.json({ recipes });
+    const results = [];
+
+    // Fetch from Community (Firestore)
+    if (source === "community" || source === "all") {
+      // Note: This is a basic filter on all recipes.
+      // Ideally, Firestore should handle text search (e.g., via Algolia/Typesense)
+      // For now, we fetch all and filter in memory as dataset is small.
+      const communityRecipes = await getServerRecipes();
+      const filtered = communityRecipes.filter((r) =>
+        r.title.toLowerCase().includes(query.toLowerCase()),
+      );
+      results.push(...filtered);
+    }
+
+    // Fetch from Web (Spoonacular)
+    if (source === "web" || source === "all") {
+      const externalRecipes = await searchExternalRecipes(query);
+      results.push(...externalRecipes);
+    }
+
+    return NextResponse.json(results);
   } catch (error) {
     console.error("Search API Error:", error);
     return NextResponse.json(
-      { error: "Failed to fetch recipes" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
