@@ -9,21 +9,34 @@ export function getAdminApp() {
   }
 
   // Check if we have service account credentials in env
-  const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY
-    ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY)
-    : undefined;
+  const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-  if (!serviceAccount) {
+  if (!serviceAccountKey) {
     throw new Error(
       "Missing FIREBASE_SERVICE_ACCOUNT_KEY environment variable. " +
         "Please add your service account JSON to .env.local or Vercel environment variables.",
     );
   }
 
-  return initializeApp({
-    credential: cert(serviceAccount),
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  });
+  try {
+    const serviceAccount = JSON.parse(serviceAccountKey);
+
+    // Fix for private key newline characters in production environments
+    if (serviceAccount.private_key) {
+      serviceAccount.private_key = serviceAccount.private_key.replace(
+        /\\n/g,
+        "\n",
+      );
+    }
+
+    return initializeApp({
+      credential: cert(serviceAccount),
+      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    });
+  } catch (error) {
+    console.error("Firebase Admin Initialization Error:", error);
+    throw error;
+  }
 }
 
 export function getAdminFirestore() {

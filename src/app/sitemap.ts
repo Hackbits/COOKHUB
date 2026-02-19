@@ -1,8 +1,9 @@
 import { MetadataRoute } from "next";
 
+import { getBaseUrl } from "@/lib/config";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://cookhub.vercel.app";
+  const baseUrl = getBaseUrl();
 
   return [
     {
