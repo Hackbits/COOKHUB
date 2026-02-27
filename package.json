@@ -46,7 +46,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.1",
     "react-resizable-panels": "^4.6.4",
-    "recharts": "^2.15.4",
+    "recharts": "^3.7.0",
     "server-only": "^0.0.1",
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
